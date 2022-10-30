@@ -1,0 +1,15 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!221 &22100000
+AnimatorOverrideController:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: Ninja_Left
+  m_Controller: {fileID: 9100000, guid: 3ca1588518f915a4ab41eb5eb5201de9, type: 2}
+  m_Clips:
+  - m_OriginalClip: {fileID: 7400000, guid: 2eaa87a319c79604684d82ad233e878c, type: 2}
+    m_OverrideClip: {fileID: 7400000, guid: 8bd241480ef6e7d4c8d6e460558fa282, type: 2}
+  - m_OriginalClip: {fileID: 7400000, guid: ebcd519c2fd23b74d9ae8b4f5eb98f1d, type: 2}
+    m_OverrideClip: {fileID: 7400000, guid: 6d7319020ae2f3f4eae82bf0acee6b5a, type: 2}
