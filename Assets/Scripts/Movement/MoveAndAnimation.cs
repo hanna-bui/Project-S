@@ -84,6 +84,7 @@ namespace Movement
 
         private int CalculateDirection()
         {
+            if (targetLocation.x == transform.position.x && targetLocation.y == transform.position.y) return 0;
             var heading = (Vector2)targetLocation - (Vector2)transform.position;
             var magnitude = heading / heading.magnitude;
             var x = (decimal)magnitude.x;
