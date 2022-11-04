@@ -19,7 +19,7 @@ public class Knight : Character
         def = 10;
         mdef = 8;
         lvl = 0;
-        sprite = GameObject.Find("Samurai");
+        sprite = GameObject.Find("Knight");
         //weapon = ;
         //wa1 = ;
         //wa2 = ;

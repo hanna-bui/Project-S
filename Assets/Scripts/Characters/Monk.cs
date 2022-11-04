@@ -19,7 +19,7 @@ public class Monk : Character
         def = 2;
         mdef = 8;
         lvl = 0;
-        sprite = GameObject.Find("Samurai");
+        sprite = GameObject.Find("Monk");
         //weapon = ;
         //wa1 = ;
         //wa2 = ;

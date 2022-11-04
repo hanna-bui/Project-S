@@ -19,7 +19,7 @@ public class CaveP : Character
         def = 6;
         mdef = 2;
         lvl = 0;
-        sprite = GameObject.Find("Samurai");
+        sprite = GameObject.Find("CaveP");
         //weapon = ;
         //wa1 = ;
         //wa2 = ;
