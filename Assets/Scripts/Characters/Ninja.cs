@@ -2,13 +2,13 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Player : MonoBehaviour
+public class Ninja : Character
 {
-    private Character self;
+    
     // Start is called before the first frame update
     void Start()
     {
-        self = new Ninja();
+        sprite = GameObject.FindGameObjectWithTag("Player");
     }
 
     // Update is called once per frame

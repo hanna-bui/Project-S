@@ -13,13 +13,18 @@ public class Character : MonoBehaviour
     protected float mdmg { get; set; } // magic damage
     protected float def { get; set; } // defense
     protected float mdef { get; set; } // magic defense
-    // Do Enemies have abilities? If not we can:
-    // - Move to Player class, OR
-    // - Just set these to null in enemies :)
+    protected int lvl { get; set; } // level
+    // In enemies, unused abilities can be set to have no effect
     protected Ability a1 { get; set; } // ability 1
     protected Ability a2 { get; set; } // ability 2
     protected Ability a3 { get; set; } // ability 3
-    
+    // Assets
+    protected GameObject sprite { get; set; } // Character Sprite
+    protected GameObject weapon { get; set; } // Main Weapon Sprite
+    protected GameObject wa1 { get; set; } // A1 Weapon Sprite
+    protected GameObject wa2 { get; set; } // A2 Weapon Sprite
+    protected GameObject wa3 { get; set; } // A3 Weapon Sprite
+
     public Character() {}
 
     /* Do we need methods like this?
