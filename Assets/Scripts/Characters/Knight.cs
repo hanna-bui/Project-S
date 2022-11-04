@@ -2,24 +2,24 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Ninja : Character
+public class Knight : Character
 {
     
     // Start is called before the first frame update
     void Start()
     {
-        hp = 6;
-        chp = 6;
-        mp = 8;
-        cmp = 8;
-        spe = 10;
-        ran = 10;
+        hp = 10;
+        chp = 10;
+        mp = 6;
+        cmp = 6;
+        spe = 1;
+        ran = 5;
         dmg = 6;
-        mdmg = 5;
-        def = 1;
-        mdef = 2;
+        mdmg = 2;
+        def = 10;
+        mdef = 8;
         lvl = 0;
-        sprite = GameObject.Find("Ninja");
+        sprite = GameObject.Find("Samurai");
         //weapon = ;
         //wa1 = ;
         //wa2 = ;
