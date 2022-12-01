@@ -2,7 +2,7 @@ using System;
 using System.Collections.Generic;
 using UnityEngine;
 
-using Grid = Movement.Pathfinding.Grid;
+using NewGrid = Movement.Pathfinding.NewGrid;
 
 namespace Movement
 {
@@ -24,7 +24,7 @@ namespace Movement
         private static readonly int Click = Animator.StringToHash("Click");
 
         private GameObject gridObject;
-        private Grid grid;
+        private NewGrid grid;
         private List<Vector3> roadPath;
         
         private new Camera camera;
@@ -38,15 +38,17 @@ namespace Movement
             animator = GetComponent<Animator>();
             
             gridObject = GameObject.Find("Grid");
-            grid = gridObject.GetComponent<Grid>();
+            grid = gridObject.GetComponent<NewGrid>();
+            
         }
 
         // Update is called once per frame
         private void Update()
         {
-            
+            grid.UpdateStart(transform);
             if (Input.GetMouseButtonDown(0))
             {
+                grid.UpdateStart(transform);
                 mouseLocation = camera.ScreenToWorldPoint(Input.mousePosition);
                 roadPath = grid.CreatePath();
                 travelOn = true;

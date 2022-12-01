@@ -1,12 +1,19 @@
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Serialization;
 using UnityEngine.Tilemaps;
 
 namespace Movement.Pathfinding
 {
-    public class Grid : MonoBehaviour
+    public class NewGrid : MonoBehaviour
     {
-        public Transform target;
+        [TextArea]// Do not place your note/comment here. Enter your note in the Unity Editor.
+        public string notes = "Floor and Walkable should always be placed in the positive x and y axis. " + 
+                              "It cannot be placed in the negative x and/or y axis. In the sample scene, " + 
+                              "the white square indicates the (0, 0) point. The grid/tilemap should be placed above " + 
+                              "and to the right of the white square. "; 
+        
+        
         private Astar astar;
         private BoundsInt bounds;
         private new Camera camera;
@@ -49,10 +56,10 @@ namespace Movement.Pathfinding
             return roadPath;
         }
 
-        private void Update()
-        {
-            UpdateStart();
-        }
+        // private void Update()
+        // {
+        //     UpdateStart();
+        // }
 
         private void CreateGrid()
         {
@@ -69,8 +76,6 @@ namespace Movement.Pathfinding
                 {
                     nodeToNodes[x, y] = null;
                 }
-
-                Debug.Log(nodeToNodes[x, y] + ", x = " + x + ", y = " + y);
             }
 
             for (var x = bounds.xMin; x < bounds.size.x; x++)
@@ -85,7 +90,7 @@ namespace Movement.Pathfinding
             }
         }
 
-        private void UpdateStart()
+        public void UpdateStart(Transform target)
         {
             var targetPos = walkableMap.WorldToCell(target.position);
             start = nodeToNodes[targetPos.x, targetPos.y];
