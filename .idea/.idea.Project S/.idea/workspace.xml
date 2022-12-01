@@ -3,13 +3,9 @@
   <component name="ChangeListManager">
     <list default="true" id="574aafd7-fad6-4296-a307-ab738a5d3532" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/.idea.Project S/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.Project S/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Ninja Adventure/NinjaAdventure/Actor/Boss/GiantFrog/Idle40x40.png.meta" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Ninja Adventure/NinjaAdventure/Actor/Boss/GiantFrog/Idle40x40.png.meta" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Ninja Adventure/NinjaAdventure/Actor/Boss/GiantFrog2/Idle.png.meta" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Ninja Adventure/NinjaAdventure/Actor/Boss/GiantFrog2/Idle.png.meta" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Assets/Scenes/SampleScene.unity" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scenes/SampleScene.unity" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Movement/MoveAndAnimation.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Movement/MoveAndAnimation.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Movement/Pathfinding/Grid.cs" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Movement/Pathfinding/Grid.cs.meta" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Packages/manifest.json" beforeDir="false" afterPath="$PROJECT_DIR$/Packages/manifest.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Packages/packages-lock.json" beforeDir="false" afterPath="$PROJECT_DIR$/Packages/packages-lock.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ProjectSettings/ProjectVersion.txt" beforeDir="false" afterPath="$PROJECT_DIR$/ProjectSettings/ProjectVersion.txt" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -37,6 +33,7 @@
     <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/c5da102edcaf4973a1660206b8308fb69c00/fc/8671db9c/Tilemap.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/SourcesCache/3ea01e77be99618395f448b16bd7cc2bd4248bd9e5d8474964b2d97f39c5d74/System.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/SourcesCache/7d303c2bf72cd4cec95665b89c457d265d2b8ef3ed6da17cd4f85587c2f9de7/System.Linq.cs" root0="SKIP_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/Assets/Scripts/Movement/EnemyMovement.cs" root0="FORCE_HIGHLIGHTING" />
   </component>
   <component name="MarkdownSettingsMigration">
     <option name="stateVersion" value="1" />
@@ -108,7 +105,7 @@
       <updated>1667186572397</updated>
       <workItem from="1667186583211" duration="10315000" />
       <workItem from="1667230877176" duration="10885000" />
-      <workItem from="1669854109460" duration="1783000" />
+      <workItem from="1669854109460" duration="3126000" />
     </task>
     <task id="LOCAL-00001" summary="Completed pathfinding">
       <created>1667241715456</created>
