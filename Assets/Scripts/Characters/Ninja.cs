@@ -19,6 +19,7 @@ public class Ninja : Character
         def = 1;
         mdef = 2;
         lvl = 0;
+        ///icon = ;
         sprite = GameObject.Find("Ninja");
         //weapon = ;
         //wa1 = ;

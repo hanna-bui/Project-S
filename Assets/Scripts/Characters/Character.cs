@@ -1,9 +1,13 @@
 using System.Collections;
 using System.Collections.Generic;
+using UnityEngine.UI;
 using UnityEngine;
 
 public class Character : MonoBehaviour
 {
+
+    ///added by Allyssa for testing character instantiation
+    public GameObject prefab;
     // All Characters have:
     protected float hp { get; set; } // health points
     protected float chp { get; set; } // current health points
@@ -22,11 +26,12 @@ public class Character : MonoBehaviour
     protected GameObject wa1 { get; set; } // A1 Weapon Sprite
     protected GameObject wa2 { get; set; } // A2 Weapon Sprite
     protected GameObject wa3 { get; set; } // A3 Weapon Sprite
+    //character icon
+    protected Image icon;
     // In enemies, unused abilities can be set to have no effect
     protected void a1() { } // ability 1
     protected void a2() { } // ability 2
     protected void a3() { } // ability 3
-
     public Character() {}
 
     /* Do we need methods like this?
