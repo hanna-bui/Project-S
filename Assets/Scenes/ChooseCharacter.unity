@@ -220,7 +220,7 @@ GameObject:
   - component: {fileID: 585093387}
   - component: {fileID: 585093390}
   m_Layer: 0
-  m_Name: EventSystem
+  m_Name: SceneManager
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -284,7 +284,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 585093386}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 1625321f1347f40688461a631ce17f8f, type: 3}
+  m_Script: {fileID: 11500000, guid: 47630d5c4c2c1cd4899ac183df8e2a97, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!1 &730929847
@@ -735,13 +735,13 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 585093386}
-        m_TargetAssemblyTypeName: 
-        m_MethodName: 
+      - m_Target: {fileID: 585093390}
+        m_TargetAssemblyTypeName: ButtonController, Assembly-CSharp
+        m_MethodName: ChooseCharacter
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: 
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
           m_IntArgument: 0
           m_FloatArgument: 0
           m_StringArgument: 
