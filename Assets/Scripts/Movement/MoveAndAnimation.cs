@@ -45,12 +45,11 @@ namespace Movement
         // Update is called once per frame
         private void Update()
         {
-            grid.UpdateStart(transform);
             if (Input.GetMouseButtonDown(0))
             {
-                grid.UpdateStart(transform);
                 mouseLocation = camera.ScreenToWorldPoint(Input.mousePosition);
-                roadPath = grid.CreatePath();
+                // roadPath = grid.GetRandomCoords();
+                roadPath = grid.CreatePath(transform, mouseLocation);
                 travelOn = true;
                 
                 direction = CalculateDirection();
@@ -115,27 +114,5 @@ namespace Movement
         }
 
         #endregion Animation
-
-        #region Collision
-
-        private void OnCollisionEnter2D(Collision2D coll)
-        {
-            if (coll.collider == true)
-            {
-                targetLocation = transform.position;
-                animator.SetBool(Click, false);
-            }
-        }
-
-        private void OnCollisionStay2D(Collision2D coll)
-        {
-            if (coll.collider == true)
-            {
-                targetLocation = transform.position;
-                animator.SetBool(Click, false);
-            }
-        }
-
-        #endregion Collision
     }
 }

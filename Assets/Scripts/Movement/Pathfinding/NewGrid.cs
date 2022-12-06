@@ -1,6 +1,5 @@
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.Serialization;
 using UnityEngine.Tilemaps;
 
 namespace Movement.Pathfinding
@@ -13,35 +12,24 @@ namespace Movement.Pathfinding
                               "the white square indicates the (0, 0) point. The grid/tilemap should be placed above " + 
                               "and to the right of the white square. "; 
         
-        
-        private Astar astar;
-        private BoundsInt bounds;
-        private new Camera camera;
-        private Tilemap floorMap;
         private Tilemap walkableMap;
         private Astar.Node[,] nodeToNodes;
-        private List<Vector3> roadPath;
-        private Astar.Node start;
 
         private void Start()
         {
-            roadPath = new List<Vector3>();
-
             walkableMap = GameObject.Find("Grid/Walkable").GetComponent<Tilemap>();
-            floorMap = GameObject.Find("Grid/Floor").GetComponent<Tilemap>();
+            
             walkableMap.CompressBounds();
-            floorMap.CompressBounds();
-            bounds = floorMap.cellBounds;
-            camera = Camera.main;
 
             CreateGrid();
-            astar = new Astar();
         }
 
-        public List<Vector3> CreatePath()
+        public List<Vector3> CreatePath(Transform character, Vector3 targetPosition)
         {
-            var world = camera.ScreenToWorldPoint(Input.mousePosition);
-            var gridPos = walkableMap.WorldToCell(world);
+            var characterPos = walkableMap.WorldToCell(character.position);
+            var start = nodeToNodes[characterPos.x, characterPos.y];
+            
+            var gridPos = walkableMap.WorldToCell(targetPosition);
 
             if (gridPos.x >= 0 && gridPos.y >= 0 && gridPos.x <= nodeToNodes.GetUpperBound(0) &&
                 gridPos.y <= nodeToNodes.GetUpperBound(1))
@@ -49,20 +37,35 @@ namespace Movement.Pathfinding
                 var endNode = nodeToNodes[gridPos.x, gridPos.y];
                 if (endNode!=null && start!=null)
                 {
-                    return astar.PathfindingAstar(start, nodeToNodes[gridPos.x, gridPos.y], walkableMap);
+                    return new Astar().PathfindingAstar(start, endNode, walkableMap);
                     
                 }
             }
-            return roadPath;
+            return null;
         }
 
-        // private void Update()
-        // {
-        //     UpdateStart();
-        // }
+        public bool IsWalkable(Vector3 position)
+        {
+            var gridPos = walkableMap.WorldToCell(position);
+            return nodeToNodes[gridPos.x, gridPos.y] != null;
+        }
+        
+        public Vector3 GetRandomCoords()
+        {
+            var newBounds = walkableMap.cellBounds;
+            var x = Random.Range(newBounds.xMin, newBounds.size.x);
+            var y = Random.Range(newBounds.yMin, newBounds.size.y);
+            
+            return walkableMap.CellToWorld(new Vector3Int(x, y, 0));
+        }
 
         private void CreateGrid()
         {
+            var floorMap = GameObject.Find("Grid/Floor").GetComponent<Tilemap>();
+            floorMap.CompressBounds();
+            
+            var bounds = floorMap.cellBounds;
+            
             nodeToNodes = new Astar.Node[bounds.size.x, bounds.size.y];
             for (int x = bounds.xMin; x < bounds.size.x; x++)
             for (int y = bounds.yMin; y < bounds.size.y; y++)
@@ -88,12 +91,6 @@ namespace Movement.Pathfinding
                     currentNode.AddNeighbours(nodeToNodes, currentNode);
                 }
             }
-        }
-
-        public void UpdateStart(Transform target)
-        {
-            var targetPos = walkableMap.WorldToCell(target.position);
-            start = nodeToNodes[targetPos.x, targetPos.y];
         }
     }
 }
