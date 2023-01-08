@@ -2,7 +2,7 @@ using System;
 using System.Collections.Generic;
 using UnityEngine;
 
-using Grid = Movement.Pathfinding.Grid;
+using NewGrid = Movement.Pathfinding.NewGrid;
 
 namespace Movement
 {
@@ -24,7 +24,7 @@ namespace Movement
         private static readonly int Click = Animator.StringToHash("Click");
 
         private GameObject gridObject;
-        private Grid grid;
+        private NewGrid grid;
         private List<Vector3> roadPath;
         
         private new Camera camera;
@@ -38,17 +38,18 @@ namespace Movement
             animator = GetComponent<Animator>();
             
             gridObject = GameObject.Find("Grid");
-            grid = gridObject.GetComponent<Grid>();
+            grid = gridObject.GetComponent<NewGrid>();
+            
         }
 
         // Update is called once per frame
         private void Update()
         {
-            
             if (Input.GetMouseButtonDown(0))
             {
                 mouseLocation = camera.ScreenToWorldPoint(Input.mousePosition);
-                roadPath = grid.CreatePath();
+                // roadPath = grid.GetRandomCoords();
+                roadPath = grid.CreatePath(transform, mouseLocation);
                 travelOn = true;
                 
                 direction = CalculateDirection();
@@ -113,27 +114,5 @@ namespace Movement
         }
 
         #endregion Animation
-
-        #region Collision
-
-        private void OnCollisionEnter2D(Collision2D coll)
-        {
-            if (coll.collider == true)
-            {
-                targetLocation = transform.position;
-                animator.SetBool(Click, false);
-            }
-        }
-
-        private void OnCollisionStay2D(Collision2D coll)
-        {
-            if (coll.collider == true)
-            {
-                targetLocation = transform.position;
-                animator.SetBool(Click, false);
-            }
-        }
-
-        #endregion Collision
     }
 }
