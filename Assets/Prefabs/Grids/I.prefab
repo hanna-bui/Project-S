@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: 8227371556164171327}
   - component: {fileID: 5055674539407991174}
   m_Layer: 0
-  m_Name: SpawnPt2
+  m_Name: SpawnPt1
   m_TagString: SpawnPt
   m_Icon: {fileID: -5938655980376293919, guid: 0000000000000000d000000000000000, type: 0}
   m_NavMeshLayer: 0
@@ -46,6 +46,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ebcb2b284c17b324c855adac656fd96c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  doorDir: 1
 --- !u!61 &8227371556164171327
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -4754,7 +4755,7 @@ GameObject:
   - component: {fileID: 383750436701283257}
   - component: {fileID: 1923451202464021495}
   m_Layer: 0
-  m_Name: SpawnPt1
+  m_Name: SpawnPt2
   m_TagString: SpawnPt
   m_Icon: {fileID: -5938655980376293919, guid: 0000000000000000d000000000000000, type: 0}
   m_NavMeshLayer: 0
@@ -4787,6 +4788,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ebcb2b284c17b324c855adac656fd96c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  doorDir: 2
 --- !u!61 &383750436701283257
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -4868,8 +4870,8 @@ Transform:
   - {fileID: 6536825661639296886}
   - {fileID: 6670396339654337116}
   - {fileID: 2930663836178084485}
-  - {fileID: 2190701164741985162}
   - {fileID: 8010290850356473909}
+  - {fileID: 2190701164741985162}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
