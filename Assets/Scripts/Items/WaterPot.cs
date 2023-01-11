@@ -4,5 +4,7 @@ using UnityEngine;
 
 public class WaterPot : Items
 {
-    hpRestore = 5;
+    void start(){
+        manaIncrease =  5;
+    }
 }
