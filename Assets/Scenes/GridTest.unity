@@ -123,7 +123,7 @@ NavMeshSettings:
     debug:
       m_Flags: 0
   m_NavMeshData: {fileID: 0}
---- !u!1001 &323485872
+--- !u!1001 &237049397
 PrefabInstance:
   m_ObjectHideFlags: 0
   serializedVersion: 2
@@ -133,15 +133,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 3079205065966789816, guid: dd59aab78f2979643acdb34569f45dd0, type: 3}
       propertyPath: m_RootOrder
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 3079205065966789816, guid: dd59aab78f2979643acdb34569f45dd0, type: 3}
-      propertyPath: m_LocalScale.x
-      value: 20
-      objectReference: {fileID: 0}
-    - target: {fileID: 3079205065966789816, guid: dd59aab78f2979643acdb34569f45dd0, type: 3}
-      propertyPath: m_LocalScale.y
-      value: 20
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 3079205065966789816, guid: dd59aab78f2979643acdb34569f45dd0, type: 3}
       propertyPath: m_LocalPosition.x
@@ -183,13 +175,13 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 7502120577676031541, guid: dd59aab78f2979643acdb34569f45dd0, type: 3}
-      propertyPath: target
-      value: 
-      objectReference: {fileID: 558255947}
     - target: {fileID: 8635651316082662512, guid: dd59aab78f2979643acdb34569f45dd0, type: 3}
       propertyPath: m_Name
-      value: Grid
+      value: A
+      objectReference: {fileID: 0}
+    - target: {fileID: 8635651316082662512, guid: dd59aab78f2979643acdb34569f45dd0, type: 3}
+      propertyPath: m_TagString
+      value: Rooms
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_AddedGameObjects: []
@@ -247,7 +239,7 @@ Camera:
   far clip plane: 1000
   field of view: 60
   orthographic: 1
-  orthographic size: 150
+  orthographic size: 180
   m_Depth: -1
   m_CullingMask:
     serializedVersion: 2
@@ -278,11 +270,6 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!4 &558255947 stripped
-Transform:
-  m_CorrespondingSourceObject: {fileID: 8557662488860030740, guid: 7826c52cccabce84e8fc38e42cd1d775, type: 3}
-  m_PrefabInstance: {fileID: 1084072283}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &1084072283
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -297,7 +284,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8557662488860030740, guid: 7826c52cccabce84e8fc38e42cd1d775, type: 3}
       propertyPath: m_RootOrder
-      value: 2
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 8557662488860030740, guid: 7826c52cccabce84e8fc38e42cd1d775, type: 3}
       propertyPath: m_LocalPosition.x
