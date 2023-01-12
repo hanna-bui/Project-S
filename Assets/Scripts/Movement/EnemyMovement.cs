@@ -90,7 +90,7 @@ namespace Movement
                 if (movePath == null)
                 {
                     playerPos = player.position;
-                    movePath = grid.CreatePath(transform, playerPos);
+                    movePath = grid.CreatePath(transform.position, playerPos);
                 }
             }
         }
@@ -208,7 +208,7 @@ namespace Movement
             if (random==null)
             {
                 newPos = grid.GetRandomCoords();
-                random = grid.CreatePath(transform, newPos);
+                random = grid.CreatePath(transform.position, newPos);
             }
 
             if (random != null)

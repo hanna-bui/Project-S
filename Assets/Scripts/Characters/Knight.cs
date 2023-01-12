@@ -27,8 +27,12 @@ public class Knight : Character
     }
 
     // Update is called once per frame
-    void Update()
+    protected override void Update()
     {
-        
+        base.Update();
+        if (Input.GetMouseButtonDown(0))
+        {
+            Debug.Log("Movement2");
+        }
     }
 }

@@ -3,6 +3,22 @@
   <component name="ChangeListManager">
     <list default="true" id="574aafd7-fad6-4296-a307-ab738a5d3532" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/.idea.Project S/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.Project S/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Prefabs/Monk.prefab" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Prefabs/Monk.prefab" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Prefabs/Ninja.prefab" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Prefabs/Ninja.prefab" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Prefabs/Samurai.prefab" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Prefabs/Samurai.prefab" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scenes/SampleScene2.0.unity" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scenes/SampleScene2.0.unity" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Characters/CaveP.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Characters/CaveP.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Characters/Character.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Characters/Character.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Characters/Knight.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Characters/Knight.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Characters/Monk.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Characters/Monk.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Characters/Ninja.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Characters/Ninja.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Characters/Samurai.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Characters/Samurai.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Goal Behaviour/AtomicGoal.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Goal Behaviour/AtomicGoal.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Goal Behaviour/CompositeGoal.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Goal Behaviour/CompositeGoal.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Goal Behaviour/Goal.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Goal Behaviour/Goal.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Movement/EnemyMovement.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Movement/EnemyMovement.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Movement/MoveAndAnimation.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Movement/MoveAndAnimation.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Movement/Pathfinding/NewGrid.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Movement/Pathfinding/NewGrid.cs" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -23,6 +39,7 @@
     <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/3dd5df5ef4974f29afeb2d3ba227c5da46a800/cf/f69b35fd/List`1.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/3dd5df5ef4974f29afeb2d3ba227c5da46a800/e8/800015e3/ThrowHelper.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/4ce403b7cdf744109283ae55cdc24285860a00/e1/359dbc86/NPath.cs" root0="SKIP_HIGHLIGHTING" />
+    <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/59e7be63019b4518baaf30c24595423615d800/07/83a98a66/Vector3.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/59e7be63019b4518baaf30c24595423615d800/5a/1d384adc/Object.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/59e7be63019b4518baaf30c24595423615d800/5b/43b42bb4/UnitySynchronizationContext.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/59e7be63019b4518baaf30c24595423615d800/7c/3429aa6e/Component.cs" root0="SKIP_HIGHLIGHTING" />
@@ -35,7 +52,15 @@
     <setting file="file://$PROJECT_DIR$/Assets/Scripts/Goal Behaviour/AtomicGoal.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Assets/Scripts/Goal Behaviour/CompositeGoal.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Assets/Scripts/Goal Behaviour/Goal.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/Assets/Scripts/Goal Behaviour/Player's Goals/FollowPath.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Assets/Scripts/Movement/EnemyMovement.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/Assets/Scripts/Movement/Pathfinding/PathEdge.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/Assets/Scripts/Movement/Steering Behaviour/SteeringBehaviour.cs" root0="FORCE_HIGHLIGHTING" />
+  </component>
+  <component name="JsbtTreeLayoutManager">
+    <layout place="tools.popupGrunt">
+      <scroll-view-position x="0" y="0" />
+    </layout>
   </component>
   <component name="MarkdownSettingsMigration">
     <option name="stateVersion" value="1" />
@@ -76,10 +101,10 @@
       <option name="USE_EXTERNAL_CONSOLE" value="0" />
       <method v="2" />
     </configuration>
-    <configuration name="Attach to Unity Editor &amp; Play" type="UNITY_DEBUG_RUN_CONFIGURATION" factoryName="UNITY_ATTACH_AND_PLAY" show_console_on_std_err="false" show_console_on_std_out="false" port="50000" address="localhost">
+    <configuration name="Attach to Unity Editor &amp; Play" type="UNITY_DEBUG_RUN_CONFIGURATION" factoryName="UNITY_ATTACH_AND_PLAY" show_console_on_std_err="false" show_console_on_std_out="false" port="50000" address="localhost" ignored-value-for-modified-check="12008">
       <option name="allowRunningInParallel" value="false" />
       <option name="listenPortForConnections" value="false" />
-      <option name="pid" />
+      <option name="pid" value="12008" />
       <option name="projectPathOnTarget" />
       <option name="selectedOptions">
         <list />
@@ -118,6 +143,7 @@
       <workItem from="1672680692688" duration="1655000" />
       <workItem from="1673028692334" duration="301000" />
       <workItem from="1673215514232" duration="3924000" />
+      <workItem from="1673481358301" duration="17226000" />
     </task>
     <task id="LOCAL-00001" summary="Completed pathfinding">
       <created>1667241715456</created>
@@ -161,6 +187,21 @@
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
+      <breakpoints>
+        <line-breakpoint enabled="true" type="DotNet Breakpoints">
+          <url>file://$PROJECT_DIR$/Assets/Scripts/Characters/Character.cs</url>
+          <line>111</line>
+          <properties documentPath="D:\Hanna\Documents\School\Yr6SemFall\Project\Project S\Assets\Scripts\Characters\Character.cs" initialLine="111" containingFunctionPresentation="method 'Update'">
+            <startOffsets>
+              <option value="3581" />
+            </startOffsets>
+            <endOffsets>
+              <option value="3594" />
+            </endOffsets>
+          </properties>
+          <option name="timeStamp" value="1" />
+        </line-breakpoint>
+      </breakpoints>
       <default-breakpoints>
         <breakpoint type="CidrExceptionBreakpoint">
           <properties caught="ANY_EXCEPTION">

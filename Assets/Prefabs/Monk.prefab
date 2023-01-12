@@ -11,7 +11,6 @@ GameObject:
   - component: {fileID: 8557662488860030740}
   - component: {fileID: 1451151853562914156}
   - component: {fileID: 7718147628724289759}
-  - component: {fileID: 3873364553952974198}
   - component: {fileID: 1711158648727977931}
   m_Layer: 0
   m_Name: Monk
@@ -107,24 +106,6 @@ Animator:
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorControllerStateOnDisable: 0
---- !u!114 &3873364553952974198
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1870814044837786759}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 6669ec57835d09641b8e524131de448b, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  speed: 50
-  overrideControllers:
-  - {fileID: 22100000, guid: 1ae8dbd87b28a9344916f78dbe8de63d, type: 2}
-  - {fileID: 22100000, guid: ffc4c98d98fad5143bdd07b88b1020bf, type: 2}
-  - {fileID: 22100000, guid: a0ed1e6f99495ba449f489ab34636a7d, type: 2}
-  - {fileID: 22100000, guid: 9884057cfa8c683448650c8d72353cdc, type: 2}
 --- !u!114 &1711158648727977931
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -137,3 +118,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1a98b1a3b5886b642b17a12d799a9f4c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  overrideControllers:
+  - {fileID: 22100000, guid: ff364e56e93e71a41b968389de223a30, type: 2}
+  - {fileID: 22100000, guid: cb3462b462ef02f43b57b3c55b68833b, type: 2}
+  - {fileID: 22100000, guid: 478ab47c77bf1774681fbf60e55f64f7, type: 2}
+  - {fileID: 22100000, guid: 38b1aaa17b95df547b161ca337648141, type: 2}
