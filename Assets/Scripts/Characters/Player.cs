@@ -1,19 +1,21 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
-public class Player : MonoBehaviour
+namespace Characters
 {
-    private Character self;
-    // Start is called before the first frame update
-    void Start()
+    public class Player : MonoBehaviour
     {
-        self = new Ninja();
-    }
+        private Character self;
 
-    // Update is called once per frame
-    void Update()
-    {
-        
+        // Start is called before the first frame update
+        void Start()
+        {
+            self = new Ninja();
+        }
+
+        // Update is called once per frame
+        void Update()
+        {
+
+        }
     }
 }

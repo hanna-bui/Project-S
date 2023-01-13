@@ -32,10 +32,6 @@ namespace Characters
         protected override void Update()
         {
             base.Update();
-            if (Input.GetMouseButtonDown(0))
-            {
-                Debug.Log("Movement2");
-            }
         }
     }
 }
