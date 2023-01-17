@@ -28,30 +28,37 @@ public class RoomSpawner : MonoBehaviour
     {
         if (spawned == false)
         {
+            GameObject room;
+            Vector3 point = transform.position;
             switch (doorDir)
             {
                 case 1:
                     random = Random.Range(0, templates.BRooms.Length);
-                    //Transform t = transform;
-                    //t.position.x -= ;
-                    //Instantiate(templates.BRooms[random], transform.position, Quaternion.identity);
-                    //Instantiate(templates.BRooms[random], transform.position, templates.BRooms[random].transform.rotation);
-                    Instantiate(templates.BRooms[random], transform.position, templates.BRooms[random].transform.rotation);
+                    room = templates.BRooms[random];
+                    point.x += room.transform.position.x - 7.5f;
+                    point.y += room.transform.position.y - 7.5f;
+                    Instantiate(room, point, room.transform.rotation);
                     break;
                 case 2:
                     random = Random.Range(0, templates.LRooms.Length);
-                    //Instantiate(templates.LRooms[random], transform.position, Quaternion.identity);
-                    //Instantiate(templates.LRooms[random], transform.position, templates.LRooms[random].transform.rotation);
+                    room = templates.LRooms[random];
+                    point.x += room.transform.position.x - 7.5f;
+                    point.y += room.transform.position.y - 7.5f;
+                    Instantiate(room, point, room.transform.rotation);
                     break;
                 case 3:
                     random = Random.Range(0, templates.TRooms.Length);
-                    //Instantiate(templates.TRooms[random], transform.position, Quaternion.identity);
-                    //Instantiate(templates.TRooms[random], transform.position, templates.TRooms[random].transform.rotation);
+                    room = templates.TRooms[random];
+                    point.x += room.transform.position.x - 7.5f;
+                    point.y += room.transform.position.y - 7.5f;
+                    Instantiate(room, point, room.transform.rotation);
                     break;
                 case 4:
                     random = Random.Range(0, templates.RRooms.Length);
-                    //Instantiate(templates.RRooms[random], transform.position, Quaternion.identity);
-                    //Instantiate(templates.RRooms[random], transform.position, templates.RRooms[random].transform.rotation);
+                    room = templates.RRooms[random];
+                    point.x += room.transform.position.x - 7.5f;
+                    point.y += room.transform.position.y - 7.5f;
+                    Instantiate(room, point, room.transform.rotation);
                     break;
                 default:
                     Debug.Log("Error: RoomSpawner received an illegal DoorDir!");
