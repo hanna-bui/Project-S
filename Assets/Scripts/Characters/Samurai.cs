@@ -22,7 +22,7 @@ namespace Characters
             mdef = 6;
             lvl = 0;
             sprite = GameObject.Find("Samurai");
-            cMass = 1;
+            
             //weapon = ;
             //wa1 = ;
             //wa2 = ;

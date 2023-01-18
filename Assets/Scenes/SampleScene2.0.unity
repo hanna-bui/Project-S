@@ -282,6 +282,51 @@ Rigidbody2D:
   m_SleepingMode: 1
   m_CollisionDetection: 0
   m_Constraints: 0
+--- !u!1 &442329403
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 442329404}
+  - component: {fileID: 442329405}
+  m_Layer: 0
+  m_Name: GameManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &442329404
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 442329403}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 5
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &442329405
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 442329403}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9c678680395d4fb98e2c1907098e72df, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  grid: {fileID: 1132226538}
 --- !u!1 &519420028
 GameObject:
   m_ObjectHideFlags: 0
@@ -409,10 +454,10 @@ GameObject:
   m_Component:
   - component: {fileID: 883671317}
   - component: {fileID: 883671316}
-  - component: {fileID: 883671315}
   - component: {fileID: 883671319}
-  - component: {fileID: 883671321}
   - component: {fileID: 883671320}
+  - component: {fileID: 883671315}
+  - component: {fileID: 883671321}
   m_Layer: 0
   m_Name: Samurai
   m_TagString: Player
@@ -561,6 +606,9 @@ MonoBehaviour:
   - {fileID: 22100000, guid: 7ae863e5e4772bc40b4620df31ee676a, type: 2}
   - {fileID: 22100000, guid: 85fa2d5a0dccad143932d8d2d1274163, type: 2}
   - {fileID: 22100000, guid: b108ab05d4fd4ee4f84e1d6f7f9ae071, type: 2}
+  animator: {fileID: 0}
+  mouseLocation: {x: 0, y: 0, z: 0}
+  gm: {fileID: 0}
 --- !u!1 &1040079410
 GameObject:
   m_ObjectHideFlags: 0
@@ -685,6 +733,17 @@ Transform:
   m_Father: {fileID: 635041856}
   m_RootOrder: -1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1132226538 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 3130905794861968779, guid: cd2cb60fa2896f9448f85beb0ef04800, type: 3}
+  m_PrefabInstance: {fileID: 3130905793596591984}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e1c3b1b3f54630c4fbce8c3f5889d80e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &2062892284
 GameObject:
   m_ObjectHideFlags: 0
