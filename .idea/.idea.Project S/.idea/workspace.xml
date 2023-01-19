@@ -1,48 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="574aafd7-fad6-4296-a307-ab738a5d3532" name="Changes" comment="Removing Goals for States, Adding Move and Idle States">
-      <change afterPath="$PROJECT_DIR$/Assets/Scripts/Characters/Enemy.meta" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Assets/Scripts/Characters/Enemy/Enemy.cs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Assets/Scripts/Characters/Enemy/Enemy.cs.meta" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Assets/Scripts/Characters/Enemy/GiantFrog.cs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Assets/Scripts/Characters/Enemy/GiantFrog.cs.meta" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Assets/Scripts/Finite State Machine/Enemy States.meta" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Assets/Scripts/Finite State Machine/Enemy States/EnemyIdle.cs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Assets/Scripts/Finite State Machine/Enemy States/EnemyIdle.cs.meta" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Assets/Scripts/Finite State Machine/Enemy States/PatternWalk.cs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Assets/Scripts/Finite State Machine/Enemy States/PatternWalk.cs.meta" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Assets/Scripts/Movement/Action.cs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Assets/Scripts/Movement/Direction.cs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Assets/Scripts/Movement/Direction.cs.meta" afterDir="false" />
+    <list default="true" id="574aafd7-fad6-4296-a307-ab738a5d3532" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/.idea.Project S/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.Project S/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Graphics/Animation Controller/GiantFrog.controller" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Graphics/Animation Controller/GiantFrog.controller" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Graphics/Animations/GiantFrog/GiantFrog_Idle.anim" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Graphics/Animations/GiantFrog/GiantFrog_Idle.anim.meta" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Ninja Adventure/NinjaAdventure/Actor/Boss/GiantFrog/Attack.png.meta" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Ninja Adventure/NinjaAdventure/Actor/Boss/GiantFrog/Attack.png.meta" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Ninja Adventure/NinjaAdventure/Actor/Boss/GiantFrog/Charge.png.meta" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Ninja Adventure/NinjaAdventure/Actor/Boss/GiantFrog/Charge.png.meta" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Ninja Adventure/NinjaAdventure/Actor/Boss/GiantFrog/Hit.png.meta" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Ninja Adventure/NinjaAdventure/Actor/Boss/GiantFrog/Hit.png.meta" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Ninja Adventure/NinjaAdventure/Actor/Boss/GiantFrog/Jump.png.meta" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Ninja Adventure/NinjaAdventure/Actor/Boss/GiantFrog/Jump.png.meta" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scenes/SampleScene2.0.unity" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scenes/SampleScene2.0.unity" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Characters/Bamboo.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Characters/Bamboo.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Characters/CaveP.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Characters/CaveP.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Characters/Character.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Characters/Character.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Characters/Knight.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Characters/Knight.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Characters/Monk.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Characters/Monk.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Characters/Moveable_Object.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Characters/Moveable_Object.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Characters/Ninja.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Characters/Ninja.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Characters/Samurai.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Characters/Samurai.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Finite State Machine/State.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Finite State Machine/State.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Finite State Machine/States/Attack.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Finite State Machine/States/Attack.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Finite State Machine/States/Idle.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Finite State Machine/States/PlayerIdle.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Finite State Machine/States/Idle.cs.meta" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Finite State Machine/States/PlayerIdle.cs.meta" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Finite State Machine/States/Walk.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Finite State Machine/States/WalkToLocation.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Finite State Machine/States/Walk.cs.meta" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Finite State Machine/States/WalkToLocation.cs.meta" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Movement/MoveAndAnimation.cs" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Movement/MoveAndAnimation.cs.meta" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Movement/Pathfinding/NewGrid.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Movement/Pathfinding/NewGrid.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Utils/EStatsGenerator.cs" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Utils/EStatsGenerator.cs.meta" beforeDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -102,7 +62,7 @@
     "RunOnceActivity.OpenProjectViewOnStart": "true",
     "RunOnceActivity.ShowReadmeOnStart": "true",
     "WebServerToolWindowFactoryState": "false",
-    "XThreadsFramesViewSplitterKey": "0.3321617",
+    "XThreadsFramesViewSplitterKey": "0.68458784",
     "settings.editor.selected.configurable": "preferences.pluginManager",
     "vue.rearranger.settings.migration": "true"
   }
@@ -191,7 +151,14 @@
       <option name="project" value="LOCAL" />
       <updated>1674071250360</updated>
     </task>
-    <option name="localTasksCounter" value="4" />
+    <task id="LOCAL-00004" summary="Add enemy movement as state">
+      <created>1674098824578</created>
+      <option name="number" value="00004" />
+      <option name="presentableId" value="LOCAL-00004" />
+      <option name="project" value="LOCAL" />
+      <updated>1674098824578</updated>
+    </task>
+    <option name="localTasksCounter" value="5" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -216,7 +183,8 @@
     <MESSAGE value="Completed pathfinding" />
     <MESSAGE value="extra files" />
     <MESSAGE value="Removing Goals for States, Adding Move and Idle States" />
-    <option name="LAST_COMMIT_MESSAGE" value="Removing Goals for States, Adding Move and Idle States" />
+    <MESSAGE value="Add enemy movement as state" />
+    <option name="LAST_COMMIT_MESSAGE" value="Add enemy movement as state" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
