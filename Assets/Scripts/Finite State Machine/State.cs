@@ -1,4 +1,5 @@
 ﻿using Characters;
+using Characters.Enemy;
 
 namespace Finite_State_Machine
 {
@@ -13,7 +14,7 @@ namespace Finite_State_Machine
         }
 
         protected StateStatus currentStatus = StateStatus.Initialize;
-
+    
         public virtual void Execute(MoveableObject agent)
         {
             

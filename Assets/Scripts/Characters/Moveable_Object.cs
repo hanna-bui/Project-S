@@ -1,31 +1,42 @@
-﻿using Finite_State_Machine.States;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using Finite_State_Machine;
 using UnityEngine;
+using GameManager;
+using Movement;
 using System;
 
-using GameManager;
+// ReSharper disable InconsistentNaming
 
 namespace Characters
 {
 
     public class MoveableObject : MonoBehaviour
     {
-        public float Speed { get; private set; }
-
+        
         [SerializeField] protected List<AnimatorOverrideController> overrideControllers;
         public Animator animator;
 
         public Vector3 TargetLocation { get; set; }
         
-        private new Camera camera;
+        protected new Camera camera;
         
         
         #region State
 
-        private State currentState;
+        protected State currentState;
 
         public Manager gm;
+        
+        public float Speed { get; private set; }
+        
+        private Vector3 origin;
+        
+        // ReSharper disable once ConvertToAutoProperty
+        public Vector3 Origin
+        {
+            get => origin;
+            set => origin = value;
+        }
 
         #endregion
         
@@ -39,17 +50,10 @@ namespace Characters
             animator = GetComponent<Animator>();
 
             Speed = 5f;
-            currentState = new Idle();
         }
 
         protected virtual void Update()
         {
-            if (Input.GetMouseButtonDown(0))
-            {
-                TargetLocation = camera.ScreenToWorldPoint(Input.mousePosition);
-                ChangeState(new Walk());
-            }
-
             currentState.Execute(this);
         }
         
@@ -58,7 +62,12 @@ namespace Characters
             return transform.position.Equals(TargetLocation);
         }
         
-        private int CalculateDirection()
+        public bool IsAtPosition(Vector3 target)
+        {
+            return transform.position.Equals(target);
+        }
+        
+        public int CalculateDirection()
         {
             var position = transform.position;
             if (Math.Abs(TargetLocation.x - position.x) < 0.00001) return 0;
@@ -68,10 +77,12 @@ namespace Characters
             var magnitude = heading / heading.magnitude;
             var x = (decimal)magnitude.x;
             var y = (decimal)magnitude.y;
-
-            var horV = Math.Abs(Math.Max(Math.Abs(y), Math.Abs(x))) == Math.Abs(y) ? 1 : 0;
-
-            return horV == 1 ? y > 0 ? 0 : 1 : x > 0 ? 3 : 2;
+            
+            if (Math.Max(Math.Abs(y), Math.Abs(x)) == Math.Abs(y))
+            {
+                return y > 0 ? Direction.Up : Direction.Down;
+            }
+            return x > 0 ? Direction.Right : Direction.Left;
         }
         
         #region Animation
@@ -81,10 +92,9 @@ namespace Characters
             animator.SetBool(gm.click, false);
         }
 
-        public void SetAnimations()
+        public virtual void SetAnimations(int index)
         {
-            var direction = CalculateDirection();
-            var overrideController = overrideControllers[direction];
+            var overrideController = overrideControllers[index];
             animator.runtimeAnimatorController = overrideController;
         }
 
@@ -105,6 +115,16 @@ namespace Characters
         public Vector3 Position()
         {
             return transform.position;
+        }
+        
+        public Vector3 LocalPosition()
+        {
+            return transform.localPosition;
+        }
+        
+        public void SetLocalPosition(Vector3 newPosition)
+        {
+            transform.localPosition = newPosition;
         }
 
         #endregion

@@ -23,7 +23,7 @@ namespace Finite_State_Machine.States
 
             if (currentStatus is StateStatus.Completed)
             {
-                agent.ChangeState(new Idle());
+                agent.ChangeState(new PlayerIdle());
             }
         }
     }

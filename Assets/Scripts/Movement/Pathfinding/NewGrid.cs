@@ -14,12 +14,30 @@ namespace Movement.Pathfinding
         
         private Tilemap walkableMap;
         private Astar.Node[,] nodeToNodes;
+        
+        private BoundsInt floorBounds;
+        private BoundsInt walkBounds;
+        
+        protected BoundsInt FloorBounds
+        {
+            get => floorBounds;
+            set => floorBounds = value;
+        }
+        
+        
+        protected BoundsInt WalkBounds
+        {
+            get => walkBounds;
+            set => walkBounds = value;
+        }
 
         private void Start()
         {
             walkableMap = GameObject.Find("Grid/Walkable").GetComponent<Tilemap>();
             
             walkableMap.CompressBounds();
+            
+            WalkBounds = walkableMap.cellBounds;
 
             CreateGrid();
         }
@@ -52,9 +70,8 @@ namespace Movement.Pathfinding
         
         public Vector3 GetRandomCoords()
         {
-            var newBounds = walkableMap.cellBounds;
-            var x = Random.Range(newBounds.xMin, newBounds.size.x);
-            var y = Random.Range(newBounds.yMin, newBounds.size.y);
+            var x = Random.Range(WalkBounds.xMin, WalkBounds.size.x);
+            var y = Random.Range(WalkBounds.yMin, WalkBounds.size.y);
             
             return walkableMap.CellToWorld(new Vector3Int(x, y, 0));
         }
@@ -64,11 +81,11 @@ namespace Movement.Pathfinding
             var floorMap = GameObject.Find("Grid/Floor").GetComponent<Tilemap>();
             floorMap.CompressBounds();
             
-            var bounds = floorMap.cellBounds;
+            FloorBounds = floorMap.cellBounds;
             
-            nodeToNodes = new Astar.Node[bounds.size.x, bounds.size.y];
-            for (int x = bounds.xMin; x < bounds.size.x; x++)
-            for (int y = bounds.yMin; y < bounds.size.y; y++)
+            nodeToNodes = new Astar.Node[FloorBounds.size.x, FloorBounds.size.y];
+            for (var x = FloorBounds.xMin; x < FloorBounds.size.x; x++)
+            for (var y = FloorBounds.yMin; y < FloorBounds.size.y; y++)
             {
                 if (walkableMap.HasTile(new Vector3Int(x, y, 0)))
                 {
@@ -81,8 +98,8 @@ namespace Movement.Pathfinding
                 }
             }
 
-            for (var x = bounds.xMin; x < bounds.size.x; x++)
-            for (var y = bounds.yMin; y < bounds.size.y; y++)
+            for (var x = FloorBounds.xMin; x < FloorBounds.size.x; x++)
+            for (var y = FloorBounds.yMin; y < FloorBounds.size.y; y++)
             {
                 if (walkableMap.HasTile(new Vector3Int(x, y, 0)))
                 {

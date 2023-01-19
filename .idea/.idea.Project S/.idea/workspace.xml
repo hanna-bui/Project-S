@@ -1,41 +1,48 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="574aafd7-fad6-4296-a307-ab738a5d3532" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/Assets/Scripts/Characters/Moveable_Object.cs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Assets/Scripts/Characters/Moveable_Object.cs.meta" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Assets/Scripts/Finite State Machine.meta" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Assets/Scripts/Finite State Machine/State.cs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Assets/Scripts/Finite State Machine/State.cs.meta" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Assets/Scripts/Finite State Machine/States.meta" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Assets/Scripts/Finite State Machine/States/Attack.cs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Assets/Scripts/Finite State Machine/States/Attack.cs.meta" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Assets/Scripts/Finite State Machine/States/Idle.cs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Assets/Scripts/Finite State Machine/States/Idle.cs.meta" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Assets/Scripts/Finite State Machine/States/Walk.cs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Assets/Scripts/Finite State Machine/States/Walk.cs.meta" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Assets/Scripts/GameManager.meta" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Assets/Scripts/GameManager/Manager.cs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Assets/Scripts/GameManager/Manager.cs.meta" afterDir="false" />
+    <list default="true" id="574aafd7-fad6-4296-a307-ab738a5d3532" name="Changes" comment="Removing Goals for States, Adding Move and Idle States">
+      <change afterPath="$PROJECT_DIR$/Assets/Scripts/Characters/Enemy.meta" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Assets/Scripts/Characters/Enemy/Enemy.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Assets/Scripts/Characters/Enemy/Enemy.cs.meta" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Assets/Scripts/Characters/Enemy/GiantFrog.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Assets/Scripts/Characters/Enemy/GiantFrog.cs.meta" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Assets/Scripts/Finite State Machine/Enemy States.meta" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Assets/Scripts/Finite State Machine/Enemy States/EnemyIdle.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Assets/Scripts/Finite State Machine/Enemy States/EnemyIdle.cs.meta" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Assets/Scripts/Finite State Machine/Enemy States/PatternWalk.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Assets/Scripts/Finite State Machine/Enemy States/PatternWalk.cs.meta" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Assets/Scripts/Movement/Action.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Assets/Scripts/Movement/Direction.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Assets/Scripts/Movement/Direction.cs.meta" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/.idea.Project S/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.Project S/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Graphics/Animation Controller/GiantFrog.controller" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Graphics/Animation Controller/GiantFrog.controller" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Graphics/Animations/GiantFrog/GiantFrog_Idle.anim" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Graphics/Animations/GiantFrog/GiantFrog_Idle.anim.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Ninja Adventure/NinjaAdventure/Actor/Boss/GiantFrog/Attack.png.meta" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Ninja Adventure/NinjaAdventure/Actor/Boss/GiantFrog/Attack.png.meta" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Ninja Adventure/NinjaAdventure/Actor/Boss/GiantFrog/Charge.png.meta" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Ninja Adventure/NinjaAdventure/Actor/Boss/GiantFrog/Charge.png.meta" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Ninja Adventure/NinjaAdventure/Actor/Boss/GiantFrog/Hit.png.meta" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Ninja Adventure/NinjaAdventure/Actor/Boss/GiantFrog/Hit.png.meta" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Ninja Adventure/NinjaAdventure/Actor/Boss/GiantFrog/Jump.png.meta" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Ninja Adventure/NinjaAdventure/Actor/Boss/GiantFrog/Jump.png.meta" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Assets/Scenes/SampleScene2.0.unity" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scenes/SampleScene2.0.unity" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Characters/Bamboo.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Characters/Bamboo.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Characters/CaveP.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Characters/CaveP.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Assets/Scripts/Characters/Character.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Characters/Character.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Characters/Knight.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Characters/Knight.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Characters/Monk.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Characters/Monk.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Characters/Moveable_Object.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Characters/Moveable_Object.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Characters/Ninja.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Characters/Ninja.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Assets/Scripts/Characters/Samurai.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Characters/Samurai.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Goal Behaviour.meta" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Goal Behaviour/AtomicGoal.cs" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Goal Behaviour/AtomicGoal.cs.meta" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Goal Behaviour/CompositeGoal.cs" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Goal Behaviour/CompositeGoal.cs.meta" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Goal Behaviour/Goal.cs" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Goal Behaviour/Goal.cs.meta" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Goal Behaviour/Player's Goals.meta" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Goal Behaviour/Player's Goals/FollowPath.cs" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Goal Behaviour/Player's Goals/FollowPath.cs.meta" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Goal Behaviour/Player's Goals/TraverseEdge.cs" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Goal Behaviour/Player's Goals/TraverseEdge.cs.meta" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Movement/Steering Behaviour.meta" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Movement/Steering Behaviour/SteeringBehaviour.cs" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Movement/Steering Behaviour/SteeringBehaviour.cs.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Finite State Machine/State.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Finite State Machine/State.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Finite State Machine/States/Attack.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Finite State Machine/States/Attack.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Finite State Machine/States/Idle.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Finite State Machine/States/PlayerIdle.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Finite State Machine/States/Idle.cs.meta" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Finite State Machine/States/PlayerIdle.cs.meta" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Finite State Machine/States/Walk.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Finite State Machine/States/WalkToLocation.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Finite State Machine/States/Walk.cs.meta" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Finite State Machine/States/WalkToLocation.cs.meta" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Movement/MoveAndAnimation.cs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Movement/MoveAndAnimation.cs.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Movement/Pathfinding/NewGrid.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Movement/Pathfinding/NewGrid.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Utils/EStatsGenerator.cs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Utils/EStatsGenerator.cs.meta" beforeDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -55,6 +62,7 @@
     <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/3dd5df5ef4974f29afeb2d3ba227c5da46a800/9a/bc885a2e/EncodingTable.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/3dd5df5ef4974f29afeb2d3ba227c5da46a800/cf/f69b35fd/List`1.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/3dd5df5ef4974f29afeb2d3ba227c5da46a800/e8/800015e3/ThrowHelper.cs" root0="SKIP_HIGHLIGHTING" />
+    <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/3f89e111b9734359a427a40daa0ba5674000/b0/a1be9778/GridLayout.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/4ce403b7cdf744109283ae55cdc24285860a00/e1/359dbc86/NPath.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/59e7be63019b4518baaf30c24595423615d800/07/83a98a66/Vector3.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/59e7be63019b4518baaf30c24595423615d800/5a/1d384adc/Object.cs" root0="SKIP_HIGHLIGHTING" />
@@ -116,10 +124,10 @@
       <option name="USE_EXTERNAL_CONSOLE" value="0" />
       <method v="2" />
     </configuration>
-    <configuration name="Attach to Unity Editor &amp; Play" type="UNITY_DEBUG_RUN_CONFIGURATION" factoryName="UNITY_ATTACH_AND_PLAY" show_console_on_std_err="false" show_console_on_std_out="false" port="50000" address="localhost">
+    <configuration name="Attach to Unity Editor &amp; Play" type="UNITY_DEBUG_RUN_CONFIGURATION" factoryName="UNITY_ATTACH_AND_PLAY" show_console_on_std_err="false" show_console_on_std_out="false" port="50000" address="localhost" ignored-value-for-modified-check="22712">
       <option name="allowRunningInParallel" value="false" />
       <option name="listenPortForConnections" value="false" />
-      <option name="pid" />
+      <option name="pid" value="22712" />
       <option name="projectPathOnTarget" />
       <option name="selectedOptions">
         <list />
@@ -176,7 +184,14 @@
       <option name="project" value="LOCAL" />
       <updated>1667241753625</updated>
     </task>
-    <option name="localTasksCounter" value="3" />
+    <task id="LOCAL-00003" summary="Removing Goals for States, Adding Move and Idle States">
+      <created>1674071250360</created>
+      <option name="number" value="00003" />
+      <option name="presentableId" value="LOCAL-00003" />
+      <option name="project" value="LOCAL" />
+      <updated>1674071250360</updated>
+    </task>
+    <option name="localTasksCounter" value="4" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -200,7 +215,8 @@
     <option name="CLEAR_INITIAL_COMMIT_MESSAGE" value="true" />
     <MESSAGE value="Completed pathfinding" />
     <MESSAGE value="extra files" />
-    <option name="LAST_COMMIT_MESSAGE" value="extra files" />
+    <MESSAGE value="Removing Goals for States, Adding Move and Idle States" />
+    <option name="LAST_COMMIT_MESSAGE" value="Removing Goals for States, Adding Move and Idle States" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>

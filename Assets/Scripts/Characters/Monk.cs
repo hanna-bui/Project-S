@@ -10,6 +10,8 @@ namespace Characters
         
         protected override void Start()
         {
+            base.Start();
+            
             hp = 5;
             chp = 5;
             mp = 10;
@@ -26,6 +28,8 @@ namespace Characters
             //wa1 = ;
             //wa2 = ;
             //wa3 = ;
+            
+            SetupCollider();
         }
 
         // Update is called once per frame

@@ -1,10 +1,13 @@
-﻿using System.Collections.Generic;
+﻿using Finite_State_Machine.Enemy_States;
+using System.Collections.Generic;
+using Characters.Enemy;
 using UnityEngine;
 using Characters;
+using Movement;
 
 namespace Finite_State_Machine.States
 {
-    public class Walk : State
+    public class WalkToLocation : State
     {
         private List<Vector3> roadPath;
 
@@ -12,20 +15,28 @@ namespace Finite_State_Machine.States
         {
             var gm = agent.gm;
             var grid = gm.grid;
-            
+
             if (currentStatus is StateStatus.Initialize)
             {
                 var pos = agent.Position();
                 var tar = agent.TargetLocation;
-                
+
                 roadPath = grid.CreatePath(pos, tar);
 
-                agent.SetAnimations();
-                agent.animator.SetBool(gm.click, true);
-                
+                switch (agent)
+                {
+                    case Character:
+                        agent.SetAnimations(agent.CalculateDirection());
+                        agent.animator.SetBool(gm.click, true);
+                        break;
+                    case Enemy:
+                        agent.SetAnimations(Action.Jump);
+                        break;
+                }
+
                 currentStatus = StateStatus.Executing;
             }
-            
+
             if (currentStatus is StateStatus.Executing)
             {
                 if (roadPath != null && roadPath.Count != 0)
@@ -39,15 +50,26 @@ namespace Finite_State_Machine.States
                         roadPath = null;
                         currentStatus = StateStatus.Completed;
                     }
-                    agent.SetAnimations();
+
+                    if (agent is Character)
+                        agent.SetAnimations(agent.CalculateDirection());
+
                     Move(agent);
                 }
             }
 
             if (currentStatus is StateStatus.Completed)
             {
-                agent.StopAnimation();
-                agent.ChangeState(new Idle());
+                if (agent is Character)
+                {
+                    agent.StopAnimation();
+                    agent.ChangeState(new PlayerIdle());
+                }
+                else
+                {
+                    agent.SetAnimations(Action.Idle);
+                    agent.ChangeState(new EnemyIdle());
+                }
             }
         }
         
@@ -55,9 +77,15 @@ namespace Finite_State_Machine.States
         {
             var pos = agent.Position();
             var tar = agent.TargetLocation;
+
+            var speed = agent switch
+            {
+                Enemy enemy => enemy.SPE,
+                Character player => player.spe * 10,
+                _ => 0f
+            };
             
-            var distance = agent.Speed * 10 * Time.deltaTime;
-            var towards = Vector2.MoveTowards(pos, tar, distance);
+            var towards = Vector2.MoveTowards(pos, tar, speed * Time.deltaTime);
             agent.SetPosition(towards);
         }
     }

@@ -1,8 +1,10 @@
-using System;
-using System.Collections.Generic;
+using Finite_State_Machine.States;
 using UnityEngine;
 // using Movement.Steering_Behaviour;
-using NewGrid = Movement.Pathfinding.NewGrid;
+// ReSharper disable InconsistentNaming
+// ReSharper disable UnusedAutoPropertyAccessor.Global
+// ReSharper disable CommentTypo
+// ReSharper disable IdentifierTypo
 
 namespace Characters
 {
@@ -14,9 +16,10 @@ namespace Characters
         protected float chp { get; set; } // current health points
         protected float mp { get; set; } // mana points
         protected float cmp { get; set; } // current mana points
-        protected float spe { get; set; } // speed
+        public float spe { get; set; } // speed
         protected float ran { get; set; } // range
         protected float dmg { get; set; } // damage
+        
         protected float mdmg { get; set; } // magic damage
         protected float def { get; set; } // defense
         protected float mdef { get; set; } // magic defense
@@ -62,20 +65,48 @@ namespace Characters
     {
         hp += inc;
     }*/
-
-        #region Goals/Movements
-        
         protected override void Start()
         {
             base.Start();
+            currentState = new PlayerIdle();
         }
         
         protected override void Update()
         {
             base.Update();
+            
+            if (Input.GetMouseButtonDown(0))
+            {
+                TargetLocation = camera.ScreenToWorldPoint(Input.mousePosition);
+                
+                
+                var origin = new Vector2(TargetLocation.x, TargetLocation.y);
+                var t = Physics2D.Raycast(origin, Vector2.zero, 0f);
+                
+                if (t)
+                {
+                    ChangeState(new Attack());
+                    print(t.transform.gameObject.tag);
+                }
+                else
+                {
+                    ChangeState(new WalkToLocation());
+                }
+            }
         }
-
-        #endregion
+        
+        protected void SetupCollider()
+        {
+            var rig = gameObject.AddComponent<Rigidbody2D>();
+            rig.bodyType = RigidbodyType2D.Kinematic;
+            rig.simulated = true;
+            
+            var circle = gameObject.AddComponent<CircleCollider2D>();
+            circle.radius = ran/5;
+            circle.isTrigger = true;
+            
+            Debug.Log(spe);
+        }
 
     }
 }

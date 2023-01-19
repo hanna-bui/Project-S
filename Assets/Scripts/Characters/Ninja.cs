@@ -6,8 +6,10 @@ namespace Characters
     {
 
         // Start is called before the first frame update
-        void Start()
+        protected override void Start()
         {
+            base.Start();
+
             hp = 6;
             chp = 6;
             mp = 8;
@@ -24,6 +26,8 @@ namespace Characters
             //wa1 = ;
             //wa2 = ;
             //wa3 = ;
+            
+            SetupCollider();
         }
 
         // Update is called once per frame

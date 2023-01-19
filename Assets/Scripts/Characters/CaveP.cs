@@ -7,8 +7,10 @@ namespace Characters
     {
 
         // Start is called before the first frame update
-        void Start()
+        protected override void Start()
         {
+            base.Start();
+
             hp = 10;
             chp = 10;
             mp = 5;
@@ -25,16 +27,14 @@ namespace Characters
             //wa1 = ;
             //wa2 = ;
             //wa3 = ;
+            
+            SetupCollider();
         }
 
         // Update is called once per frame
         protected override void Update()
         {
             base.Update();
-            if (Input.GetMouseButtonDown(0))
-            {
-                Debug.Log("Movement2");
-            }
         }
     }
 }

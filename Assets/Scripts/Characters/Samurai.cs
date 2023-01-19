@@ -27,6 +27,8 @@ namespace Characters
             //wa1 = ;
             //wa2 = ;
             //wa3 = ;
+            
+            SetupCollider();
         }
 
         // Update is called once per frame
