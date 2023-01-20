@@ -3,6 +3,25 @@
   <component name="ChangeListManager">
     <list default="true" id="574aafd7-fad6-4296-a307-ab738a5d3532" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/.idea.Project S/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.Project S/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scenes/SampleScene2.0.unity" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scenes/SampleScene2.0.unity" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Characters/Bamboo.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Characters/Bamboo.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Characters/CaveP.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Characters/CaveP.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Characters/Character.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Characters/Character.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Characters/Enemy/Enemy.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Characters/Enemy/Enemy.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Characters/Enemy/GiantFrog.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Characters/Enemy/GiantFrog.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Characters/Knight.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Characters/Knight.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Characters/Monk.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Characters/Monk.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Characters/Moveable_Object.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Characters/Moveable_Object.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Characters/Ninja.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Characters/Ninja.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Characters/Samurai.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Characters/Samurai.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Finite State Machine/Enemy States/EnemyIdle.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Finite State Machine/Enemy States/EnemyIdle.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Finite State Machine/Enemy States/PatternWalk.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Finite State Machine/Enemy States/PatternWalk.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Finite State Machine/State.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Finite State Machine/State.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Finite State Machine/States/Attack.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Finite State Machine/States/Attack.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Finite State Machine/States/PlayerIdle.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Finite State Machine/States/PlayerIdle.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Finite State Machine/States/WalkToLocation.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Finite State Machine/States/WalkToLocation.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/GameManager/Manager.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/GameManager/Manager.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ProjectSettings/TagManager.asset" beforeDir="false" afterPath="$PROJECT_DIR$/ProjectSettings/TagManager.asset" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -62,8 +81,8 @@
     "RunOnceActivity.OpenProjectViewOnStart": "true",
     "RunOnceActivity.ShowReadmeOnStart": "true",
     "WebServerToolWindowFactoryState": "false",
-    "XThreadsFramesViewSplitterKey": "0.68458784",
-    "settings.editor.selected.configurable": "preferences.pluginManager",
+    "XThreadsFramesViewSplitterKey": "0.6924429",
+    "settings.editor.selected.configurable": "preferences.sourceCode.C#",
     "vue.rearranger.settings.migration": "true"
   }
 }]]></component>
@@ -84,10 +103,10 @@
       <option name="USE_EXTERNAL_CONSOLE" value="0" />
       <method v="2" />
     </configuration>
-    <configuration name="Attach to Unity Editor &amp; Play" type="UNITY_DEBUG_RUN_CONFIGURATION" factoryName="UNITY_ATTACH_AND_PLAY" show_console_on_std_err="false" show_console_on_std_out="false" port="50000" address="localhost" ignored-value-for-modified-check="22712">
+    <configuration name="Attach to Unity Editor &amp; Play" type="UNITY_DEBUG_RUN_CONFIGURATION" factoryName="UNITY_ATTACH_AND_PLAY" show_console_on_std_err="false" show_console_on_std_out="false" port="50000" address="localhost" ignored-value-for-modified-check="21344">
       <option name="allowRunningInParallel" value="false" />
       <option name="listenPortForConnections" value="false" />
-      <option name="pid" value="22712" />
+      <option name="pid" value="21344" />
       <option name="projectPathOnTarget" />
       <option name="selectedOptions">
         <list />
@@ -129,6 +148,8 @@
       <workItem from="1673481358301" duration="17226000" />
       <workItem from="1673576548977" duration="200000" />
       <workItem from="1673643298958" duration="2560000" />
+      <workItem from="1674174864786" duration="4356000" />
+      <workItem from="1674229360193" duration="11043000" />
     </task>
     <task id="LOCAL-00001" summary="Completed pathfinding">
       <created>1667241715456</created>

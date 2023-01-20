@@ -11,24 +11,23 @@ namespace Characters
         {
             base.Start();
 
-            hp = 10;
-            chp = 10;
-            mp = 10;
-            cmp = 10;
-            spe = 1;
-            ran = 2;
-            dmg = 8;
-            mdmg = 6;
-            def = 6;
-            mdef = 5;
-            lvl = 0;
+            HP = 10;
+            CHP = HP;
+            MP = 10;
+            CMP = MP;
+            SPE = 1;
+            RAN = 2;
+            DMG = 8;
+            MDMG = 6;
+            DEF = 6;
+            MDEF = 5;
+            LVL = 0;
             ///icon = ;
-            sprite = GameObject.Find("Bamboo");
+            Sprite = GameObject.Find("Bamboo");
             //weapon = ;
             //wa1 = ;
             //wa2 = ;
             //wa3 = ;
-            
             SetupCollider();
         }
 

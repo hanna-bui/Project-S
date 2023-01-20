@@ -10,13 +10,18 @@ namespace Finite_State_Machine.States
     public class WalkToLocation : State
     {
         private List<Vector3> roadPath;
+        
+        public WalkToLocation()
+        {
+            interval = 0f;
+        }
 
         public override void Execute(MoveableObject agent)
         {
             var gm = agent.gm;
             var grid = gm.grid;
 
-            if (currentStatus is StateStatus.Initialize)
+            if (CurrentStatus is StateStatus.Initialize)
             {
                 var pos = agent.Position();
                 var tar = agent.TargetLocation;
@@ -34,10 +39,10 @@ namespace Finite_State_Machine.States
                         break;
                 }
 
-                currentStatus = StateStatus.Executing;
+                CurrentStatus = StateStatus.Executing;
             }
 
-            if (currentStatus is StateStatus.Executing)
+            if (CurrentStatus is StateStatus.Executing)
             {
                 if (roadPath != null && roadPath.Count != 0)
                 {
@@ -48,7 +53,7 @@ namespace Finite_State_Machine.States
                     if (roadPath.Count == 0)
                     {
                         roadPath = null;
-                        currentStatus = StateStatus.Completed;
+                        CurrentStatus = StateStatus.Completed;
                     }
 
                     if (agent is Character)
@@ -58,7 +63,7 @@ namespace Finite_State_Machine.States
                 }
             }
 
-            if (currentStatus is StateStatus.Completed)
+            if (CurrentStatus is StateStatus.Completed)
             {
                 if (agent is Character)
                 {
@@ -81,7 +86,7 @@ namespace Finite_State_Machine.States
             var speed = agent switch
             {
                 Enemy enemy => enemy.SPE,
-                Character player => player.spe * 10,
+                Character player => player.SPE * 10,
                 _ => 0f
             };
             

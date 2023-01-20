@@ -1,30 +1,81 @@
-﻿using Characters;
+﻿using System;
+using Characters.Enemy;
+using Characters;
+using UnityEngine;
 
 namespace Finite_State_Machine.States
 {
 
     public class Attack : State
     {
+        public GameObject Target { get; set; }
+        private Enemy TargetStat { get; set; }
+
+        private WalkToLocation temp = new WalkToLocation();
+
+        public Attack(MoveableObject agent, GameObject target)
+        {
+            interval = 0f;
+            Target = target;
+        }
+
         public override void Execute(MoveableObject agent)
         {
-            var gm = agent.gm;
-            var grid = gm.grid;
+            var enemyList = agent.gm.Enemies;
             
-            if (currentStatus is StateStatus.Initialize)
+            switch (CurrentStatus)
             {
-                
-                currentStatus = StateStatus.Executing;
+                case StateStatus.Initialize:
+                    if (enemyList.Contains(Target))
+                        TargetStat = enemyList[Target] as Enemy;
+                    
+                    interval = 1f;
+                    break;
+                case StateStatus.Executing:
+                    if (TargetStat is not null)
+                    {
+                        switch (TargetStat.CHP)
+                        {
+                            case > 0 when InRange(agent):
+                            {
+                                TargetStat.TakeDamage(agent.DMG);
+                                break;
+                            }
+                            case < 0:
+                                ChangeStatus(StateStatus.Completed);
+                                break;
+                        }
+                    }
+                    break;
+                case StateStatus.Completed:
+                    agent.ChangeState(new PlayerIdle());
+                    break;
+                case StateStatus.Failed:
+                    break;
+                default:
+                    throw new ArgumentOutOfRangeException();
             }
-            
-            if (currentStatus is StateStatus.Executing)
+        }
+
+        private bool InRange(MoveableObject agent)
+        {
+            var distance = Vector2.Distance(TargetStat.Position(), agent.Position());
+            if (distance > agent.RAN)
             {
-                currentStatus = StateStatus.Completed;
+                agent.TargetLocation = TargetStat.Position();
+                interval = 0f;
+                temp.Execute(agent);
+                return false;
             }
 
-            if (currentStatus is StateStatus.Completed)
+            interval = 1f;
+            if (temp.CurrentStatus is StateStatus.Executing)
             {
-                agent.ChangeState(new PlayerIdle());
+                agent.StopAnimation();
+                temp = new WalkToLocation();
             }
+
+            return true;
         }
     }
 }

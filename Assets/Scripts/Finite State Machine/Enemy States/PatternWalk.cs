@@ -16,12 +16,17 @@ namespace Finite_State_Machine.Enemy_States
         private const int Scale = 20;
 
         private int index;
+        
+        public PatternWalk()
+        {
+            interval = 0f;
+        }
 
         public override void Execute(MoveableObject agent)
         {
             if (agent is Enemy enemy)
             {
-                switch (currentStatus)
+                switch (CurrentStatus)
                 {
                     case StateStatus.Initialize:
                         
@@ -46,7 +51,7 @@ namespace Finite_State_Machine.Enemy_States
                         }
 
                         enemy.SetAnimations(Action.Jump);
-                        currentStatus = StateStatus.Executing;
+                        CurrentStatus = StateStatus.Executing;
                         break;
                     case StateStatus.Executing:
                         Move(enemy);

@@ -1,10 +1,13 @@
+using Finite_State_Machine;
 using Finite_State_Machine.States;
 using UnityEngine;
+
 // using Movement.Steering_Behaviour;
 // ReSharper disable InconsistentNaming
 // ReSharper disable UnusedAutoPropertyAccessor.Global
 // ReSharper disable CommentTypo
 // ReSharper disable IdentifierTypo
+// ReSharper disable Unity.UnknownTag
 
 namespace Characters
 {
@@ -12,22 +15,9 @@ namespace Characters
     public class Character : MoveableObject
     {
         // All Characters have:
-        protected float hp { get; set; } // health points
-        protected float chp { get; set; } // current health points
-        protected float mp { get; set; } // mana points
-        protected float cmp { get; set; } // current mana points
-        public float spe { get; set; } // speed
-        protected float ran { get; set; } // range
-        protected float dmg { get; set; } // damage
         
-        protected float mdmg { get; set; } // magic damage
-        protected float def { get; set; } // defense
-        protected float mdef { get; set; } // magic defense
-
-        protected int lvl { get; set; } // level
 
         // Assets
-        protected GameObject sprite { get; set; } // Character Sprite
         protected GameObject weapon { get; set; } // Main Weapon Sprite
         protected GameObject wa1 { get; set; } // A1 Weapon Sprite
         protected GameObject wa2 { get; set; } // A2 Weapon Sprite
@@ -69,11 +59,12 @@ namespace Characters
         {
             base.Start();
             currentState = new PlayerIdle();
+            radius = 0.5f;
         }
-        
+
         protected override void Update()
         {
-            base.Update();
+            currentState.Execute(this, Time.deltaTime);
             
             if (Input.GetMouseButtonDown(0))
             {
@@ -83,29 +74,30 @@ namespace Characters
                 var origin = new Vector2(TargetLocation.x, TargetLocation.y);
                 var t = Physics2D.Raycast(origin, Vector2.zero, 0f);
                 
-                if (t)
+                if (t && t.transform.CompareTag("Enemy"))
                 {
-                    ChangeState(new Attack());
-                    print(t.transform.gameObject.tag);
+                    if (currentState is Attack)
+                    {
+                        if (currentState.CurrentStatus is StateStatus.Initialize)
+                        {
+                            currentState.ChangeStatus(StateStatus.Executing);
+                        }
+                        else
+                        {
+                            
+                        }
+                    }
+                    else
+                    {
+                        var newState = new Attack(this, t.transform.gameObject);
+                        ChangeState(newState);
+                    }
                 }
                 else
                 {
                     ChangeState(new WalkToLocation());
                 }
             }
-        }
-        
-        protected void SetupCollider()
-        {
-            var rig = gameObject.AddComponent<Rigidbody2D>();
-            rig.bodyType = RigidbodyType2D.Kinematic;
-            rig.simulated = true;
-            
-            var circle = gameObject.AddComponent<CircleCollider2D>();
-            circle.radius = ran/5;
-            circle.isTrigger = true;
-            
-            Debug.Log(spe);
         }
 
     }

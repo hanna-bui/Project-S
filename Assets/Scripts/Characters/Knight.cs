@@ -10,23 +10,22 @@ namespace Characters
         {
             base.Start();
 
-            hp = 10;
-            chp = 10;
-            mp = 6;
-            cmp = 6;
-            spe = 1;
-            ran = 5;
-            dmg = 6;
-            mdmg = 2;
-            def = 10;
-            mdef = 8;
-            lvl = 0;
-            sprite = GameObject.Find("Knight");
+            HP = 10;
+            CHP = HP;
+            MP = 6;
+            CMP = MP;
+            SPE = 1;
+            RAN = 5;
+            DMG = 6;
+            MDMG = 2;
+            DEF = 10;
+            MDEF = 8;
+            LVL = 0;
+            Sprite = GameObject.Find("Knight");
             //weapon = ;
             //wa1 = ;
             //wa2 = ;
             //wa3 = ;
-            
             SetupCollider();
         }
 

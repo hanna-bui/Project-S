@@ -4,7 +4,10 @@ using UnityEngine;
 using GameManager;
 using Movement;
 using System;
+// ReSharper disable IdentifierTypo
 
+// ReSharper disable MemberCanBeProtected.Global
+// ReSharper disable UnusedAutoPropertyAccessor.Global
 // ReSharper disable InconsistentNaming
 
 namespace Characters
@@ -12,6 +15,20 @@ namespace Characters
 
     public class MoveableObject : MonoBehaviour
     {
+        protected float radius;
+
+        protected float HP { get; set; } // health points
+        public float CHP { get; set; } // current health points
+        protected float MP { get; set; } // mana points
+        protected float CMP { get; set; } // current mana points
+        public float SPE { get; set; } // speed
+        public float RAN { get; set; } // range
+        public float DMG { get; set; } // damage
+        protected float MDMG { get; set; } // magic damage
+        protected float DEF { get; set; } // defense
+        protected float MDEF { get; set; } // magic defense
+        [SerializeField] protected int LVL { get; set; } // level
+        protected GameObject Sprite { get; set; } // Enemy Sprite
         
         [SerializeField] protected List<AnimatorOverrideController> overrideControllers;
         public Animator animator;
@@ -26,8 +43,6 @@ namespace Characters
         protected State currentState;
 
         public Manager gm;
-        
-        public float Speed { get; private set; }
         
         private Vector3 origin;
         
@@ -48,13 +63,24 @@ namespace Characters
             camera = Camera.main;
             TargetLocation = transform.position;
             animator = GetComponent<Animator>();
-
-            Speed = 5f;
         }
 
         protected virtual void Update()
         {
             currentState.Execute(this);
+        }
+
+        protected void SetupCollider()
+        {
+            var rig = gameObject.AddComponent<Rigidbody2D>();
+            rig.bodyType = RigidbodyType2D.Kinematic;
+            rig.simulated = true;
+
+            var circle = gameObject.AddComponent<CircleCollider2D>();
+            circle.radius = radius;
+            circle.isTrigger = true;
+            
+            Debug.Log(SPE);
         }
         
         public bool IsAtPosition()
@@ -101,6 +127,11 @@ namespace Characters
         #endregion Animation
 
         #region Getters and Setters
+
+        public virtual void TakeDamage(float dmg)
+        {
+            CHP -= dmg;
+        }
 
         public void ChangeState(State newState)
         {

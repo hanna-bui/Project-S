@@ -10,24 +10,23 @@ namespace Characters
         {
             base.Start();
             
-            hp = 5;
-            chp = 5;
-            mp = 6;
-            cmp = 6;
-            spe = 10;
-            ran = 8;
-            dmg = 10;
-            mdmg = 1;
-            def = 2;
-            mdef = 6;
-            lvl = 0;
-            sprite = GameObject.Find("Samurai");
+            HP = 5;
+            CHP = HP;
+            MP = 6;
+            CMP = MP;
+            SPE = 10;
+            RAN = 8;
+            DMG = 10;
+            MDMG = 1;
+            DEF = 2;
+            MDEF = 6;
+            LVL = 0;
+            Sprite = GameObject.Find("Samurai");
             
             //weapon = ;
             //wa1 = ;
             //wa2 = ;
             //wa3 = ;
-            
             SetupCollider();
         }
 

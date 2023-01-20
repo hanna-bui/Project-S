@@ -10,23 +10,22 @@ namespace Characters
         {
             base.Start();
 
-            hp = 6;
-            chp = 6;
-            mp = 8;
-            cmp = 8;
-            spe = 10;
-            ran = 10;
-            dmg = 6;
-            mdmg = 5;
-            def = 1;
-            mdef = 2;
-            lvl = 0;
-            sprite = GameObject.Find("Ninja");
+            HP = 6;
+            CHP = HP;
+            MP = 8;
+            CMP = MP;
+            SPE = 10;
+            RAN = 10;
+            DMG = 6;
+            MDMG = 5;
+            DEF = 1;
+            MDEF = 2;
+            LVL = 0;
+            Sprite = GameObject.Find("Ninja");
             //weapon = ;
             //wa1 = ;
             //wa2 = ;
             //wa3 = ;
-            
             SetupCollider();
         }
 
