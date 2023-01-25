@@ -8,8 +8,11 @@ using NewGrid = Movement.Pathfinding.NewGrid;
 namespace Characters
 {
 
+    [Serializable]
     public class Character : MonoBehaviour
     {
+        public String charName;
+        public GameObject prefab;
         // All Characters have:
         protected float hp { get; set; } // health points
         protected float chp { get; set; } // current health points

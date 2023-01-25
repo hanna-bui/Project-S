@@ -498,8 +498,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   characters:
   - {fileID: 4031261216839405090, guid: 7826c52cccabce84e8fc38e42cd1d775, type: 3}
-  - {fileID: 2919186329591102625, guid: 87629502d522ed34ea1602fec0d6e183, type: 3}
   - {fileID: 1711158648727977931, guid: 46395e21c53acc44eb0bbe047a8870e3, type: 3}
+  - {fileID: 2919186329591102625, guid: 87629502d522ed34ea1602fec0d6e183, type: 3}
   currCharacter: {fileID: 0}
 --- !u!4 &881672034
 Transform:
