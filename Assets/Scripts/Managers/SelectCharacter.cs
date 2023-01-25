@@ -2,7 +2,7 @@ using TMPro;
 using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.UI;
-
+using Characters;
 public class SelectCharacter : MonoBehaviour
 {
     public GameObject optionPrefab;
