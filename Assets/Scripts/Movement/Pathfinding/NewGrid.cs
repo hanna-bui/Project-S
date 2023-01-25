@@ -24,9 +24,9 @@ namespace Movement.Pathfinding
             CreateGrid();
         }
 
-        public List<Vector3> CreatePath(Transform character, Vector3 targetPosition)
+        public List<Vector3> CreatePath(Vector3 character, Vector3 targetPosition)
         {
-            var characterPos = walkableMap.WorldToCell(character.position);
+            var characterPos = walkableMap.WorldToCell(character);
             var start = nodeToNodes[characterPos.x, characterPos.y];
             
             var gridPos = walkableMap.WorldToCell(targetPosition);

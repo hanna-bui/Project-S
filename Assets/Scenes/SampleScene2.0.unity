@@ -410,8 +410,8 @@ GameObject:
   - component: {fileID: 883671317}
   - component: {fileID: 883671316}
   - component: {fileID: 883671315}
-  - component: {fileID: 883671318}
   - component: {fileID: 883671319}
+  - component: {fileID: 883671321}
   - component: {fileID: 883671320}
   m_Layer: 0
   m_Name: Samurai
@@ -507,24 +507,6 @@ Transform:
   m_Father: {fileID: 635041856}
   m_RootOrder: -1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &883671318
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 883671314}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 6669ec57835d09641b8e524131de448b, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  speed: 50
-  overrideControllers:
-  - {fileID: 22100000, guid: c5dbe678ecb3d8943bbeb95ad49e6884, type: 2}
-  - {fileID: 22100000, guid: 7ae863e5e4772bc40b4620df31ee676a, type: 2}
-  - {fileID: 22100000, guid: 85fa2d5a0dccad143932d8d2d1274163, type: 2}
-  - {fileID: 22100000, guid: b108ab05d4fd4ee4f84e1d6f7f9ae071, type: 2}
 --- !u!58 &883671319
 CircleCollider2D:
   m_ObjectHideFlags: 0
@@ -562,6 +544,23 @@ Rigidbody2D:
   m_SleepingMode: 1
   m_CollisionDetection: 0
   m_Constraints: 0
+--- !u!114 &883671321
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 883671314}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7f698e232b01a5242a1815b3019705d0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  overrideControllers:
+  - {fileID: 22100000, guid: c5dbe678ecb3d8943bbeb95ad49e6884, type: 2}
+  - {fileID: 22100000, guid: 7ae863e5e4772bc40b4620df31ee676a, type: 2}
+  - {fileID: 22100000, guid: 85fa2d5a0dccad143932d8d2d1274163, type: 2}
+  - {fileID: 22100000, guid: b108ab05d4fd4ee4f84e1d6f7f9ae071, type: 2}
 --- !u!1 &1040079410
 GameObject:
   m_ObjectHideFlags: 0

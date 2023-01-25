@@ -1,13 +1,18 @@
-using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
-using Unity.VisualScripting;
 using UnityEngine;
 
 namespace Goal_Behaviour
 {
-    public class CompositeGoal : Goal
+    public class CompositeGoal<T> : Goal<T>
     {
+        protected List<Goal<T>> Subgoals { get; set; }
+        
+        public CompositeGoal(T owner) : base(owner)
+        {
+            Subgoals = new List<Goal<T>>();
+        }
+
         public override void Activate()
         {
             
@@ -36,14 +41,14 @@ namespace Goal_Behaviour
             return bResult;
         }
         
-        public override void AddSubgoal(Goal g)
+        public override void AddSubgoal(Goal<T> g)
         {
             Subgoals.Insert(0, g);
         }
 
         public ProcessOptions ProcessSubgoals()
         {
-            while (Subgoals.Any() && Subgoals[0].Process() is ProcessOptions.Completed or ProcessOptions.Failed)
+            while (Subgoals.Any() && (Subgoals[0].IsCompleted() || Subgoals[0].HasFailed()))
             {
                 Subgoals[0].Terminate();
                 Subgoals.RemoveAt(0);
@@ -51,14 +56,14 @@ namespace Goal_Behaviour
 
             if (Subgoals.Any())
             {
-                var StatusOfSubGoals = Subgoals[0].Process();
+                var statusOfSubGoals = Subgoals[0].Process();
 
-                if (StatusOfSubGoals is ProcessOptions.Completed && Subgoals.Count() > 1)
+                if (statusOfSubGoals is ProcessOptions.Completed && Subgoals.Count() > 1)
                 {
                     return ProcessOptions.Active;
                 }
 
-                return StatusOfSubGoals;
+                return statusOfSubGoals;
             }
             else
             {

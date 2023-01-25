@@ -3,7 +3,7 @@ using UnityEngine;
 
 namespace Goal_Behaviour
 {
-    public class Goal : MonoBehaviour
+    public class Goal<T>
     {
         public enum ProcessOptions
         {
@@ -13,13 +13,12 @@ namespace Goal_Behaviour
             Failed
         };
 
+        protected T Owner { get; set; }
         protected ProcessOptions CurrentStatus { get; set; }
 
-        protected List<Goal> Subgoals { get; set; }
-
-        public Goal()
+        public Goal(T owner)
         {
-            this.Subgoals = new List<Goal>();
+            this.Owner = owner;
             this.CurrentStatus = ProcessOptions.Inactive;
         }
         public virtual void Activate()
@@ -42,9 +41,30 @@ namespace Goal_Behaviour
             return true;
         }
 
-        public virtual void AddSubgoal(Goal g)
+        public virtual void AddSubgoal(Goal<T> g)
         {
             
+        }
+
+        protected void ActivateIfInactive()
+        {
+            if (CurrentStatus is ProcessOptions.Inactive) 
+                Activate();
+        }
+
+        public bool IsActive()
+        {
+            return this.CurrentStatus == ProcessOptions.Active;
+        }
+        
+        public bool IsCompleted()
+        {
+            return this.CurrentStatus == ProcessOptions.Completed;
+        }
+        
+        public bool HasFailed()
+        {
+            return this.CurrentStatus == ProcessOptions.Failed;
         }
     }
 }

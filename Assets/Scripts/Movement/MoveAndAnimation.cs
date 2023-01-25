@@ -13,7 +13,6 @@ namespace Movement
         [SerializeField] private AnimatorOverrideController[] overrideControllers;
 
         private Animator animator;
-        private string currentState;
 
         private int direction;
         
@@ -49,7 +48,7 @@ namespace Movement
             {
                 mouseLocation = camera.ScreenToWorldPoint(Input.mousePosition);
                 // roadPath = grid.GetRandomCoords();
-                roadPath = grid.CreatePath(transform, mouseLocation);
+                roadPath = grid.CreatePath(transform.position, mouseLocation);
                 travelOn = true;
                 
                 direction = CalculateDirection();
