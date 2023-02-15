@@ -1,9 +1,10 @@
 ﻿using System.Collections.Generic;
 using Finite_State_Machine;
 using UnityEngine;
-using GameManager;
 using Movement;
 using System;
+using Managers;
+
 // ReSharper disable IdentifierTypo
 
 // ReSharper disable MemberCanBeProtected.Global
@@ -17,7 +18,7 @@ namespace Characters
     {
         protected float radius;
 
-        protected float HP { get; set; } // health points
+        public float HP { get; set; } // health points
         public float CHP { get; set; } // current health points
         protected float MP { get; set; } // mana points
         protected float CMP { get; set; } // current mana points
@@ -42,7 +43,7 @@ namespace Characters
 
         protected State currentState;
 
-        public Manager gm;
+        public GameManager gm;
         
         private Vector3 origin;
         
@@ -58,7 +59,7 @@ namespace Characters
         
         protected virtual void Start()
         {
-            gm = GameObject.Find("GameManager").GetComponent<Manager>();
+            gm = GameObject.Find("GameManager").GetComponent<GameManager>();
 
             camera = Camera.main;
             TargetLocation = transform.position;
@@ -79,8 +80,6 @@ namespace Characters
             var circle = gameObject.AddComponent<CircleCollider2D>();
             circle.radius = radius;
             circle.isTrigger = true;
-            
-            Debug.Log(SPE);
         }
         
         public bool IsAtPosition()
@@ -118,7 +117,7 @@ namespace Characters
             animator.SetBool(gm.click, false);
         }
 
-        public virtual void SetAnimations(int index)
+        public void SetAnimations(int index)
         {
             var overrideController = overrideControllers[index];
             animator.runtimeAnimatorController = overrideController;
@@ -128,9 +127,66 @@ namespace Characters
 
         #region Getters and Setters
 
+        public void ChangeHP(float healthValue)
+        {
+            HP += healthValue;
+        }
+        
+        public void ChangeMana(float manaValue)
+        {
+            MP += manaValue;
+        }
+        
+        public void ChangeDamage(float damageValue)
+        {
+            DMG += damageValue;
+        }
+        
+        public void ChangeRange(float rangeValue)
+        {
+            RAN += rangeValue;
+        }
+        
+        public void ChangeDefence(float defenceValue)
+        {
+            DEF += defenceValue;
+        }
+        
+        public void ChangeMagicDefence(float magicDefenceValue)
+        {
+            SPE += magicDefenceValue;
+        }
+        
+        public void ChangeSpeed(float speedValue)
+        {
+            MDEF += speedValue;
+        }
+
+        public void RestoreHP(float hpRestore)
+        {
+            CHP = Math.Min(CHP + hpRestore, HP);
+        }
+
+        public void RestoreMana(float manaRestore)
+        {
+            CMP = Math.Min(CMP + manaRestore, MP);
+        }
+
         public virtual void TakeDamage(float dmg)
         {
             CHP -= dmg;
+        }
+
+        public void LevelUp(float healthValue = 0, float manaValue = 0, float damageValue = 0, float rangeValue = 0, float defenceValue = 0, float magicDefenceValue = 0, float speedValue = 0)
+        {
+            ChangeHP(healthValue);
+            ChangeMana(manaValue);
+            ChangeDamage(damageValue);
+            ChangeRange(rangeValue);
+            ChangeDefence(defenceValue);
+            ChangeMagicDefence(magicDefenceValue);
+            ChangeSpeed(speedValue);
+            LVL += 1;
         }
 
         public void ChangeState(State newState)
@@ -159,5 +215,12 @@ namespace Characters
         }
 
         #endregion
+
+        public override string ToString()
+        {
+            return "HP = " + HP + ", CHP = " + CHP + ", MP = " + MP + ", CMP = " + CMP + ", DMG = " + DMG +
+                   ", MDMG = " + MDMG + ", DEF = " + DEF + ", MDEF = " + DEF + ", RAN = " + RAN + ", SPE = " + SPE +
+                   ", LVL = " + LVL;
+        }
     }
 }

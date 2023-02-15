@@ -1,13 +1,21 @@
-using System.Collections;
-using System.Collections.Generic;
+using Characters;
 using UnityEngine;
 
-public class HealthPot : Items
+namespace Items
 {
-    // Start is called before the first frame update
-    void Start()
+    public class HealthPot : Items
     {
-        hpIncrease = 5;
-        
+        // Start is called before the first frame update
+       private void Start()
+       {
+           hpIncrease = 5;
+       }
+
+       public override void UpdateCharacterStat(Character player)
+       {
+           player.ChangeHP(hpIncrease);
+           base.UpdateCharacterStat(player);
+       }
     }
 }
+

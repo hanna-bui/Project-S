@@ -1,10 +1,17 @@
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+using Characters;
 
-public class WaterPot : Items
+namespace Items
 {
-    void start(){
-        manaIncrease =  5;
+    public class WaterPot : Items
+    {
+        private void Start(){
+            manaIncrease =  5;
+        }
+
+        public override void UpdateCharacterStat(Character player)
+        {
+            player.ChangeMana(manaIncrease);
+            base.UpdateCharacterStat(player);
+        }
     }
 }

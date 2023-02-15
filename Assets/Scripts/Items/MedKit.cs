@@ -2,14 +2,12 @@ using Characters;
 
 namespace Items
 {
-    public class Chalice : Items
+    public class MedKit : Items
     {
-        // Start is called before the first frame update
         private void Start()
         {
-            // temp values -> should restore just be a function to make health = max?
-            hpRestore = 10;
-            manaRestore = 10;
+            hpRestore = 1000;
+            manaRestore = 1000;
         }
 
         public override void UpdateCharacterStat(Character player)

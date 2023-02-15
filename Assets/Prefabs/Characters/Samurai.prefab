@@ -14,7 +14,7 @@ GameObject:
   - component: {fileID: 2919186329591102625}
   m_Layer: 0
   m_Name: Samurai
-  m_TagString: Untagged
+  m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -27,7 +27,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1889768590978699486}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 11.14, y: 8.28, z: 0}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -123,3 +123,6 @@ MonoBehaviour:
   - {fileID: 22100000, guid: 7ae863e5e4772bc40b4620df31ee676a, type: 2}
   - {fileID: 22100000, guid: 85fa2d5a0dccad143932d8d2d1274163, type: 2}
   - {fileID: 22100000, guid: b108ab05d4fd4ee4f84e1d6f7f9ae071, type: 2}
+  animator: {fileID: 0}
+  gm: {fileID: 0}
+  prefab: {fileID: 1889768590978699486}

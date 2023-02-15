@@ -4,9 +4,8 @@ using Movement.Pathfinding;
 using Characters.Enemy;
 using UnityEngine;
 
-namespace GameManager
+namespace GameManager_Hide
 {
-
     public class Manager : MonoBehaviour
     {
         public readonly int click = Animator.StringToHash("Click");

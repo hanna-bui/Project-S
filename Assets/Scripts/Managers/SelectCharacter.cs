@@ -1,5 +1,5 @@
-using TMPro;
-using Unity.VisualScripting;
+using Characters;
+using Managers;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -27,8 +27,8 @@ public class SelectCharacter : MonoBehaviour
             });
 
             Image image = option.GetComponentInChildren<Image>();
-            ///chooses display image from sprite 
-            ///image.sprite = c.sprite;
+            // chooses display image from sprite 
+            // image.sprite = c.sprite;
  
         }
     }

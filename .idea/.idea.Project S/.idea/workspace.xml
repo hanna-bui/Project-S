@@ -2,7 +2,58 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="574aafd7-fad6-4296-a307-ab738a5d3532" name="Changes" comment="">
+      <change afterPath="$PROJECT_DIR$/Assets/Scripts/Finite State Machine/States/ItemPickup.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Assets/Scripts/Finite State Machine/States/ItemPickup.cs.meta" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/.idea.Project S/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.Project S/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Ninja Adventure/NinjaAdventure/Items/Potion/EmptyPot.png.meta" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Ninja Adventure/NinjaAdventure/Items/Potion/EmptyPot.png.meta" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Ninja Adventure/NinjaAdventure/Items/Potion/Hear.png.meta" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Ninja Adventure/NinjaAdventure/Items/Potion/Hear.png.meta" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Ninja Adventure/NinjaAdventure/Items/Potion/LifePot.png.meta" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Ninja Adventure/NinjaAdventure/Items/Potion/LifePot.png.meta" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Ninja Adventure/NinjaAdventure/Items/Potion/Medipack.png.meta" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Ninja Adventure/NinjaAdventure/Items/Potion/Medipack.png.meta" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Ninja Adventure/NinjaAdventure/Items/Potion/MilkPot.png.meta" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Ninja Adventure/NinjaAdventure/Items/Potion/MilkPot.png.meta" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Ninja Adventure/NinjaAdventure/Items/Potion/WaterPot.png.meta" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Ninja Adventure/NinjaAdventure/Items/Potion/WaterPot.png.meta" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Ninja Adventure/NinjaAdventure/Items/Scroll/ScrollEmpty.png.meta" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Ninja Adventure/NinjaAdventure/Items/Scroll/ScrollEmpty.png.meta" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Ninja Adventure/NinjaAdventure/Items/Scroll/ScrollFire.png.meta" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Ninja Adventure/NinjaAdventure/Items/Scroll/ScrollFire.png.meta" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Ninja Adventure/NinjaAdventure/Items/Scroll/ScrollIce.png.meta" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Ninja Adventure/NinjaAdventure/Items/Scroll/ScrollIce.png.meta" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Ninja Adventure/NinjaAdventure/Items/Scroll/ScrollPlant.png.meta" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Ninja Adventure/NinjaAdventure/Items/Scroll/ScrollPlant.png.meta" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Ninja Adventure/NinjaAdventure/Items/Scroll/ScrollRock.png.meta" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Ninja Adventure/NinjaAdventure/Items/Scroll/ScrollRock.png.meta" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Ninja Adventure/NinjaAdventure/Items/Scroll/ScrollThunder.png.meta" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Ninja Adventure/NinjaAdventure/Items/Scroll/ScrollThunder.png.meta" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Prefabs/Characters/Monk.prefab" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Prefabs/Characters/Monk.prefab" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Prefabs/Characters/Ninja.prefab" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Prefabs/Characters/Ninja.prefab" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Prefabs/Characters/Samurai.prefab" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Prefabs/Characters/Samurai.prefab" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Prefabs/Items/HealthPot.prefab" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Prefabs/Items/HealthPot.prefab" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Prefabs/Items/Medkit.prefab" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Prefabs/Items/Medkit.prefab" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Prefabs/Items/ScrollFire.prefab" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Prefabs/Items/ScrollFire.prefab" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Prefabs/Items/ScrollIce.prefab" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Prefabs/Items/ScrollIce.prefab" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Prefabs/Items/ScrollPlant.prefab" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Prefabs/Items/ScrollPlant.prefab" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Prefabs/Items/ScrollRock.prefab" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Prefabs/Items/ScrollRock.prefab" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Prefabs/Items/ScrollThunder.prefab" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Prefabs/Items/ScrollThunder.prefab" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Prefabs/Items/WaterPot.prefab" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Prefabs/Items/WaterPot.prefab" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scenes/SampleScene2.0.unity" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scenes/SampleScene2.0.unity" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scenes/TestScene.unity" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scenes/TestScene.unity" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Characters/Character.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Characters/Character.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Characters/Moveable_Object.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Characters/Moveable_Object.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Finite State Machine/States/Attack.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Finite State Machine/States/Attack.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/GameManager.meta" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/GameManager_Hide.meta" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/GameManager/Manager.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/GameManager_Hide/Manager.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/GameManager/Manager.cs.meta" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/GameManager_Hide/Manager.cs.meta" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Items/AirScroll.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Items/AirScroll.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Items/Chalice.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Items/Chalice.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Items/CrystalScroll.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Items/CrystalScroll.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Items/EarthScroll.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Items/EarthScroll.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Items/FireScroll.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Items/FireScroll.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Items/HealthPot.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Items/HealthPot.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Items/Items.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Items/Items.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Items/Medkit.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Items/MedKit.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Items/Medkit.cs.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Items/NatureScroll.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Items/NatureScroll.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Items/StormScroll.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Items/StormScroll.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Items/WaterPot.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Items/WaterPot.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Managers/GameManager.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Managers/GameManager.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Managers/PlayerSpawner.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Managers/PlayerSpawner.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Managers/SelectCharacter.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Managers/SelectCharacter.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Managers/Spawner.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Managers/Spawner.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Movement/EnemyMovement.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Movement/EnemyMovement.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ProjectSettings/TagManager.asset" beforeDir="false" afterPath="$PROJECT_DIR$/ProjectSettings/TagManager.asset" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -12,13 +63,20 @@
   <component name="Git.Settings">
     <option name="RECENT_BRANCH_BY_REPOSITORY">
       <map>
-        <entry key="$PROJECT_DIR$" value="Pathfinding-&amp;-Grid" />
+        <entry key="$PROJECT_DIR$" value="itemCreation" />
       </map>
     </option>
   </component>
   <component name="HighlightingSettingsPerFile">
+    <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/59e7be63019b4518baaf30c24595423615d800/28/02c56ed5/KeyCode.cs" root0="SKIP_HIGHLIGHTING" />
+    <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/61f216b80c5a419a910eaa074319457b7400/ff/c48d153e/Input.cs" root0="SKIP_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/Assets/Scripts/Managers/GameManager.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Assets/Scripts/Movement/EnemyMovement.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Assets/Scripts/Movement/Pathfinding/PathEdge.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/Library/PackageCache/com.unity.burst@1.7.4/Runtime/BurstString.Float.cs" root0="SKIP_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/Library/PackageCache/com.unity.ugui@1.0.0/Runtime/UI/Core/Navigation.cs" root0="SKIP_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/Library/PackageCache/com.unity.ugui@1.0.0/Tests/Editor/Canvas/AssertionFailureOnOutputVertexCount.cs" root0="SKIP_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/Library/PackageCache/com.unity.ugui@1.0.0/Tests/Runtime/Canvas/CanvasScalerWithChildTextObjectDoesNotCrash.cs" root0="SKIP_HIGHLIGHTING" />
   </component>
   <component name="JsbtTreeLayoutManager">
     <layout place="tools.popupGrunt">
@@ -39,17 +97,17 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent">{
-  &quot;keyToString&quot;: {
-    &quot;Discover.Launch.Via.Unity&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
-    &quot;WebServerToolWindowFactoryState&quot;: &quot;false&quot;,
-    &quot;XThreadsFramesViewSplitterKey&quot;: &quot;0.6924429&quot;,
-    &quot;settings.editor.selected.configurable&quot;: &quot;SolutionBuilderGeneralOptionsPage&quot;,
-    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "Discover.Launch.Via.Unity": "true",
+    "RunOnceActivity.OpenProjectViewOnStart": "true",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "WebServerToolWindowFactoryState": "false",
+    "XThreadsFramesViewSplitterKey": "0.6924429",
+    "settings.editor.selected.configurable": "advanced.settings",
+    "vue.rearranger.settings.migration": "true"
   }
-}</component>
+}]]></component>
   <component name="RiderProblemsViewState">
     <option name="proportion" value="0.45597014" />
   </component>
@@ -122,6 +180,7 @@
       <workItem from="1674687879909" duration="336000" />
       <workItem from="1674688685226" duration="780000" />
       <workItem from="1674692010000" duration="201000" />
+      <workItem from="1675358720969" duration="8126000" />
     </task>
     <task id="LOCAL-00001" summary="Completed pathfinding">
       <created>1667241715456</created>
