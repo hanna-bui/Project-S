@@ -137,7 +137,7 @@ namespace RoomGen
             int max = 4;
             do
             {
-                int choice = Random.Range(min, max);
+                int choice = Random.Range(min, max+1);
                 switch (choice)
                 {
                     case 1: // on top
