@@ -1,7 +1,5 @@
 using System.Collections;
 using System.IO;
-using System.Linq;
-using Unity.VisualScripting;
 using UnityEngine;
 using Random = UnityEngine.Random;
 
@@ -26,7 +24,7 @@ namespace RoomGen
         /// <summary>
         /// The Level Matrix.
         /// </summary>
-        public RoomType[,] Level = new RoomType[10,10];
+        public RoomType[,] Level = new RoomType[10, 10];
 
         [Header("Room Variables")] [Tooltip("How many rooms will be generated.")] [SerializeField]
         private int totalRooms = 30;
@@ -48,6 +46,7 @@ namespace RoomGen
                     Level[i, j] = RoomType.Empty;
                 }
             }
+
             /* The starting room can spawn anywhere except for the 2 cells closest to the edges.
              This keeps the starting room random but prevents early performance issues by eliminating an edge or corner
              starting room. In this case, one or two room spawn directions would be invalid from the start, and the
@@ -56,25 +55,29 @@ namespace RoomGen
             i = Random.Range(2, 7);
             j = Random.Range(2, 7);
             OrderedPair p = new OrderedPair(i, j);
-            Level[i,j] = RoomType.Start;
+            Level[i, j] = RoomType.Start;
             AllRooms.Add(p);
             rooms++;
             CreateRooms(p);
-            
+            // todo: figure out what type of room each one is (i.e. which way doors face)
+            // todo: use this classification to set up a boss room and other special rooms!
+
             StreamWriter writer = new StreamWriter("arr.csv");
             for (i = 0; i < 10; i++)
             {
-                for (j = 0; j < 10; j++) {
-                    if (Level[i,j] == RoomType.Empty)
+                for (j = 0; j < 10; j++)
+                {
+                    if (Level[i, j] == RoomType.Empty)
                         writer.Write(",");
                     else
-                        writer.Write(Level[i,j] + ",");
+                        writer.Write(Level[i, j] + ",");
                 }
+
                 writer.Write(System.Environment.NewLine);
             }
+
             writer.Flush();
             writer.Close();
-            
         }
 
         /// <summary>
@@ -83,8 +86,12 @@ namespace RoomGen
         /// </summary>
         private void CreateRooms(OrderedPair start)
         {
-            //int i = 1;
-            //int j = 1;
+            /* This method works by keeping 4 "spawn points" which have the potential to spawn a room.
+             * Each iteration, each point tries to choose a new room.
+             * If the room returned is at (-1, -1), then none of the adjacent rooms are valid for spawning a new room.
+             * In this case, the spawn point is considered not valid, and the algorithm will try to set its location
+             * to another randomly-selected room which hopefully has valid adjacent rooms.
+             */
             OrderedPair[] points = new OrderedPair[4];
             points[0] = ChooseNewRoom(start);
             points[1] = ChooseNewRoom(start);
@@ -94,18 +101,42 @@ namespace RoomGen
             OrderedPair room;
             while (rooms < totalRooms)
             {
-                int[] dead = { 0, 0, 0, 0 };
+                // validPoints keeps track of spawn points that currently have a (-1, -1) point attached.
+                // The corresponding index array value is set to 0 if it is invalid.
+                int[] validPoints = { 1, 1, 1, 1 };
                 for (int n = 0; n < 4; n++)
                 {
-                    if (dead[n] == 1)
+                    // Skip over the point if not valid -- i.e. don't try to generate a new room off of (-1, -1).
+                    if (validPoints[n] == 0)
                         continue;
+                    // If ChooseNewRoom successfully found a room, we can set the corresponding spawn point to start there instead!
                     if ((room = ChooseNewRoom(points[n])).i != -1)
                         points[n] = room;
+                    // If ChooseNewRoom found that all adjacent rooms are taken
                     else
                     {
+                        // Set the value to invalid.
+                        validPoints[n] = 0;
+                        // Then, set a new spawn point at a random location.
                         // todo: do something to continue generating from another point
-                        Debug.Log("Direction " + n + " generation is done. [" + points[n].i + ", " + points[n].j + "]");
-                        for (int m = 0; m < 4; m++)
+                        /* The following code has a chance to "fail" 
+                         * -- i.e. the spawn point was not reset to a valid location this iteration.
+                         * In this case, the next while loop iteration has another chance to find a valid location for this spawn point.
+                         * Additionally, the other spawn points will still be generating new rooms, as long as they have a valid spawn point!
+                         */
+                        // This chance gets smaller the more rooms that are added, but it can also be set to a concrete value to increase chance of success.
+                        float chance = 1 / AllRooms.Count;
+                        foreach (OrderedPair p in AllRooms)
+                        {
+                            if (Random.Range(0f, 1f) <= chance && (room = ChooseNewRoom(p)).i != -1)
+                            {
+                                points[n] = room;
+                                validPoints[n] = 1;
+                            }
+                        }
+
+                        // This code actually works, but I want to try something more random!
+                        /*for (int m = 0; m < 4; m++)
                         {
                             if (n != m && (room = ChooseNewRoom(points[m])).i != -1)
                             {
@@ -114,8 +145,7 @@ namespace RoomGen
                             }
                             dead[n] = 1;
                             Debug.Log("Unable to find a viable room for point " + n + ". Generation  has been terminated.");
-                        }
-                            
+                        }*/
                     }
                 }
             }
@@ -137,7 +167,7 @@ namespace RoomGen
             int max = 4;
             do
             {
-                int choice = Random.Range(min, max);
+                int choice = Random.Range(min, max + 1);
                 switch (choice)
                 {
                     case 1: // on top
@@ -150,8 +180,9 @@ namespace RoomGen
                             rooms++;
                             return room;
                         }
+
                         // if any conditions failed, it is invalid and we can not consider it anymore.
-                        validDirections[0] =  0;
+                        validDirections[0] = 0;
                         min++;
                         break;
                     case 2: // on right
@@ -163,9 +194,12 @@ namespace RoomGen
                             rooms++;
                             return room;
                         }
-                        validDirections[1] =  0;
-                        if(min==2)
+
+                        validDirections[1] = 0;
+                        if (min == 2)
                             min++;
+                        else if (max == 2)
+                            max--;
                         break;
                     case 3: // on bottom
                         if (validDirections[2] == 1 && p.i + 1 <= 9 && Level[p.i + 1, p.j] == RoomType.Empty)
@@ -176,9 +210,12 @@ namespace RoomGen
                             rooms++;
                             return room;
                         }
+
                         validDirections[2] = 0;
-                        if(max==3)
+                        if (max == 3)
                             max--;
+                        else if (min == 3)
+                            min++;
                         break;
                     case 4: // on left
                         if (validDirections[3] == 1 && p.j - 1 >= 0 && Level[p.i, p.j - 1] == RoomType.Empty)
@@ -189,13 +226,16 @@ namespace RoomGen
                             rooms++;
                             return room;
                         }
-                        validDirections[3] =  0;
+
+                        validDirections[3] = 0;
                         max--;
                         break;
                 }
-            } while (min <= max && validDirections[0] != -1 && validDirections[1] != -1 && validDirections[2] != -1 && validDirections[3] != -1);
+            } while (min <= max && (validDirections[0] == 1 || validDirections[1] == 1 || validDirections[2] == 1 ||
+                                    validDirections[3] == 1));
 
             // Will hit this statement if all rooms are taken!
+            AllRooms.Remove(p);
             return new OrderedPair(-1, -1);
         }
     }
