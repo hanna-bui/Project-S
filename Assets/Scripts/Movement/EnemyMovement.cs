@@ -84,7 +84,6 @@ namespace Movement
         {
             if (col.gameObject.CompareTag("Player"))
             {
-                Debug.Log("Hitting Player's Collider");
                 detectingPlayer = true;
                 var player = col.gameObject.transform;
                 if (movePath == null)
@@ -98,7 +97,6 @@ namespace Movement
         {
             if (col.gameObject.CompareTag("Player"))
             {
-                Debug.Log("Leaving Player's Collider");
                 SetupPlus();
                 SetupSide();
                 detectingPlayer = false;

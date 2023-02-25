@@ -4,6 +4,7 @@ Spawning the selected character into scene
 */
 using System.Collections;
 using System.Collections.Generic;
+using Managers;
 using UnityEngine;
 
 public class Spawner : MonoBehaviour

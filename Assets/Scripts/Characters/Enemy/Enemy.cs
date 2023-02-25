@@ -70,8 +70,7 @@ namespace Characters.Enemy{
             if (col.gameObject.CompareTag("Player"))
             {
                 var player = col.gameObject.transform;
-                TargetLocation = player.position;
-                currentState = new WalkToLocation();
+                currentState = new EnemyIdle();
             }
         }
         private void OnTriggerExit2D(Collider2D col)

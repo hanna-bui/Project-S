@@ -1,37 +1,67 @@
 using System.Collections;
-using System.Collections.Generic;
+using Characters;
+using Characters.Enemy;
+using Movement.Pathfinding;
 using UnityEngine;
 
-public class GameManager : MonoBehaviour
+namespace Managers
 {
-    public static GameManager instance;
-    public Character[] characters;
-
-    public Character currCharacter;
-
-    private void Awake()
+    public class GameManager : MonoBehaviour
     {
-        if(instance == null)
-        {
-            instance = this;
-        }
-        else
-        {
-            Destroy(gameObject);
-        }
-        DontDestroyOnLoad(gameObject);
-    }
+        public static GameManager instance;
+        public Character[] characters;
 
-    private void Start()
-    {
-        if(currCharacter == null)
-        {
-            currCharacter = characters[0];
-        }
-    }
+        public Character currCharacter;
+    
+        #region Goals
+        public readonly int click = Animator.StringToHash("Click");
+        
+        private GameObject gridObject;
+        public NewGrid grid;
 
-    public void SetCharacter(Character character)
-    {
-        currCharacter = character;
+        public Hashtable Enemies { get; set; }
+        #endregion
+
+        private void Awake()
+        {
+            if(instance == null)
+            {
+                instance = this;
+            }
+            else
+            {
+                Destroy(gameObject);
+            }
+            DontDestroyOnLoad(gameObject);
+        }
+
+        private void Start()
+        {
+            if(currCharacter == null)
+            {
+                currCharacter = characters[0];
+            }
+        
+            #region Goals
+            Enemies = new Hashtable();
+            var enemyObject = GameObject.Find("Enemies");
+            if (enemyObject == null) return;
+            
+            SettingUpEnemies(enemyObject.transform);
+            #endregion
+        }
+
+        public void SetCharacter(Character character)
+        {
+            currCharacter = character;
+        }
+        
+        private void SettingUpEnemies(Transform e)
+        {
+            foreach (Transform child in e)
+            {
+                Enemies.Add(child.gameObject, child.GetComponent<Enemy>());
+            }
+        }
     }
 }

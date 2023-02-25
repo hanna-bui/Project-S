@@ -13,6 +13,8 @@ namespace Finite_State_Machine.States
 
         private WalkToLocation temp = new WalkToLocation();
 
+        private const float DefaultInterval = 3f;
+
         public Attack(MoveableObject agent, GameObject target)
         {
             interval = 0f;
@@ -29,7 +31,7 @@ namespace Finite_State_Machine.States
                     if (enemyList.Contains(Target))
                         TargetStat = enemyList[Target] as Enemy;
                     
-                    interval = 1f;
+                    interval = DefaultInterval;
                     break;
                 case StateStatus.Executing:
                     if (TargetStat is not null)
@@ -68,7 +70,7 @@ namespace Finite_State_Machine.States
                 return false;
             }
 
-            interval = 1f;
+            interval = DefaultInterval;
             if (temp.CurrentStatus is StateStatus.Executing)
             {
                 agent.StopAnimation();

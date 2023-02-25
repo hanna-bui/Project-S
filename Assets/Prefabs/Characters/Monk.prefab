@@ -123,3 +123,6 @@ MonoBehaviour:
   - {fileID: 22100000, guid: cb3462b462ef02f43b57b3c55b68833b, type: 2}
   - {fileID: 22100000, guid: 478ab47c77bf1774681fbf60e55f64f7, type: 2}
   - {fileID: 22100000, guid: 38b1aaa17b95df547b161ca337648141, type: 2}
+  animator: {fileID: 0}
+  gm: {fileID: 0}
+  prefab: {fileID: 1870814044837786759}

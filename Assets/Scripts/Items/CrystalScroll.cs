@@ -1,12 +1,17 @@
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+using Characters;
 
-public class CrystalScroll : Items
+namespace Items
 {
-    // Start is called before the first frame update
-    void Start()
+    public class CrystalScroll : Items
     {
+        // Start is called before the first frame update
+        void Start()
+        {
        
+        }
+        public override void UpdateCharacterStat(Character player)
+        {
+            base.UpdateCharacterStat(player);
+        }
     }
 }
