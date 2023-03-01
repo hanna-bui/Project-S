@@ -1,5 +1,6 @@
 using System.Collections;
 using System.IO;
+using Unity.VisualScripting;
 using UnityEngine;
 using Random = UnityEngine.Random;
 
@@ -32,6 +33,7 @@ namespace RoomGen
         private int rooms = 0;
 
         private ArrayList AllRooms = new ArrayList();
+        private ArrayList SpawnRooms = new ArrayList();
 
 
         // Start is called before the first frame update
@@ -57,8 +59,11 @@ namespace RoomGen
             OrderedPair p = new OrderedPair(i, j);
             Level[i, j] = RoomType.Start;
             AllRooms.Add(p);
-            rooms++;
-            CreateRooms(p);
+            SpawnRooms.Add(p);
+            // Let's not count the starting room as a room (to make SpawnRooms2 easier to track)
+            //rooms++;
+            //CreateRooms();
+            CreateRooms2(p);
             // todo: figure out what type of room each one is (i.e. which way doors face)
             // todo: use this classification to set up a boss room and other special rooms!
 
@@ -83,15 +88,36 @@ namespace RoomGen
         /// <summary>
         /// Generator responsible for creating all the rooms.
         /// It loops until the generated room count (rooms) hits the desired total room count (totalRooms).
+        /// Very simple code which results in a more clustered level.
+        /// Spawns the exact number of rooms.
         /// </summary>
-        private void CreateRooms(OrderedPair start)
+        private void CreateRooms()
         {
-            /* This method works by keeping 4 "spawn points" which have the potential to spawn a room.
-             * Each iteration, each point tries to choose a new room.
-             * If the room returned is at (-1, -1), then none of the adjacent rooms are valid for spawning a new room.
-             * In this case, the spawn point is considered not valid, and the algorithm will try to set its location
-             * to another randomly-selected room which hopefully has valid adjacent rooms.
-             */
+            while (rooms < totalRooms)
+            {
+                int i = Random.Range(0, SpawnRooms.Count);
+                OrderedPair room;
+                if((room = ChooseNewRoom((OrderedPair)SpawnRooms[i])).i != -1)
+                {
+                    Debug.Log("Generated room: " + rooms);
+                }
+            }
+        }
+
+        /// <summary>
+        /// Generator responsible for creating all the rooms.
+        /// It loops until the generated room count (rooms) hits the desired total room count (totalRooms).
+        /// More complex code which results in a more spread out level.
+        /// Spawns the first multiple of 4 that is >= than totalRooms.
+        /// [e.g. with totalRooms = 30, it will spawn 32 rooms]
+        /// This method works by keeping 4 "spawn points" which have the potential to spawn a room.
+        /// Each iteration, each point tries to choose a new room.
+        /// If the room returned is at (-1, -1), then none of the adjacent rooms are valid for spawning a new room.
+        /// In this case, the spawn point is considered not valid, and the algorithm will try to set its location
+        /// to another randomly-selected room which hopefully has valid adjacent rooms.
+        /// </summary>
+        private void CreateRooms2(OrderedPair start)
+        {
             OrderedPair[] points = new OrderedPair[4];
             points[0] = ChooseNewRoom(start);
             points[1] = ChooseNewRoom(start);
@@ -103,27 +129,42 @@ namespace RoomGen
             {
                 // validPoints keeps track of spawn points that currently have a (-1, -1) point attached.
                 // The corresponding index array value is set to 0 if it is invalid.
-                int[] validPoints = { 1, 1, 1, 1 };
+                //int[] validPoints = { 1, 1, 1, 1 };
                 for (int n = 0; n < 4; n++)
                 {
+                    /*
                     // Skip over the point if not valid -- i.e. don't try to generate a new room off of (-1, -1).
                     if (validPoints[n] == 0)
                         continue;
+                    */
+                    
                     // If ChooseNewRoom successfully found a room, we can set the corresponding spawn point to start there instead!
                     if ((room = ChooseNewRoom(points[n])).i != -1)
                         points[n] = room;
+                    
                     // If ChooseNewRoom found that all adjacent rooms are taken
                     else
                     {
-                        // Set the value to invalid.
-                        validPoints[n] = 0;
-                        // Then, set a new spawn point at a random location.
+                        // Keep trying until the a valid room spawns.
+                        do
+                        {   
+                            // Set spawn point to a random SpawnRooms room - these are all valid.
+                            points[n] = (OrderedPair)SpawnRooms[Random.Range(0, SpawnRooms.Count)];
+                            /*  This is where things get a bit tricky.
+                             *  If a valid room is returned, the following conditions set the spawn point to the new room.
+                             *  Then, the do-while exit condition will be met and the spawn point is saved.
+                             *  If an invalid room is returned, the exit condition will not be met and the do-while loop
+                             *  will execute again - this will overwrite points[n].
+                             */
+                            room = ChooseNewRoom(points[n]);
+                            points[n] = room;
+                        } while (points[n].i == -1);
                         // todo: do something to continue generating from another point
                         /* The following code has a chance to "fail" 
                          * -- i.e. the spawn point was not reset to a valid location this iteration.
                          * In this case, the next while loop iteration has another chance to find a valid location for this spawn point.
                          * Additionally, the other spawn points will still be generating new rooms, as long as they have a valid spawn point!
-                         */
+                         
                         // This chance gets smaller the more rooms that are added, but it can also be set to a concrete value to increase chance of success.
                         float chance = 1 / AllRooms.Count;
                         foreach (OrderedPair p in AllRooms)
@@ -133,19 +174,7 @@ namespace RoomGen
                                 points[n] = room;
                                 validPoints[n] = 1;
                             }
-                        }
-
-                        // This code actually works, but I want to try something more random!
-                        /*for (int m = 0; m < 4; m++)
-                        {
-                            if (n != m && (room = ChooseNewRoom(points[m])).i != -1)
-                            {
-                                points[n] = room;
-                                break;
-                            }
-                            dead[n] = 1;
-                            Debug.Log("Unable to find a viable room for point " + n + ". Generation  has been terminated.");
-                        }*/
+                        } */
                     }
                 }
             }
@@ -175,9 +204,7 @@ namespace RoomGen
                         if (validDirections[0] == 1 && p.i - 1 >= 0 && Level[p.i - 1, p.j] == RoomType.Empty)
                         {
                             OrderedPair room = new OrderedPair(p.i - 1, p.j);
-                            Level[room.i, room.j] = RoomType.Normal;
-                            AllRooms.Add(room);
-                            rooms++;
+                            AddRoom(room);
                             return room;
                         }
 
@@ -189,9 +216,7 @@ namespace RoomGen
                         if (validDirections[1] == 1 && p.j + 1 <= 9 && Level[p.i, p.j + 1] == RoomType.Empty)
                         {
                             OrderedPair room = new OrderedPair(p.i, p.j + 1);
-                            Level[room.i, room.j] = RoomType.Normal;
-                            AllRooms.Add(room);
-                            rooms++;
+                            AddRoom(room);
                             return room;
                         }
 
@@ -205,9 +230,7 @@ namespace RoomGen
                         if (validDirections[2] == 1 && p.i + 1 <= 9 && Level[p.i + 1, p.j] == RoomType.Empty)
                         {
                             OrderedPair room = new OrderedPair(p.i + 1, p.j);
-                            Level[room.i, room.j] = RoomType.Normal;
-                            AllRooms.Add(room);
-                            rooms++;
+                            AddRoom(room);
                             return room;
                         }
 
@@ -221,9 +244,7 @@ namespace RoomGen
                         if (validDirections[3] == 1 && p.j - 1 >= 0 && Level[p.i, p.j - 1] == RoomType.Empty)
                         {
                             OrderedPair room = new OrderedPair(p.i, p.j - 1);
-                            Level[room.i, room.j] = RoomType.Normal;
-                            AllRooms.Add(room);
-                            rooms++;
+                            AddRoom(room);
                             return room;
                         }
 
@@ -235,8 +256,21 @@ namespace RoomGen
                                     validDirections[3] == 1));
 
             // Will hit this statement if all rooms are taken!
-            AllRooms.Remove(p);
+            SpawnRooms.Remove(p);
             return new OrderedPair(-1, -1);
+        }
+
+        /// <summary>
+        /// Updates all variables
+        /// Adds room to Level, AllRooms, and SpawnRooms, then increments rooms.
+        /// Input: OrderedPair p, the input room.
+        /// </summary>
+        private void AddRoom(OrderedPair room)
+        {
+            Level[room.i, room.j] = RoomType.Normal;
+            AllRooms.Add(room);
+            SpawnRooms.Add(room);
+            rooms++;
         }
     }
 
