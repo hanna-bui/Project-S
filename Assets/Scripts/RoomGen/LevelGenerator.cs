@@ -21,11 +21,32 @@ namespace RoomGen
             Start,
             End
         }
+        
+        public enum DoorDir : byte
+        {
+            E,
+            T,
+            R,
+            TR,
+            B,
+            I1,
+            BR,
+            NL,
+            L,
+            TL,
+            I2,
+            NB,
+            BL,
+            NR,
+            NT,
+            A
+        }
 
         /// <summary>
-        /// The Level Matrix.
+        /// The Level Matrices.
         /// </summary>
-        public RoomType[,] Level = new RoomType[10, 10];
+        public RoomType[,] RoomTypes = new RoomType[10, 10];
+        public DoorDir[,] RoomDoors = new DoorDir[10, 10];
 
         [Header("Room Variables")] [Tooltip("How many rooms will be generated.")] [SerializeField]
         private int totalRooms = 30;
@@ -45,7 +66,8 @@ namespace RoomGen
             {
                 for (; j < 10; j++)
                 {
-                    Level[i, j] = RoomType.Empty;
+                    RoomTypes[i, j] = RoomType.Empty;
+                    RoomDoors[i, j] = DoorDir.E;
                 }
             }
 
@@ -57,32 +79,70 @@ namespace RoomGen
             i = Random.Range(2, 7);
             j = Random.Range(2, 7);
             OrderedPair p = new OrderedPair(i, j);
-            Level[i, j] = RoomType.Start;
+            RoomTypes[i, j] = RoomType.Start;
             AllRooms.Add(p);
             SpawnRooms.Add(p);
             // Let's not count the starting room as a room (to make SpawnRooms2 easier to track)
             //rooms++;
             //CreateRooms();
             CreateRooms2(p);
+            SetDoorDir();
             // todo: figure out what type of room each one is (i.e. which way doors face)
             // todo: use this classification to set up a boss room and other special rooms!
 
-            StreamWriter writer = new StreamWriter("arr.csv");
+            StreamWriter typewriter = new StreamWriter("RoomTypes.csv");
+            StreamWriter doorwriter = new StreamWriter("RoomDoors.csv");
             for (i = 0; i < 10; i++)
             {
                 for (j = 0; j < 10; j++)
                 {
-                    if (Level[i, j] == RoomType.Empty)
-                        writer.Write(",");
+                    if (RoomTypes[i, j] == RoomType.Empty)
+                        typewriter.Write(",");
                     else
-                        writer.Write(Level[i, j] + ",");
+                        typewriter.Write(RoomTypes[i, j] + ",");
+                    if (RoomDoors[i, j] == DoorDir.E)
+                        doorwriter.Write(",");
+                    else
+                        doorwriter.Write(RoomDoors[i, j] + ",");
                 }
-
-                writer.Write(System.Environment.NewLine);
+                typewriter.Write(System.Environment.NewLine);
+                doorwriter.Write(System.Environment.NewLine);
             }
-
-            writer.Flush();
-            writer.Close();
+            typewriter.Flush();
+            doorwriter.Flush();
+            typewriter.Close();
+            doorwriter.Close();
+        }
+        
+        /// <summary>
+        ///  Generator responsible for assigning special room types.
+        /// </summary>
+        private void ChooseRoomTypes()
+        {
+            
+        }
+        
+        /// <summary>
+        ///  Generator responsible for determining the door directions of all rooms.
+        /// Super simple code, just increments RoomDoors respectively if an adjacent room is found.
+        /// </summary>
+        private void SetDoorDir()
+        {
+            foreach (OrderedPair room in AllRooms)
+            { 
+                // Room on Top
+                if (room.i - 1 >= 0 && RoomTypes[room.i - 1, room.j] != RoomType.Empty)
+                    RoomDoors[room.i, room.j] += 1;
+                // Room on Right
+                if (room.j + 1 <= 9 && RoomTypes[room.i, room.j + 1] != RoomType.Empty)
+                    RoomDoors[room.i, room.j] += 2;
+                // Room on Bottom
+                if (room.i + 1 <= 9 && RoomTypes[room.i + 1, room.j] != RoomType.Empty)
+                    RoomDoors[room.i, room.j] += 4;
+                // Room on Left
+                if (room.j - 1 >= 0 && RoomTypes[room.i, room.j - 1] != RoomType.Empty)
+                    RoomDoors[room.i, room.j] += 8;
+            }
         }
 
         /// <summary>
@@ -182,14 +242,14 @@ namespace RoomGen
 
         /// <summary>
         /// Randomly chooses an Empty room adjacent to the input room.
-        /// If the room choice is successful, it updates Level, AllRooms, and rooms.
+        /// If the room choice is successful, it updates RoomTypes, AllRooms, and rooms.
         /// Input: OrderedPair p, the input room.
         /// Output: OrderedPair, a room adjacent to start.
         /// </summary>
         private OrderedPair ChooseNewRoom(OrderedPair p)
         {
             // validDirections: init at 1; set to 0 if room is found invalid to avoid redundant checks.
-            int[] validDirections = { 1, 1, 1, 1 };
+            bool[] validDirections = { true, true, true, true };
             // min and max: the range for random number generation.
             // min/max increased/decreased if a room is no longer valid to avoid generating a number in that range.
             int min = 1;
@@ -201,7 +261,7 @@ namespace RoomGen
                 {
                     case 1: // on top
                         // if room has not been tried before, is in bounds, and empty, it is valid and we set it up!
-                        if (validDirections[0] == 1 && p.i - 1 >= 0 && Level[p.i - 1, p.j] == RoomType.Empty)
+                        if (validDirections[0] && p.i - 1 >= 0 && RoomTypes[p.i - 1, p.j] == RoomType.Empty)
                         {
                             OrderedPair room = new OrderedPair(p.i - 1, p.j);
                             AddRoom(room);
@@ -209,51 +269,50 @@ namespace RoomGen
                         }
 
                         // if any conditions failed, it is invalid and we can not consider it anymore.
-                        validDirections[0] = 0;
+                        validDirections[0] = false;
                         min++;
                         break;
                     case 2: // on right
-                        if (validDirections[1] == 1 && p.j + 1 <= 9 && Level[p.i, p.j + 1] == RoomType.Empty)
+                        if (validDirections[1] && p.j + 1 <= 9 && RoomTypes[p.i, p.j + 1] == RoomType.Empty)
                         {
                             OrderedPair room = new OrderedPair(p.i, p.j + 1);
                             AddRoom(room);
                             return room;
                         }
 
-                        validDirections[1] = 0;
+                        validDirections[1] = false;
                         if (min == 2)
                             min++;
                         else if (max == 2)
                             max--;
                         break;
                     case 3: // on bottom
-                        if (validDirections[2] == 1 && p.i + 1 <= 9 && Level[p.i + 1, p.j] == RoomType.Empty)
+                        if (validDirections[2] && p.i + 1 <= 9 && RoomTypes[p.i + 1, p.j] == RoomType.Empty)
                         {
                             OrderedPair room = new OrderedPair(p.i + 1, p.j);
                             AddRoom(room);
                             return room;
                         }
 
-                        validDirections[2] = 0;
+                        validDirections[2] = false;
                         if (max == 3)
                             max--;
                         else if (min == 3)
                             min++;
                         break;
                     case 4: // on left
-                        if (validDirections[3] == 1 && p.j - 1 >= 0 && Level[p.i, p.j - 1] == RoomType.Empty)
+                        if (validDirections[3] && p.j - 1 >= 0 && RoomTypes[p.i, p.j - 1] == RoomType.Empty)
                         {
                             OrderedPair room = new OrderedPair(p.i, p.j - 1);
                             AddRoom(room);
                             return room;
                         }
 
-                        validDirections[3] = 0;
+                        validDirections[3] = false;
                         max--;
                         break;
                 }
-            } while (min <= max && (validDirections[0] == 1 || validDirections[1] == 1 || validDirections[2] == 1 ||
-                                    validDirections[3] == 1));
+            } while (min <= max && (validDirections[0] || validDirections[1] || validDirections[2] || validDirections[3]));
 
             // Will hit this statement if all rooms are taken!
             SpawnRooms.Remove(p);
@@ -262,12 +321,12 @@ namespace RoomGen
 
         /// <summary>
         /// Updates all variables
-        /// Adds room to Level, AllRooms, and SpawnRooms, then increments rooms.
+        /// Adds room to RoomTypes, AllRooms, and SpawnRooms, then increments rooms.
         /// Input: OrderedPair p, the input room.
         /// </summary>
         private void AddRoom(OrderedPair room)
         {
-            Level[room.i, room.j] = RoomType.Normal;
+            RoomTypes[room.i, room.j] = RoomType.Normal;
             AllRooms.Add(room);
             SpawnRooms.Add(room);
             rooms++;
