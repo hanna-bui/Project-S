@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using Characters;
 using UnityEngine;
 using Characters.Enemy;
-using Action = Movement.Action;
+using Action = Characters.Enemy.Action;
 using MO = Characters.Enemy.Enemy.MovementOptions;
 // ReSharper disable Unity.PerformanceCriticalCodeNullComparison
 

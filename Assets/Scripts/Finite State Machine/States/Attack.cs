@@ -11,8 +11,6 @@ namespace Finite_State_Machine.States
         public GameObject Target { get; set; }
         private Enemy TargetStat { get; set; }
 
-        private WalkToLocation temp = new WalkToLocation();
-
         private const float DefaultInterval = 3f;
 
         public Attack(MoveableObject agent, GameObject target)
@@ -28,25 +26,23 @@ namespace Finite_State_Machine.States
             switch (CurrentStatus)
             {
                 case StateStatus.Initialize:
-                    if (enemyList.Contains(Target))
-                        TargetStat = enemyList[Target] as Enemy;
+                    if (TargetStat is null)
+                    {
+                        if (enemyList.Contains(Target))
+                            TargetStat = enemyList[Target] as Enemy;
                     
-                    interval = DefaultInterval;
+                        interval = DefaultInterval;
+                    }
                     break;
                 case StateStatus.Executing:
-                    if (TargetStat is not null)
+                    if (TargetStat is not null && TargetStat.CHP > 0)
                     {
-                        switch (TargetStat.CHP)
-                        {
-                            case > 0 when InRange(agent):
-                            {
-                                TargetStat.TakeDamage(agent.DMG);
-                                break;
-                            }
-                            case < 0:
-                                ChangeStatus(StateStatus.Completed);
-                                break;
-                        }
+                        TargetStat.TakeDamage(agent.DMG);
+                        ChangeStatus(StateStatus.Initialize);
+                    }
+                    else
+                    {
+                        ChangeStatus(StateStatus.Completed);
                     }
                     break;
                 case StateStatus.Completed:
@@ -57,27 +53,6 @@ namespace Finite_State_Machine.States
                 default:
                     throw new ArgumentOutOfRangeException();
             }
-        }
-
-        private bool InRange(MoveableObject agent)
-        {
-            var distance = Vector2.Distance(TargetStat.Position(), agent.Position());
-            if (distance > agent.RAN)
-            {
-                agent.TargetLocation = TargetStat.Position();
-                interval = 0f;
-                temp.Execute(agent);
-                return false;
-            }
-
-            interval = DefaultInterval;
-            if (temp.CurrentStatus is StateStatus.Executing)
-            {
-                agent.StopAnimation();
-                temp = new WalkToLocation();
-            }
-
-            return true;
         }
     }
 }

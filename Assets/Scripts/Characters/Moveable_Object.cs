@@ -1,9 +1,12 @@
 ﻿using System.Collections.Generic;
-using Finite_State_Machine;
 using UnityEngine;
 using Movement;
 using System;
+using Finite_State_Machine.States;
 using Managers;
+using Unity.VisualScripting;
+using UnityEditor.Animations;
+using State = Finite_State_Machine.State;
 
 // ReSharper disable IdentifierTypo
 
@@ -31,8 +34,9 @@ namespace Characters
         [SerializeField] protected int LVL { get; set; } // level
         protected GameObject Sprite { get; set; } // Enemy Sprite
         
-        [SerializeField] protected List<AnimatorOverrideController> overrideControllers;
+        [SerializeField] protected AnimationClip[] animations;
         public Animator animator;
+        protected int facing;
 
         public Vector3 TargetLocation { get; set; }
         
@@ -40,6 +44,8 @@ namespace Characters
         
         
         #region State
+
+        protected Stack<State> States;
 
         protected State currentState;
 
@@ -63,11 +69,18 @@ namespace Characters
 
             camera = Camera.main;
             TargetLocation = transform.position;
+            
             animator = GetComponent<Animator>();
+            var ac = animator.runtimeAnimatorController;
+            animations = animator.runtimeAnimatorController.animationClips;
+            Array.Sort(animations, new AnimationCompare());
+
+            facing = 0;
         }
 
         protected virtual void Update()
         {
+            currentState = GetTop();
             currentState.Execute(this);
         }
 
@@ -92,35 +105,34 @@ namespace Characters
             return transform.position.Equals(target);
         }
         
-        public int CalculateDirection()
+        #region Animation
+        public virtual void CalculateDirection()
         {
-            var position = transform.position;
-            if (Math.Abs(TargetLocation.x - position.x) < 0.00001) return 0;
-            if (Math.Abs(TargetLocation.y - position.y) < 0.00001) return 0;
+        }
 
-            var heading = (Vector2)TargetLocation - (Vector2)position;
-            var magnitude = heading / heading.magnitude;
-            var x = (decimal)magnitude.x;
-            var y = (decimal)magnitude.y;
-            
-            if (Math.Max(Math.Abs(y), Math.Abs(x)) == Math.Abs(y))
-            {
-                return y > 0 ? Direction.Up : Direction.Down;
-            }
-            return x > 0 ? Direction.Right : Direction.Left;
+        public virtual void StopAnimation()
+        {
+            SetAnimations(facing);
+        }
+
+        public virtual void SetAnimations(int index)
+        {
+            animator.Play(animations[index].name);
         }
         
-        #region Animation
-
-        public void StopAnimation()
+        class AnimationCompare : IComparer<AnimationClip>
         {
-            animator.SetBool(gm.click, false);
-        }
-
-        public void SetAnimations(int index)
-        {
-            var overrideController = overrideControllers[index];
-            animator.runtimeAnimatorController = overrideController;
+            public int Compare(AnimationClip x, AnimationClip y)
+            {
+                if (x == null || y == null)
+                {
+                    return 0;
+                }
+          
+                // CompareTo() method
+                return string.Compare(x.name, y.name, StringComparison.Ordinal);
+          
+            }
         }
 
         #endregion Animation
@@ -189,9 +201,30 @@ namespace Characters
             LVL += 1;
         }
 
+        public int GetFacing()
+        {
+            return facing;
+        }
+        
+        public State GetTop()
+        {
+            return States.Peek();
+        }
+
+        public virtual bool IsSubState()
+        {
+            return false;
+        }
+        
+        public void AddState(State newState)
+        {
+            States.Push(newState);
+        }
+
         public void ChangeState(State newState)
         {
-            currentState = newState;
+            States.Pop();
+            States.Push(newState);
         }
         
         public void SetPosition(Vector3 newPosition)

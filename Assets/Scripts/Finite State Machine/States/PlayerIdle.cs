@@ -1,4 +1,5 @@
-﻿using Characters;
+﻿using System;
+using Characters;
 
 namespace Finite_State_Machine.States
 {
@@ -12,7 +13,21 @@ namespace Finite_State_Machine.States
         
         public override void Execute(MoveableObject agent)
         {
-            agent.StopAnimation();
+            switch (CurrentStatus)
+            {
+                case StateStatus.Initialize:
+                    agent.StopAnimation();
+                    ChangeStatus(StateStatus.Completed);
+                    break;
+                case StateStatus.Executing:
+                    break;
+                case StateStatus.Completed:
+                    break;
+                case StateStatus.Failed:
+                    break;
+                default:
+                    throw new ArgumentOutOfRangeException();
+            }
         }
     }
 }

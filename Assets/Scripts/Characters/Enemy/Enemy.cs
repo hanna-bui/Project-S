@@ -1,8 +1,9 @@
-﻿using Finite_State_Machine.Enemy_States;
-using Finite_State_Machine.States;
+﻿using System.Collections.Generic;
+using Finite_State_Machine;
+using Finite_State_Machine.Enemy_States;
+using Movement;
 using TMPro;
 using UnityEngine;
-using UnityEngine.UI;
 
 // ReSharper disable InconsistentNaming
 // ReSharper disable IdentifierTypo
@@ -10,6 +11,15 @@ using UnityEngine.UI;
 // ReSharper disable ConvertToAutoPropertyWhenPossible
 
 namespace Characters.Enemy{
+    
+    public static class Action
+    {
+        public const int Idle = 0;
+        public const int Attack = 1;
+        public const int Charge = 2;
+        public const int Hit = 3;
+        public const int Jump = 4;
+    }
 
     public class Enemy : MoveableObject
     {
@@ -50,13 +60,16 @@ namespace Characters.Enemy{
             SetupCollider();
             
             Origin = transform.position;
-            currentState = new PatternWalk();
+            
+            States = new Stack<State>();
+            States.Push(new PatternWalk());
             
             hpValue.text = "" + CHP + "";
         }
 
         protected override void Update()
         {
+            currentState = GetTop();
             currentState.Execute(this);
             
             if (CHP <= 0)
@@ -70,15 +83,28 @@ namespace Characters.Enemy{
             if (col.gameObject.CompareTag("Player"))
             {
                 var player = col.gameObject.transform;
-                currentState = new EnemyIdle();
+                ChangeState(new EnemyIdle());
             }
         }
         private void OnTriggerExit2D(Collider2D col)
         {
             if (col.gameObject.CompareTag("Player"))
             {
-                currentState = new PatternWalk();
+                ChangeState(new PatternWalk());
             }
+        }
+
+        public override bool IsSubState()
+        {
+            if (States.Count > 1)
+            {
+                States.Pop();
+                return true;
+            }
+            States.Pop();
+            SetAnimations(Action.Idle);
+            States.Push(new EnemyIdle());
+            return false;
         }
 
         private float RandomStat()

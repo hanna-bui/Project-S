@@ -1,5 +1,5 @@
 ﻿using Characters;
-using Movement;
+using Characters.Enemy;
 
 namespace Finite_State_Machine.Enemy_States
 {
