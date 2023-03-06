@@ -1,6 +1,7 @@
 using Finite_State_Machine;
 using Finite_State_Machine.States;
 using UnityEngine;
+using Mirror;
 using Item = Items.Items;
 
 // using Movement.Steering_Behaviour;
@@ -10,9 +11,10 @@ using Item = Items.Items;
 // ReSharper disable IdentifierTypo
 // ReSharper disable Unity.UnknownTag
 
-namespace Characters
+namespace Characters 
 {
-
+    /// <summary>
+    /// to control multiple characters, this class needs to be a networkBehaviour
     public class Character : MoveableObject
     {
         public GameObject prefab;
@@ -81,6 +83,7 @@ namespace Characters
 
         protected override void Update()
         {
+ 
             currentState.Execute(this, Time.deltaTime);
             
             if (Input.GetMouseButtonDown(0))
@@ -102,6 +105,51 @@ namespace Characters
                         else
                         {
                             
+                        }
+                    }
+                    else
+                    {
+                        var newState = new Attack(this, t.transform.gameObject);
+                        ChangeState(newState);
+                    }
+                }
+                else
+                {
+                    ChangeState(new WalkToLocation());
+                }
+            }
+
+            if (Input.GetKeyDown(KeyCode.F) && currentState is ItemPickup)
+            {
+                currentState.ChangeStatus(StateStatus.Executing);
+            }
+        }
+
+
+        private void Move()
+        {
+
+            currentState.Execute(this, Time.deltaTime);
+
+            if (Input.GetMouseButtonDown(0))
+            {
+                TargetLocation = camera.ScreenToWorldPoint(Input.mousePosition);
+
+
+                var origin = new Vector2(TargetLocation.x, TargetLocation.y);
+                var t = Physics2D.Raycast(origin, Vector2.zero, 0f);
+
+                if (t && t.transform.CompareTag("Enemy"))
+                {
+                    if (currentState is Attack)
+                    {
+                        if (currentState.CurrentStatus is StateStatus.Initialize)
+                        {
+                            currentState.ChangeStatus(StateStatus.Executing);
+                        }
+                        else
+                        {
+
                         }
                     }
                     else
