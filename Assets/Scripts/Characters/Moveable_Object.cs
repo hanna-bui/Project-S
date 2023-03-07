@@ -4,6 +4,7 @@ using UnityEngine;
 using Movement;
 using System;
 using Managers;
+using Mirror;
 
 // ReSharper disable IdentifierTypo
 
@@ -14,7 +15,7 @@ using Managers;
 namespace Characters
 {
 
-    public class MoveableObject : MonoBehaviour
+    public class MoveableObject : NetworkBehaviour
     {
         protected float radius;
 

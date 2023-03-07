@@ -37,11 +37,17 @@ namespace Managers
 
         private void Start()
         {
-            if(currCharacter == null)
+            if (currCharacter == null)
             {
-                currCharacter = characters[0];
+                var temp = GameObject.Find("Ninja");
+                
+                if (temp == null) temp = GameObject.Find("Samurai");
+                else currCharacter = temp.GetComponent<Ninja>();
+                
+                if (temp == null) temp = GameObject.Find("Monk");
+                else currCharacter = temp.GetComponent<Samurai>();
             }
-        
+
             #region Goals
             Enemies = new Hashtable();
             var enemyObject = GameObject.Find("Enemies");
