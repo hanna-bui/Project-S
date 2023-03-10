@@ -85,12 +85,14 @@ namespace RoomGen
             // Let's not count the starting room as a room (to make SpawnRooms2 easier to track)
             //rooms++;
             //CreateRooms();
+            //StreamWriter typewriter = new StreamWriter("RoomTypes1.csv");
             CreateRooms2(p);
+            StreamWriter typewriter = new StreamWriter("RoomTypes2.csv");
             SetDoorDir();
             // todo: figure out what type of room each one is (i.e. which way doors face)
             // todo: use this classification to set up a boss room and other special rooms!
 
-            StreamWriter typewriter = new StreamWriter("RoomTypes.csv");
+            //StreamWriter typewriter = new StreamWriter("RoomTypes.csv");
             StreamWriter doorwriter = new StreamWriter("RoomDoors.csv");
             for (i = 0; i < 10; i++)
             {
@@ -159,6 +161,7 @@ namespace RoomGen
                 OrderedPair room;
                 if((room = ChooseNewRoom((OrderedPair)SpawnRooms[i])).i != -1)
                 {
+                    SpawnRooms.RemoveAt(i);
                     Debug.Log("Generated room: " + rooms);
                 }
             }
