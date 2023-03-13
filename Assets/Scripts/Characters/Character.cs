@@ -88,6 +88,10 @@ namespace Characters
             
             if (Input.GetMouseButtonDown(0))
             {
+                if (!isLocalPlayer)
+                {
+                    return;
+                }
                 TargetLocation = camera.ScreenToWorldPoint(Input.mousePosition);
                 
                 

@@ -417,9 +417,21 @@ PrefabInstance:
       propertyPath: m_Name
       value: Monk
       objectReference: {fileID: 0}
+    - target: {fileID: 2820846657359632934, guid: 46395e21c53acc44eb0bbe047a8870e3, type: 3}
+      propertyPath: sceneId
+      value: 3415388510
+      objectReference: {fileID: 0}
     - target: {fileID: 8557662488860030740, guid: 46395e21c53acc44eb0bbe047a8870e3, type: 3}
       propertyPath: m_RootOrder
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8557662488860030740, guid: 46395e21c53acc44eb0bbe047a8870e3, type: 3}
+      propertyPath: m_LocalScale.x
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8557662488860030740, guid: 46395e21c53acc44eb0bbe047a8870e3, type: 3}
+      propertyPath: m_LocalScale.y
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 8557662488860030740, guid: 46395e21c53acc44eb0bbe047a8870e3, type: 3}
       propertyPath: m_LocalPosition.x
@@ -4680,9 +4692,21 @@ PrefabInstance:
     serializedVersion: 2
     m_TransformParent: {fileID: 635041856}
     m_Modifications:
+    - target: {fileID: 1363858759198646308, guid: 87629502d522ed34ea1602fec0d6e183, type: 3}
+      propertyPath: sceneId
+      value: 2854702337
+      objectReference: {fileID: 0}
     - target: {fileID: 1889768590978699481, guid: 87629502d522ed34ea1602fec0d6e183, type: 3}
       propertyPath: m_RootOrder
       value: -1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1889768590978699481, guid: 87629502d522ed34ea1602fec0d6e183, type: 3}
+      propertyPath: m_LocalScale.x
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1889768590978699481, guid: 87629502d522ed34ea1602fec0d6e183, type: 3}
+      propertyPath: m_LocalScale.y
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 1889768590978699481, guid: 87629502d522ed34ea1602fec0d6e183, type: 3}
       propertyPath: m_LocalPosition.x
