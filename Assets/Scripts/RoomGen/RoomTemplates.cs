@@ -4,11 +4,7 @@ using UnityEngine;
 
 public class RoomTemplates : MonoBehaviour
 {
-    public GameObject[] TRooms;
-    public GameObject[] RRooms;
-    public GameObject[] LRooms;
-    public GameObject[] BRooms;
-    //public GameObject block;
+    public GameObject[] Rooms;
 
-    public List<GameObject> rooms;
+    //public List<GameObject> rooms;
 }

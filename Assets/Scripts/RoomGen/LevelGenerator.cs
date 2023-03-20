@@ -56,10 +56,13 @@ namespace RoomGen
         private ArrayList AllRooms = new ArrayList();
         private ArrayList SpawnRooms = new ArrayList();
 
+        private RoomTemplates templates;
+
 
         // Start is called before the first frame update
         void Start()
         {
+            templates = GameObject.FindGameObjectWithTag("Rooms").GetComponent<RoomTemplates>();
             int i = 0;
             int j = 0;
             for (; i < 10; i++)
@@ -84,36 +87,41 @@ namespace RoomGen
             SpawnRooms.Add(p);
             // Let's not count the starting room as a room (to make SpawnRooms2 easier to track)
             //rooms++;
+            
             //CreateRooms();
-            //StreamWriter typewriter = new StreamWriter("RoomTypes1.csv");
             CreateRooms2(p);
-            StreamWriter typewriter = new StreamWriter("RoomTypes2.csv");
             SetDoorDir();
-            // todo: figure out what type of room each one is (i.e. which way doors face)
             // todo: use this classification to set up a boss room and other special rooms!
 
-            //StreamWriter typewriter = new StreamWriter("RoomTypes.csv");
-            StreamWriter doorwriter = new StreamWriter("RoomDoors.csv");
-            for (i = 0; i < 10; i++)
+            CSVWrite("RoomTypes1.csv");
+            Spawn();
+            Debug.Log("Spawned rooms.");
+        }
+
+        /// <summary>
+        /// Spawns the Room Template assets in the scene.
+        /// </summary>
+        private void Spawn()
+        {
+            Vector3 point = Vector3.zero;
+            // Size of rooms (all rooms are square so this represents a side).
+            // 15 * 15 represents 15 tiles * 15 scale
+            int s = 15*15;
+            for (int j = 0; j <=9; j++)
             {
-                for (j = 0; j < 10; j++)
+                for (int i = 9; i >= 0; i--)
                 {
-                    if (RoomTypes[i, j] == RoomType.Empty)
-                        typewriter.Write(",");
-                    else
-                        typewriter.Write(RoomTypes[i, j] + ",");
-                    if (RoomDoors[i, j] == DoorDir.E)
-                        doorwriter.Write(",");
-                    else
-                        doorwriter.Write(RoomDoors[i, j] + ",");
+                    // d is the door direction enum for the current cell cast to an int
+                    int d = (int)RoomDoors[i, j];
+                    GameObject room = templates.Rooms[d];
+                    room = Instantiate(room, point, room.transform.rotation);
+                    //room.transform.localScale = new Vector3(15, 15, 1);
+                    // todo: Set target transform for Grid script.
+                    point.y += s;
                 }
-                typewriter.Write(System.Environment.NewLine);
-                doorwriter.Write(System.Environment.NewLine);
+                point.x += s;
+                point.y = 0;
             }
-            typewriter.Flush();
-            doorwriter.Flush();
-            typewriter.Close();
-            doorwriter.Close();
         }
         
         /// <summary>
@@ -148,6 +156,7 @@ namespace RoomGen
         }
 
         /// <summary>
+        /// BUG: sometimes, SpawnRooms ends up empty because we remove a room from it every single time.
         /// Generator responsible for creating all the rooms.
         /// It loops until the generated room count (rooms) hits the desired total room count (totalRooms).
         /// Very simple code which results in a more clustered level.
@@ -333,6 +342,37 @@ namespace RoomGen
             AllRooms.Add(room);
             SpawnRooms.Add(room);
             rooms++;
+        }
+
+        /// <summary>
+        /// Write rooms to csv file.
+        /// Input: file name for the RoomTypes
+        /// </summary>
+        /// <param name="filename"></param>
+        private void CSVWrite(string filename)
+        {
+            StreamWriter typewriter = new StreamWriter(filename);
+            StreamWriter doorwriter = new StreamWriter("RoomDoors.csv");
+            for (int i = 0; i < 10; i++)
+            {
+                for (int j = 0; j < 10; j++)
+                {
+                    if (RoomTypes[i, j] == RoomType.Empty)
+                        typewriter.Write(",");
+                    else
+                        typewriter.Write(RoomTypes[i, j] + ",");
+                    if (RoomDoors[i, j] == DoorDir.E)
+                        doorwriter.Write(",");
+                    else
+                        doorwriter.Write(RoomDoors[i, j] + ",");
+                }
+                typewriter.Write(System.Environment.NewLine);
+                doorwriter.Write(System.Environment.NewLine);
+            }
+            typewriter.Flush();
+            doorwriter.Flush();
+            typewriter.Close();
+            doorwriter.Close();
         }
     }
 
