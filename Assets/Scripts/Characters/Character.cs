@@ -127,6 +127,7 @@ namespace Characters
                     Debug.Log("Clicking Enemy");
                     if (currentState is Attack)
                     {
+                        Debug.Log("Attacking"+Time.time);
                         SetAnimations(Motion.Attack);
                         if (currentState.CurrentStatus is StateStatus.Initialize)
                         {

@@ -13,7 +13,7 @@ namespace Movement.Pathfinding
                               "and to the right of the white square. "; 
         
         private Tilemap walkableMap;
-        private Astar.Node[,] nodeToNodes;
+        private Node[,] nodeToNodes;
         
         private BoundsInt floorBounds;
         private BoundsInt walkBounds;
@@ -83,13 +83,13 @@ namespace Movement.Pathfinding
             
             FloorBounds = floorMap.cellBounds;
             
-            nodeToNodes = new Astar.Node[FloorBounds.size.x, FloorBounds.size.y];
+            nodeToNodes = new Node[FloorBounds.size.x, FloorBounds.size.y];
             for (var x = FloorBounds.xMin; x < FloorBounds.size.x; x++)
             for (var y = FloorBounds.yMin; y < FloorBounds.size.y; y++)
             {
                 if (walkableMap.HasTile(new Vector3Int(x, y, 0)))
                 {
-                    var newNode = new Astar.Node(x, y);
+                    var newNode = new Node(x, y);
                     nodeToNodes[x, y] = newNode;
                 }
                 else
