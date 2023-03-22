@@ -5,8 +5,7 @@ namespace Movement.Pathfinding
 {
     public class Node
     {
-        private readonly List<Connection> neighbours;
-        private readonly Dictionary<Node, float> s;
+        private readonly Dictionary<Node, float> neighbours;
         public readonly int x;
         public readonly int y;
 
@@ -14,38 +13,9 @@ namespace Movement.Pathfinding
         {
             this.x = x;
             this.y = y;
-            neighbours = new List<Connection>();
-            s = new Dictionary<Node, float>();
+            neighbours = new Dictionary<Node, float>();
         }
-        
-        //
-        // Old code
-        //
-        // public void AddNeighbours(Node[,] grid, Node thisNode)
-        // {
-        //     if (x < grid.GetUpperBound(0) && grid[x + 1, y] != null)
-        //         neighbours.Add(new Connection(1, thisNode, grid[x + 1, y]));
-        //     if (x > 0 && grid[x - 1, y] != null)
-        //         neighbours.Add(new Connection(1, thisNode, grid[x - 1, y]));
-        //     if (y < grid.GetUpperBound(1) && grid[x, y + 1] != null)
-        //         neighbours.Add(new Connection(1, thisNode, grid[x, y + 1]));
-        //     if (y > 0 && grid[x, y - 1] != null)
-        //         neighbours.Add(new Connection(1, thisNode, grid[x, y - 1]));
-        //
-        //     #region diagonal
-        //
-        //     if (x > 0 && y > 0 && grid[x - 1, y - 1] != null)
-        //         neighbours.Add(new Connection(1.4f, thisNode, grid[x - 1, y - 1]));
-        //     if (x < grid.GetLength(0) - 1 && y > 0 && grid[x + 1, y - 1] != null)
-        //         neighbours.Add(new Connection(1.4f, thisNode, grid[x + 1, y - 1]));
-        //     if (x > 0 && y < grid.GetLength(1) - 1 && grid[x - 1, y + 1] != null)
-        //         neighbours.Add(new Connection(1.4f, thisNode, grid[x - 1, y + 1]));
-        //     if (x < grid.GetLength(0) - 1 && y < grid.GetLength(1) - 1 && grid[x + 1, y + 1] != null)
-        //         neighbours.Add(new Connection(1.4f, thisNode, grid[x + 1, y + 1]));
-        //
-        //     #endregion diagonal
-        // }
-        
+
         // Optimized
         public void AddNeighbours(Node[,] grid, Node thisNode)
         {
@@ -63,22 +33,15 @@ namespace Movement.Pathfinding
                     if (Mathf.Abs(i - thisNode.x) == 1 && Mathf.Abs(j - thisNode.y) == 1)
                         cost = 1.4f;
 
-                    neighbours.Add(new Connection(cost, thisNode, grid[i, j]));
+                    neighbours.Add(grid[i, j], cost);
                 }
             }
         }
-
-        public List<Connection> GetNeighbours()
+        
+        public Dictionary<Node, float> GetNeighbours()
         {
             return neighbours;
         }
-
-        // public HashSet<Node> GetToNodes()
-        // {
-        //     var toNodes = new HashSet<Node>();
-        //     foreach (var c in neighbours) toNodes.Add(c.GetToNode());
-        //     return toNodes;
-        // }
 
         public Vector2 GetPosition()
         {
@@ -97,37 +60,54 @@ namespace Movement.Pathfinding
     
         public class NodeRecord
         {
-            public Category category;
-            public Connection connection;
-            public float costSoFar;
-            public float estimatedTotalCost;
-            public readonly Node node;
-            public NodeRecord prev;
-
             public NodeRecord(Node node)
             {
-                this.node = node;
+                this.ThisNode = node;
             }
 
-            public NodeRecord(Node node, Connection connection, float costSoFar, float estimatedTotalCost,
+            public NodeRecord(Node node, Node next, float costToNext, float totalCost, float estimatedTotalCost,
                 Category category, NodeRecord prev)
             {
-                this.node = node;
-                this.connection = connection;
-                this.costSoFar = costSoFar;
-                this.estimatedTotalCost = estimatedTotalCost;
-                this.category = category;
-                this.prev = prev;
+                this.ThisNode = node;
+                this.NextNode = next;
+                this.CostToNext = costToNext;
+                this.TotalCost = totalCost;
+                this.EstimatedTotalCost = estimatedTotalCost;
+                this.Configuration = category;
+                this.PrevRecord = prev;
+            }
+
+            public Category Configuration { get; set; }
+
+            public float TotalCost { get; private set; }
+
+            public float EstimatedTotalCost { get; private set; }
+
+            public Node ThisNode { get; }
+
+            public NodeRecord PrevRecord { get; private set; }
+
+            public Node NextNode { get; private set; }
+
+            private float CostToNext { get; set; }
+
+            public void Add(float total, Node next, float costToNext, float estimate, NodeRecord prev)
+            {
+                this.TotalCost = total;
+                this.NextNode = next;
+                this.CostToNext = costToNext;
+                this.EstimatedTotalCost = estimate;
+                this.PrevRecord = prev;
             }
 
             public bool Equals(NodeRecord obj)
             {
-                return node.Equals(obj.node);
+                return ThisNode.Equals(obj.ThisNode);
             }
 
             public override string ToString()
             {
-                return node + ", connection = (" + connection + "), costSoFar = " + costSoFar + ", category = " + category;
+                return ThisNode + ", connection = ( Next Node = " + NextNode + ", Cost to Next = " + CostToNext + "), costSoFar = " + TotalCost + ", category = " + Configuration;
             }
         }
     }

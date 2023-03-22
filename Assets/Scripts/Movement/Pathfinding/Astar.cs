@@ -17,7 +17,7 @@ namespace Movement.Pathfinding
             start = startingNode;
             end = endingNode;
 
-            var startRecord = new Record(start, null, 0f, Estimate(start, end), Category.Open, null);
+            var startRecord = new Record(start, null, 0f, 0f, Estimate(start, end), Category.Open, null);
 
             var recordList = new RecordList();
             recordList.Add(startRecord);
@@ -28,16 +28,15 @@ namespace Movement.Pathfinding
             {
                 current = recordList.SmallestElement();
 
-                if (current.node.Equals(end))
+                if (current.ThisNode.Equals(end))
                     break;
 
-                var connections = current.node.GetNeighbours();
+                var connections = current.ThisNode.GetNeighbours();
 
-                foreach (var connection in connections)
+                foreach (var (endNode, cost) in connections)
                 {
-                    var endNode = connection.GetToNode();
                     if (endNode == null) continue;
-                    var endNodeCost = current.costSoFar + connection.GetCost();
+                    var endNodeCost = current.TotalCost + cost;
 
                     Record endNodeRecord;
                     float endNodeHeuristic;
@@ -46,58 +45,53 @@ namespace Movement.Pathfinding
                     {
                         endNodeRecord = recordList.Find(endNode);
 
-                        if (endNodeRecord.costSoFar <= endNodeCost) continue;
-                        endNodeRecord.category = Category.Open;
+                        if (endNodeRecord.TotalCost <= endNodeCost) continue;
+                        endNodeRecord.Configuration = Category.Open;
 
-                        endNodeHeuristic = endNodeRecord.estimatedTotalCost - endNodeRecord.costSoFar;
+                        endNodeHeuristic = endNodeRecord.EstimatedTotalCost - endNodeRecord.TotalCost;
                     }
                     else if (recordList.Contains(endNode, Category.Open))
                     {
                         endNodeRecord = recordList.Find(endNode);
 
-                        if (endNodeRecord.costSoFar <= endNodeCost) continue;
+                        if (endNodeRecord.TotalCost <= endNodeCost) continue;
 
-                        endNodeHeuristic = endNodeRecord.estimatedTotalCost - endNodeRecord.costSoFar;
+                        endNodeHeuristic = endNodeRecord.EstimatedTotalCost - endNodeRecord.TotalCost;
                     }
                     else
                     {
                         endNodeRecord = new Record(endNode);
                         endNodeHeuristic = Estimate(endNode, end);
                     }
+                    
+                    endNodeRecord.Add(endNodeCost, endNode, cost, endNodeCost + endNodeHeuristic, current);
 
-                    endNodeRecord.costSoFar = endNodeCost;
-                    endNodeRecord.connection = connection;
-                    endNodeRecord.estimatedTotalCost = endNodeCost + endNodeHeuristic;
-                    endNodeRecord.prev = current;
-
-                    if (!recordList.Contains(endNode, Category.Open))
-                    {
-                        endNodeRecord.category = Category.Open;
-                        recordList.Add(endNodeRecord);
-                    }
+                    if (recordList.Contains(endNode, Category.Open)) continue;
+                    endNodeRecord.Configuration = Category.Open;
+                    recordList.Add(endNodeRecord);
                 }
 
-                current.category = Category.Closed;
+                current.Configuration = Category.Closed;
             }
 
-            if (!current.node.Equals(end)) return null;
+            if (!current.ThisNode.Equals(end)) return null;
 
             var path = new List<Vector3>();
-            while (!current.node.Equals(start))
+            while (!current.ThisNode.Equals(start))
             {
-                var tempNode = current.connection.GetToNode();
+                var tempNode = current.NextNode;
                 var targetLocation = floorMap.CellToWorld(new Vector3Int(tempNode.x, tempNode.y, 0));
                 targetLocation.x += 10f;
                 targetLocation.y += 10f;
                 path.Add(targetLocation);
-                current = current.prev;
+                current = current.PrevRecord;
             }
 
             path.Reverse();
             return path;
         }
 
-        public float Estimate(Node fromNode, Node toNode)
+        private static float Estimate(Node fromNode, Node toNode)
         {
             return Vector2.Distance(fromNode.GetPosition(), toNode.GetPosition());
         }

@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
-
+using UnityEngine.SocialPlatforms;
 using Record = Movement.Pathfinding.Node.NodeRecord;
 
 namespace Movement.Pathfinding
@@ -22,11 +22,11 @@ namespace Movement.Pathfinding
         public Record SmallestElement()
         {
             var smallest = records[0];
-            foreach (var nr in records.Where(nr => nr.estimatedTotalCost <= smallest.estimatedTotalCost && nr.category==Category.Open))
+            foreach (var nr in records.Where(nr => nr.EstimatedTotalCost <= smallest.EstimatedTotalCost && nr.Configuration==Category.Open))
                 smallest = nr;
                 
             if (smallest.Equals(records[0]))
-                foreach (var nr in records.Where(nr => nr.category == Category.Open))
+                foreach (var nr in records.Where(nr => nr.Configuration == Category.Open))
                 {
                     smallest = nr;
                     break;
@@ -41,12 +41,12 @@ namespace Movement.Pathfinding
 
         public bool Contains(Node node, Category category)
         {
-            return records.Any(nodeRecord => (nodeRecord.node.Equals(node) && nodeRecord.category==category));
+            return records.Any(nodeRecord => (nodeRecord.ThisNode.Equals(node) && nodeRecord.Configuration==category));
         }
 
         public Record Find(Node node)
         {
-            return records.FirstOrDefault(nodeRecord => nodeRecord.node.Equals(node));
+            return records.FirstOrDefault(nodeRecord => nodeRecord.ThisNode.Equals(node));
         }
 
         // public void Remove(NodeRecord node)
