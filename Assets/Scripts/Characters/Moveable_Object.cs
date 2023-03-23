@@ -5,7 +5,6 @@ using GameManager_Hide;
 using Mirror;
 using Movement.Pathfinding;
 using State = Finite_State_Machine.State;
-using Mirror;
 
 // ReSharper disable IdentifierTypo
 
