@@ -11,6 +11,7 @@ public class SelectCharacter : MonoBehaviour
 
     private void Start()
     {
+
         foreach (Player c in GameManager.instance.characters)
         {
             GameObject option = Instantiate(optionPrefab, transform);
