@@ -98,8 +98,12 @@ namespace Characters
 
         protected override void Update()
         {
+            //if (!isLocalPlayer) return;
+
             CurrentState = GetTop();
             CurrentState.Execute(this, Time.deltaTime);
+
+          
             
             if (Input.GetMouseButtonDown(0))
             {

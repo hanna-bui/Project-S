@@ -13,8 +13,6 @@ namespace Managers
         public Player[] characters;
 
         public Player currCharacter;
-    
-        
 
         private void Awake()
         {
@@ -41,8 +39,6 @@ namespace Managers
                 if (temp == null) temp = GameObject.Find("Monk");
                 else currCharacter = temp.GetComponent<Samurai>();
             }
-
-            
         }
 
         public void SetCharacter(Player character)

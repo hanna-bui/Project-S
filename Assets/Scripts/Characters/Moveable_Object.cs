@@ -4,6 +4,7 @@ using System;
 using GameManager_Hide;
 using Movement.Pathfinding;
 using State = Finite_State_Machine.State;
+using Mirror;
 
 // ReSharper disable IdentifierTypo
 
@@ -14,7 +15,7 @@ using State = Finite_State_Machine.State;
 namespace Characters
 {
 
-    public class MoveableObject : MonoBehaviour
+    public class MoveableObject : NetworkBehaviour
     {
         protected float radius;
 
