@@ -4,7 +4,7 @@ using UnityEngine;
 
 namespace Characters
 {
-    public class Monk : MonoBehaviour
+    public class Monk : Character
     {
         private const float HP = 5;
         private const float MP = 10;
@@ -15,10 +15,18 @@ namespace Characters
         private const float DEF = 2;
         private const float MDEF = 8;
         private const int LVL = 1;
+
         private void Awake()
         {
             var charScript = GetComponent<Character>();
             charScript.SetupStats(HP, MP, SPE, RAN, DMG, DEF, MDMG, MDEF, LVL);
+        }
+        protected override void Start()
+        {
+        }
+
+        protected override void Update()
+        {
         }
     }
 }

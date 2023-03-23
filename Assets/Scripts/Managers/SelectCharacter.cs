@@ -28,7 +28,7 @@ public class SelectCharacter : MonoBehaviour
 
             Image image = option.GetComponentInChildren<Image>();
             // chooses display image from sprite 
-            // image.sprite = c.sprite;
+            image.sprite = c.sprite;
  
         }
     }

@@ -21,7 +21,6 @@ namespace Characters
             var charScript = GetComponent<Character>();
             charScript.SetupStats(HP, MP, SPE, RAN, DMG, DEF, MDMG, MDEF, LVL);
         }
-        
         protected override void Start()
         {
         }

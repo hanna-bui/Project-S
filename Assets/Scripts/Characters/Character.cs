@@ -32,9 +32,10 @@ namespace Characters
     public class Character : MoveableObject
     {
         public GameObject prefab;
+        public Sprite sprite;
 
         // All Characters have:
-        
+
         private TextMeshProUGUI hpValue;
         private TextMeshProUGUI mpValue;
 
