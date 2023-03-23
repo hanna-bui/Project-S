@@ -87,7 +87,19 @@ namespace Managers.Network
 
         public override void OnGUI()
         {
-            base.OnGUI();
+            if (!showRoomGUI)
+                return;
+
+            if (NetworkServer.active && Utils.IsSceneActive(GameplayScene))
+            {
+                GUILayout.BeginArea(new Rect(Screen.width - 150f, 10f, 140f, 30f));
+                if (GUILayout.Button("Return to Room"))
+                    ServerChangeScene(RoomScene);
+                GUILayout.EndArea();
+            }
+
+            if (Utils.IsSceneActive(RoomScene))
+                GUI.Box(new Rect(10f, 180f, 720f, 350f), "PLAYERS");
 
             if (allPlayersReady && showStartButton && GUI.Button(new Rect(150, 300, 120, 20), "START GAME"))
             {
