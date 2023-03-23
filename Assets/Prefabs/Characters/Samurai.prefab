@@ -118,6 +118,7 @@ GameObject:
   - component: {fileID: 2362670815751720625}
   - component: {fileID: 1363858759198646308}
   - component: {fileID: 1247046286681219214}
+  - component: {fileID: 4079903469875858834}
   m_Layer: 0
   m_Name: Samurai
   m_TagString: Player
@@ -229,6 +230,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   prefab: {fileID: 1889768590978699486}
   sprite: {fileID: 21300000, guid: dcb5eca08d65d644ebcaed87ab4f4f5b, type: 3}
+  name: 
 --- !u!114 &2362670815751720625
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -294,6 +296,23 @@ MonoBehaviour:
   compressRotation: 0
   positionPrecision: 0.01
   scalePrecision: 0.01
+--- !u!114 &4079903469875858834
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1889768590978699486}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7f6f3bf89aa97405989c802ba270f815, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  syncDirection: 0
+  syncMode: 0
+  syncInterval: 0.1
+  clientAuthority: 0
+  animator: {fileID: 1889768590978699487}
 --- !u!1 &4495993851672677612
 GameObject:
   m_ObjectHideFlags: 0

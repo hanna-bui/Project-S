@@ -150,6 +150,7 @@ GameObject:
   - component: {fileID: 1197151200351537285}
   - component: {fileID: 2960330902165977663}
   - component: {fileID: 1404499065410088374}
+  - component: {fileID: 8243141131846965181}
   m_Layer: 0
   m_Name: Monk
   m_TagString: Player
@@ -306,6 +307,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   prefab: {fileID: 1870814044837786759}
   sprite: {fileID: 21300000, guid: 71aaf53c16aceca459cd14c0fef76069, type: 3}
+  name: 
 --- !u!114 &1404499065410088374
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -325,6 +327,23 @@ MonoBehaviour:
   animator: {fileID: 0}
   grid: {fileID: 0}
   gm: {fileID: 0}
+--- !u!114 &8243141131846965181
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1870814044837786759}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7f6f3bf89aa97405989c802ba270f815, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  syncDirection: 0
+  syncMode: 0
+  syncInterval: 0.1
+  clientAuthority: 0
+  animator: {fileID: 7718147628724289759}
 --- !u!1 &3087339770306912501
 GameObject:
   m_ObjectHideFlags: 0

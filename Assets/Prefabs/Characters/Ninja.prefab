@@ -150,6 +150,7 @@ GameObject:
   - component: {fileID: 4100542446493419681}
   - component: {fileID: 4886419395190896798}
   - component: {fileID: 2787868005249898712}
+  - component: {fileID: 5756099568660150540}
   m_Layer: 0
   m_Name: Ninja
   m_TagString: Player
@@ -260,6 +261,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   prefab: {fileID: 1870814044837786759}
   sprite: {fileID: 21300000, guid: fafd610ce73a7d946a225e41b2f968fc, type: 3}
+  name: 
 --- !u!114 &4100542446493419681
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -325,6 +327,23 @@ MonoBehaviour:
   compressRotation: 0
   positionPrecision: 0.01
   scalePrecision: 0.01
+--- !u!114 &5756099568660150540
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1870814044837786759}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7f6f3bf89aa97405989c802ba270f815, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  syncDirection: 0
+  syncMode: 0
+  syncInterval: 0.1
+  clientAuthority: 0
+  animator: {fileID: 7718147628724289759}
 --- !u!1 &5021090402238734490
 GameObject:
   m_ObjectHideFlags: 0
