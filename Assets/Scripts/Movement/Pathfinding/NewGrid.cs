@@ -19,7 +19,7 @@ namespace Movement.Pathfinding
 
         private void Start()
         {
-            walkableMap = GameObject.Find("Grid/Walkable").GetComponent<Tilemap>();
+            walkableMap = transform.GetChild(1).GetComponent<Tilemap>();
             
             walkableMap.CompressBounds();
             
@@ -64,7 +64,7 @@ namespace Movement.Pathfinding
 
         private void CreateGrid()
         {
-            var floorMap = GameObject.Find("Grid/Floor").GetComponent<Tilemap>();
+            var floorMap = transform.GetChild(3).GetComponent<Tilemap>();
             floorMap.CompressBounds();
             
             FloorBounds = floorMap.cellBounds;

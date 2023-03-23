@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using Finite_State_Machine;
 using Finite_State_Machine.States;
+using Managers.Network;
 using TMPro;
 using UnityEngine;
 using Item = Items.Items;
@@ -99,6 +100,18 @@ namespace Characters
             var parent = GameObject.Find("Characters").transform;
             transform.parent = parent;
             transform.localScale = new Vector3(1, 1, 0);
+        }
+        
+        private Camera myCamera;
+        public override void OnStartLocalPlayer()
+        {
+            myCamera = Instantiate(Camera.main);
+            myCamera.transform.rotation = transform.rotation;
+            myCamera.transform.position = transform.position + new Vector3(0, 0, -10);
+            myCamera.transform.SetParent(transform);
+            myCamera.transform.localScale = new Vector3(0.05f, 0.05f, 1);
+            myCamera.nearClipPlane = 0;
+            Camera.main.gameObject.SetActive(false);
         }
 
         protected override void Update()
