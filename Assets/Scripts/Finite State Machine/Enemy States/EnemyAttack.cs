@@ -1,22 +1,20 @@
 ﻿using System;
-using Characters.Enemy;
 using Characters;
 using UnityEngine;
-using Motion = Characters.Motion;
+using Action = Characters.Enemy.Action;
 
 // ReSharper disable PossibleNullReferenceException
 
-namespace Finite_State_Machine.States
+namespace Finite_State_Machine.Enemy_States
 {
-
-    public class Attack : State
+    public class EnemyAttack : State
     {
         private GameObject Target { get; set; }
-        private Enemy TargetStat { get; set; }
+        private Character TargetStat { get; set; }
 
-        private const float DefaultInterval = 1.2f;
+        private const float DefaultInterval = 1.6f;
 
-        public Attack(GameObject target)
+        public EnemyAttack(GameObject target)
         {
             interval = 0f;
             Target = target;
@@ -24,26 +22,29 @@ namespace Finite_State_Machine.States
 
         public override void Execute(MoveableObject agent)
         {
-            var enemyList = agent.gm.Enemies;
-            
+            var playerList = agent.gm.Players;
+
             switch (CurrentStatus)
             {
                 case StateStatus.Initialize:
                     if (TargetStat is null)
                     {
-                        if (enemyList.Contains(Target))
+                        if (playerList.Contains(Target))
                         {
-                            TargetStat = enemyList[Target] as Enemy;
+                            TargetStat = playerList[Target] as Character;
+                            
                             agent.TargetLocation = TargetStat.Position();
                             agent.CalculateDirection();
                         }
+
                         interval = DefaultInterval;
+                        ChangeStatus(StateStatus.Executing);
                     }
                     break;
                 case StateStatus.Executing:
                     if (TargetStat is not null && TargetStat.CHP > 0)
                     {
-                        agent.SetAnimations(Motion.Attack);
+                        agent.SetAnimations(Action.Attack);
                         TargetStat.TakeDamage(agent.DMG);
                     }
                     else
@@ -52,7 +53,7 @@ namespace Finite_State_Machine.States
                     }
                     break;
                 case StateStatus.Completed:
-                    agent.ChangeState(new PlayerIdle());
+                    agent.ChangeState(new EnemyIdle());
                     break;
                 case StateStatus.Failed:
                     break;

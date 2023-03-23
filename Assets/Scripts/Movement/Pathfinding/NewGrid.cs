@@ -56,8 +56,8 @@ namespace Movement.Pathfinding
         
         public Vector3 GetRandomCoords()
         {
-            var x = Random.Range(WalkBounds.xMin, WalkBounds.size.x);
-            var y = Random.Range(WalkBounds.yMin, WalkBounds.size.y);
+            var x = UnityEngine.Random.Range(WalkBounds.xMin, WalkBounds.size.x);
+            var y = UnityEngine.Random.Range(WalkBounds.yMin, WalkBounds.size.y);
             
             return walkableMap.CellToWorld(new Vector3Int(x, y, 0));
         }

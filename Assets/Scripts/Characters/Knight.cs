@@ -1,38 +1,25 @@
 using UnityEngine;
+// ReSharper disable InconsistentNaming
+// ReSharper disable IdentifierTypo
 
 namespace Characters
 {
-    public class Knight : Character
+    public class Knight : MonoBehaviour
     {
-
-        // Start is called before the first frame update
-        protected override void Start()
+        private const float HP = 10;
+        private const float MP = 6;
+        private const float SPE = 1;
+        private const float RAN = 5;
+        private const float DMG = 6;
+        private const float MDMG = 2;
+        private const float DEF = 10;
+        private const float MDEF = 8;
+        private const int LVL = 1;
+        
+        private void Awake()
         {
-            base.Start();
-
-            HP = 10;
-            CHP = HP;
-            MP = 6;
-            CMP = MP;
-            SPE = 1;
-            RAN = 5;
-            DMG = 6;
-            MDMG = 2;
-            DEF = 10;
-            MDEF = 8;
-            LVL = 0;
-            Sprite = GameObject.Find("Knight");
-            //weapon = ;
-            //wa1 = ;
-            //wa2 = ;
-            //wa3 = ;
-            SetupCollider();
-        }
-
-        // Update is called once per frame
-        protected override void Update()
-        {
-            base.Update();
+            var charScript = GetComponent<Character>();
+            charScript.SetupStats(HP, MP, SPE, RAN, DMG, DEF, MDMG, MDEF, LVL);
         }
     }
 }

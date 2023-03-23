@@ -1,7 +1,6 @@
 ﻿using System.Collections.Generic;
 using Finite_State_Machine;
 using Finite_State_Machine.Enemy_States;
-using Movement;
 using TMPro;
 using UnityEngine;
 
@@ -14,10 +13,10 @@ namespace Characters.Enemy{
     
     public static class Action
     {
-        public const int Idle = 0;
-        public const int Attack = 1;
-        public const int Charge = 2;
-        public const int Hit = 3;
+        public const int Attack = 0;
+        public const int Charge = 1;
+        public const int Hit = 2;
+        public const int Idle = 3;
         public const int Jump = 4;
     }
 
@@ -34,7 +33,7 @@ namespace Characters.Enemy{
         [SerializeField] public bool IsBoss = false;
         [SerializeField] public MovementOptions MovementStyle = MovementOptions.Plus;
         [SerializeField] private int lvl = 1;
-        [SerializeField] private TextMeshProUGUI hpValue;
+        private TextMeshProUGUI hpValue;
 
         
         protected override void Start()
@@ -48,29 +47,31 @@ namespace Characters.Enemy{
             MP = RandomStat();
             CMP = CMP;
             SPE = Random.Range(1, 11);
-            RAN = RandomStat();
-            DMG = RandomStat();
+            RAN = Random.Range(6, 11);
+            DMG = Random.Range(1, 3);
             MDMG = RandomStat();
             DEF = RandomStat();
             MDEF = RandomStat();
 
-            Sprite = gameObject;
-
             radius = 1f;
             SetupCollider();
-            
+            var child = transform.GetChild(0).gameObject.GetComponent<EnemyCollider>();
+            child.SetupCollider(RAN);
+
             Origin = transform.position;
             
             States = new Stack<State>();
+            SetAnimations(Action.Idle);
             States.Push(new PatternWalk());
             
-            hpValue.text = "" + CHP + "";
+            hpValue = transform.GetChild(1).GetChild(0).GetComponent<TextMeshProUGUI>();
+            hpValue.text = "HP: " + CHP + "";
         }
 
         protected override void Update()
         {
-            currentState = GetTop();
-            currentState.Execute(this);
+            CurrentState = GetTop();
+            CurrentState.Execute(this, Time.deltaTime);
             
             if (CHP <= 0)
             {
@@ -78,22 +79,6 @@ namespace Characters.Enemy{
             }
         }
         
-        private void OnTriggerEnter2D(Collider2D col)
-        {
-            if (col.gameObject.CompareTag("Player"))
-            {
-                var player = col.gameObject.transform;
-                ChangeState(new EnemyIdle());
-            }
-        }
-        private void OnTriggerExit2D(Collider2D col)
-        {
-            if (col.gameObject.CompareTag("Player"))
-            {
-                ChangeState(new PatternWalk());
-            }
-        }
-
         public override bool IsSubState()
         {
             if (States.Count > 1)
@@ -109,13 +94,14 @@ namespace Characters.Enemy{
 
         private float RandomStat()
         {
-            return LVL * Random.Range(IsBoss ? 20 : 10, 31);
+            return LVL * Random.Range(IsBoss ? 20 : 15, 31);
         }
         
         public override void TakeDamage(float dmg)
         {
             CHP -= dmg;
-            hpValue.text = "" + CHP + "";
+            hpValue.text = "HP: " + CHP + "";
+            SetAnimations(Action.Hit);
         }
     }
 }

@@ -29,10 +29,6 @@ namespace Finite_State_Machine.Enemy_States
                 switch (CurrentStatus)
                 {
                     case StateStatus.Initialize:
-                        
-                        // SetupPlus(enemy);
-                        // SetupSide(enemy);
-                        
                         switch (enemy.MovementStyle)
                         {
                             case MO.Plus:

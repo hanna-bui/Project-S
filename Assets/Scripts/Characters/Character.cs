@@ -1,7 +1,7 @@
-using System;
 using System.Collections.Generic;
 using Finite_State_Machine;
 using Finite_State_Machine.States;
+using TMPro;
 using UnityEngine;
 using Item = Items.Items;
 
@@ -27,6 +27,7 @@ namespace Characters
         public const int Attack = 0;
         public const int Idle = 1;
         public const int Walk = 2;
+        public const int Hit = 3;
     }
     public class Character : MoveableObject
     {
@@ -34,6 +35,8 @@ namespace Characters
 
         // All Characters have:
         
+        private TextMeshProUGUI hpValue;
+        private TextMeshProUGUI mpValue;
 
         // Assets
         protected GameObject weapon { get; set; } // Main Weapon Sprite
@@ -54,49 +57,24 @@ namespace Characters
         protected void a3()
         {
         } // ability 3
-
-        /* Do we need methods like this?
-         How are we going to deal damage, heal, etc?
-         public float gethp()
-        {
-            return hp;
-        }
-        // ALL characters take damage
-        // Characters can only be damaged up to hp=0
-        public void takeDamage(float dmg)
-        {
-            hp -= dmg;
-            if (hp < 0) hp = 0;
-        }
-        
-        public void inchp(int inc)
-        {
-            hp += inc;
-        }*/
         
         private void OnTriggerEnter2D(Collider2D col)
         {
-            if (col.gameObject.CompareTag("Item") && currentState is not WalkToLocation)
+            if (col.gameObject.CompareTag("Item") && CurrentState is not WalkToLocation)
             {
                 ChangeState(new ItemPickup(col.GetComponent<Item>()));
             }
         }
         private void OnTriggerStay2D(Collider2D col)
         {
-            if (col.gameObject.CompareTag("Item") && currentState is not WalkToLocation)
+            if (col.gameObject.CompareTag("Item") && CurrentState is not WalkToLocation)
             {
                 ChangeState(new ItemPickup(col.GetComponent<Item>()));
-            }
-            if (col.gameObject.CompareTag("Enemy") && currentState is not WalkToLocation)
-            {
-                Debug.Log("Colliding with Enemy");
-                var newState = new Attack(this, col.transform.gameObject);
-                ChangeState(newState);
             }
         }
         private void OnTriggerExit2D(Collider2D col)
         {
-            if (col.gameObject.CompareTag("Item") && currentState is ItemPickup)
+            if (col.gameObject.CompareTag("Item") && CurrentState is ItemPickup)
             {
                 ChangeState(new PlayerIdle());
             }
@@ -108,12 +86,22 @@ namespace Characters
             States = new Stack<State>();
             States.Push(new PlayerIdle());
             radius = 0.5f;
+
+            SetupCollider();
+            var child = transform.GetChild(0).gameObject.GetComponent<CharacterCollider>();
+            child.SetupCollider(RAN);
+            
+            hpValue = transform.GetChild(1).GetChild(0).GetComponent<TextMeshProUGUI>();
+            hpValue.text = "HP: " + CHP + "";
+            
+            mpValue = transform.GetChild(1).GetChild(1).GetComponent<TextMeshProUGUI>();
+            mpValue.text = "MP: " + CMP + "";
         }
 
         protected override void Update()
         {
-            currentState = GetTop();
-            currentState.Execute(this, Time.deltaTime);
+            CurrentState = GetTop();
+            CurrentState.Execute(this, Time.deltaTime);
             
             if (Input.GetMouseButtonDown(0))
             {
@@ -124,14 +112,11 @@ namespace Characters
                 
                 if (t && t.transform.CompareTag("Enemy"))
                 {
-                    Debug.Log("Clicking Enemy");
-                    if (currentState is Attack)
+                    if (CurrentState is Attack)
                     {
-                        Debug.Log("Attacking"+Time.time);
-                        SetAnimations(Motion.Attack);
-                        if (currentState.CurrentStatus is StateStatus.Initialize)
+                        if (CurrentState.CurrentStatus is StateStatus.Initialize)
                         {
-                            currentState.ChangeStatus(StateStatus.Executing);
+                            CurrentState.ChangeStatus(StateStatus.Executing);
                         } 
                     }
                     else
@@ -141,10 +126,12 @@ namespace Characters
                     ChangeState(new WalkToLocation());
             }
 
-            if (Input.GetKeyDown(KeyCode.F) && currentState is ItemPickup)
-                currentState.ChangeStatus(StateStatus.Executing);
+            if (Input.GetKeyDown(KeyCode.F) && CurrentState is ItemPickup)
+                CurrentState.ChangeStatus(StateStatus.Executing);
         }
-        
+
+        #region Animations
+
         public override void CalculateDirection()
         {
             var position = transform.position;
@@ -168,12 +155,19 @@ namespace Characters
         {
             SetAnimations(Motion.Idle);
         }
-        
+
         public override void SetAnimations(int motion)
         {
             var index = facing;
-            animator.Play(animations[index + (4 * motion)].name);
+            var animStateInfo = animator.GetCurrentAnimatorStateInfo(0);
+            var NTime = animStateInfo.normalizedTime;
+            if (NTime > 0)
+                animator.Play(animations[index + (4 * motion)].name);
         }
+
+        #endregion
+
+        #region States
 
         public override bool IsSubState()
         {
@@ -185,6 +179,16 @@ namespace Characters
             States.Pop();
             States.Push(new PlayerIdle());
             return false;
+        }
+
+        #endregion
+
+        
+        
+        public override void TakeDamage(float dmg)
+        {
+            CHP -= dmg;
+            hpValue.text = "HP: " + CHP + "";
         }
     }
 }

@@ -14,11 +14,10 @@ namespace Managers
         public Character currCharacter;
     
         #region Goals
-        public readonly int click = Animator.StringToHash("Click");
-        
         private GameObject gridObject;
         public NewGrid grid;
 
+        public Hashtable Players { get; set; }
         public Hashtable Enemies { get; set; }
         #endregion
 
@@ -43,11 +42,14 @@ namespace Managers
             }
         
             #region Goals
+            Players = new Hashtable();
+            var charactersObject = GameObject.Find("Characters");
+            if (charactersObject != null)
+                SettingUpPlayers(charactersObject.transform);
             Enemies = new Hashtable();
             var enemyObject = GameObject.Find("Enemies");
-            if (enemyObject == null) return;
-            
-            SettingUpEnemies(enemyObject.transform);
+            if (enemyObject != null)
+                SettingUpEnemies(enemyObject.transform);
             #endregion
         }
 
@@ -56,6 +58,13 @@ namespace Managers
             currCharacter = character;
         }
         
+        private void SettingUpPlayers(Transform p)
+        {
+            foreach (Transform child in p)
+            {
+                Players.Add(child.gameObject, child.GetComponent<Character>());
+            }
+        }
         private void SettingUpEnemies(Transform e)
         {
             foreach (Transform child in e)

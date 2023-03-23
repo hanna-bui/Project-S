@@ -32,7 +32,6 @@ namespace Characters
         protected float DEF { get; set; } // defense
         protected float MDEF { get; set; } // magic defense
         [SerializeField] protected int LVL { get; set; } // level
-        protected GameObject Sprite { get; set; } // Enemy Sprite
         
         [SerializeField] protected AnimationClip[] animations;
         public Animator animator;
@@ -47,7 +46,7 @@ namespace Characters
 
         protected Stack<State> States;
 
-        protected State currentState;
+        public State CurrentState { get; set; }
 
         public GameManager gm;
         
@@ -80,8 +79,8 @@ namespace Characters
 
         protected virtual void Update()
         {
-            currentState = GetTop();
-            currentState.Execute(this);
+            CurrentState = GetTop();
+            CurrentState.Execute(this);
         }
 
         protected void SetupCollider()
@@ -106,9 +105,9 @@ namespace Characters
         }
         
         #region Animation
-        public virtual void CalculateDirection()
-        {
-        }
+        public virtual void CalculateDirection(){}
+        
+        public virtual void DirectionFromTarget(){}
 
         public virtual void StopAnimation()
         {
@@ -187,6 +186,21 @@ namespace Characters
         public virtual void TakeDamage(float dmg)
         {
             CHP -= dmg;
+        }
+        
+        public void SetupStats(float hp = 0, float mp = 0, float spe = 0, float ran = 0, float dmg = 0, float def = 0, float mdmg = 0, float mdef = 0, int lvl = 0)
+        {
+            HP = hp;
+            CHP = hp;
+            MP = mp;
+            CMP = mp;
+            SPE = spe;
+            RAN = ran;
+            DMG = dmg;
+            DEF = def;
+            MDMG = mdmg;
+            MDEF = mdef;
+            LVL = lvl;
         }
 
         public void LevelUp(float healthValue = 0, float manaValue = 0, float damageValue = 0, float rangeValue = 0, float defenceValue = 0, float magicDefenceValue = 0, float speedValue = 0)
