@@ -1,8 +1,7 @@
 using System.Collections.Generic;
-using Characters;
-using UnityEditor.VersionControl;
+using Managers.Network;
+using Mirror;
 using UnityEngine;
-using UnityEngine.Events;
 using UnityEngine.UI;
 
 public class CharacterSelectUI : MonoBehaviour
@@ -10,17 +9,24 @@ public class CharacterSelectUI : MonoBehaviour
     [Header("UI Elements")]
     [SerializeField] internal Button selectButton;
     [SerializeField] internal List<Button> charactersButtons;
-    [SerializeField] internal SManager smanager;
+    // [SerializeField] internal SManager smanager;
 
-    private int index = 0;
+    public int index = 0;
+    
+    public static CharacterSelectUI instance;
 
+    void Awake()
+    {
+        instance = this;
+    }
+    
     private void Start()
     {
         foreach (var b in charactersButtons)
         {
             b.onClick.AddListener(delegate { Task(b); });
         }
-        selectButton.onClick.AddListener(ChangeScene);
+        // selectButton.onClick.AddListener(ChangeScene);
     }
 
     private void Task(Button b)
@@ -29,9 +35,8 @@ public class CharacterSelectUI : MonoBehaviour
         Debug.Log(index);
     }
     
-    private void ChangeScene()
+    public void ChangeScene()
     {
-        smanager.playerPrefab = smanager.spawnPrefabs[index];
-        smanager.ServerChangeScene("SampleScene2.0");
+        // smanager.ServerChangeScene("SampleScene2.0");
     }
 }

@@ -670,7 +670,7 @@ namespace Mirror
             }
 
             if (Utils.IsSceneActive(RoomScene))
-                GUI.Box(new Rect(10f, 180f, 520f, 150f), "PLAYERS");
+                GUI.Box(new Rect(10f, 180f, 1020f, 150f), "PLAYERS");
         }
 
         #endregion
