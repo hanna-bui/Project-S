@@ -2,6 +2,7 @@
 using UnityEngine;
 using System;
 using GameManager_Hide;
+using Mirror;
 using Movement.Pathfinding;
 using State = Finite_State_Machine.State;
 
@@ -14,7 +15,7 @@ using State = Finite_State_Machine.State;
 namespace Characters
 {
 
-    public class MoveableObject : MonoBehaviour
+    public class MoveableObject : NetworkBehaviour
     {
         protected float radius;
 
@@ -64,7 +65,17 @@ namespace Characters
         protected virtual void Start()
         {
             grid = GameObject.Find("Grid").GetComponent<NewGrid>();
-            gm = GameObject.Find("SmallManager").GetComponent<Manager>();
+            var tempGM = GameObject.Find("SmallManager");
+            if (tempGM == null)
+            {
+                tempGM = GameObject.Find("GameManager");
+                if (tempGM != null)
+                    gm = tempGM.GetComponent<Manager>();
+            }
+            else
+            {
+                gm = tempGM.GetComponent<Manager>();
+            }
 
             States = new Stack<State>();
 
@@ -109,7 +120,6 @@ namespace Characters
         #region Animation
         public virtual void CalculateDirection(){}
         
-        public virtual void DirectionFromTarget(){}
 
         public virtual void StopAnimation()
         {
@@ -251,16 +261,6 @@ namespace Characters
         public Vector3 Position()
         {
             return transform.position;
-        }
-        
-        public Vector3 LocalPosition()
-        {
-            return transform.localPosition;
-        }
-        
-        public void SetLocalPosition(Vector3 newPosition)
-        {
-            transform.localPosition = newPosition;
         }
 
         #endregion

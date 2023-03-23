@@ -6,5 +6,6 @@ namespace Characters
     {
         public GameObject prefab;
         public Sprite sprite;
+        public new string name;
     }
 }

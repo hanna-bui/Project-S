@@ -8,16 +8,16 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/Multiplayer.unity
     guid: 4ca967a44bf3945d8b83cf3d9bcfac39
-  - enabled: 0
-    path: Assets/Scenes/TestScene.unity
-    guid: f94d93477942a4e459468db26e8f0671
   - enabled: 1
     path: Assets/Scenes/Lobby.unity
     guid: 9ce9753a41f544e76b06c82ee40cfa44
   - enabled: 1
     path: Assets/Scenes/ChooseCharacter.unity
     guid: 2ee973086abbf4334acfffbef16e61bc
-  - enabled: 0
-    path: 
-    guid: 00000000000000000000000000000000
+  - enabled: 1
+    path: Assets/Scenes/NewMultiplayer.unity
+    guid: 93c050356f3eb7245a9d7a09413e672c
+  - enabled: 1
+    path: Assets/Scenes/SampleScene2.0.unity
+    guid: c897da1b55f5c44408dfbdda6d760887
   m_configObjects: {}

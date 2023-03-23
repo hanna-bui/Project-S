@@ -81,6 +81,7 @@ namespace Characters
         protected override void Start()
         {
             base.Start();
+            
             States = new Stack<State>();
             States.Push(new PlayerIdle());
             radius = 0.5f;
@@ -94,10 +95,16 @@ namespace Characters
             
             mpValue = transform.GetChild(1).GetChild(1).GetComponent<TextMeshProUGUI>();
             mpValue.text = "MP: " + CMP + "";
+            
+            var parent = GameObject.Find("Characters").transform;
+            transform.parent = parent;
+            transform.localScale = new Vector3(1, 1, 0);
         }
 
         protected override void Update()
         {
+            if (!isLocalPlayer) return;
+            
             CurrentState = GetTop();
             CurrentState.Execute(this, Time.deltaTime);
             
