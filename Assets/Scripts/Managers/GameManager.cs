@@ -59,6 +59,14 @@ namespace Managers
             #endregion
         }
 
+        private void Update()
+        {
+            if (grid == null)
+            {
+                
+            }
+        }
+
         public void SetCharacter(Character character)
         {
             currCharacter = character;

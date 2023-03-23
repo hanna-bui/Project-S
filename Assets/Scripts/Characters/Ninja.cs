@@ -4,7 +4,7 @@ using UnityEngine;
 
 namespace Characters
 {
-    public class Ninja : MonoBehaviour
+    public class Ninja : Character
     {
         private const float HP = 6;
         private const float MP = 8;
@@ -20,6 +20,14 @@ namespace Characters
         {
             var charScript = GetComponent<Character>();
             charScript.SetupStats(HP, MP, SPE, RAN, DMG, DEF, MDMG, MDEF, LVL);
+        }
+        
+        protected override void Start()
+        {
+        }
+
+        protected override void Update()
+        {
         }
     }
 }
