@@ -112,6 +112,9 @@ namespace Characters
             myCamera.transform.localScale = new Vector3(0.05f, 0.05f, 1);
             myCamera.nearClipPlane = 0;
             Camera.main.gameObject.SetActive(false);
+
+            var canvas = transform.GetChild(1).gameObject;
+            canvas.SetActive(true);
         }
 
         protected override void Update()

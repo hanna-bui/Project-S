@@ -38,8 +38,8 @@ namespace Managers.Network
             if (sceneName == GameplayScene)
             {
                 Debug.Log("Loading GameplayScene");
+                Spawner.InitialSpawn();
             }
-                // Spawner.InitialSpawn();
         }
 
         public override GameObject OnRoomServerCreateGamePlayer(NetworkConnectionToClient conn, GameObject roomPlayer)

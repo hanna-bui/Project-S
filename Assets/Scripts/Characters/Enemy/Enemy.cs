@@ -34,7 +34,7 @@ namespace Characters.Enemy{
         [SerializeField] public MovementOptions MovementStyle = MovementOptions.Plus;
         [SerializeField] private int lvl = 1;
         private TextMeshProUGUI hpValue;
-
+        
         
         protected override void Start()
         {
@@ -66,6 +66,10 @@ namespace Characters.Enemy{
             
             hpValue = transform.GetChild(1).GetChild(0).GetComponent<TextMeshProUGUI>();
             hpValue.text = "HP: " + CHP + "";
+            
+            
+            transform.parent = GameObject.Find("Enemies").transform;
+            transform.localScale = new Vector3(1, 1, 1);
         }
 
         protected override void Update()
