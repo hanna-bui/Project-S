@@ -4,7 +4,7 @@ using UnityEngine;
 
 namespace Characters
 {
-    public class Samurai : Character
+    public class Samurai : Player
     {
         private const float HP = 5;
         private const float MP = 6;
@@ -19,14 +19,6 @@ namespace Characters
         {
             var charScript = GetComponent<Character>();
             charScript.SetupStats(HP, MP, SPE, RAN, DMG, DEF, MDMG, MDEF, LVL);
-        }
-
-        protected override void Start()
-        {
-        }
-
-        protected override void Update()
-        {
         }
     }
 }

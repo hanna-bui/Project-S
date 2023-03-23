@@ -31,8 +31,6 @@ namespace Characters
     }
     public class Character : MoveableObject
     {
-        public GameObject prefab;
-
         // All Characters have:
         
         private TextMeshProUGUI hpValue;

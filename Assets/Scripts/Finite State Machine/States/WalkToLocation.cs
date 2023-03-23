@@ -17,8 +17,7 @@ namespace Finite_State_Machine.States
 
         public override void Execute(MoveableObject agent)
         {
-            var gm = agent.gm;
-            var grid = gm.grid;
+            var grid = agent.grid;
 
             if (CurrentStatus is StateStatus.Initialize)
             {

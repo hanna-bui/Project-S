@@ -9,7 +9,7 @@ public class ButtonController : MonoBehaviour
 {
     public void ChooseCharacter()
     {
-        SceneManager.LoadSceneAsync("TestScene");
+        SceneManager.LoadSceneAsync("Lobby");
     }
 
     public void SpawnEnemy()

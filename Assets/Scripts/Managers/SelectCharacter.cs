@@ -11,7 +11,7 @@ public class SelectCharacter : MonoBehaviour
 
     private void Start()
     {
-        foreach (Character c in GameManager.instance.characters)
+        foreach (Player c in GameManager.instance.characters)
         {
             GameObject option = Instantiate(optionPrefab, transform);
             Button button = option.GetComponent<Button>();

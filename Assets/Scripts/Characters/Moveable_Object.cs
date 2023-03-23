@@ -1,11 +1,8 @@
 ﻿using System.Collections.Generic;
 using UnityEngine;
-using Movement;
 using System;
-using Finite_State_Machine.States;
-using Managers;
-using Unity.VisualScripting;
-using UnityEditor.Animations;
+using GameManager_Hide;
+using Movement.Pathfinding;
 using State = Finite_State_Machine.State;
 
 // ReSharper disable IdentifierTypo
@@ -31,7 +28,7 @@ namespace Characters
         protected float MDMG { get; set; } // magic damage
         protected float DEF { get; set; } // defense
         protected float MDEF { get; set; } // magic defense
-        [SerializeField] protected int LVL { get; set; } // level
+        protected int LVL { get; set; } // level
         
         [SerializeField] protected AnimationClip[] animations;
         public Animator animator;
@@ -48,7 +45,9 @@ namespace Characters
 
         public State CurrentState { get; set; }
 
-        public GameManager gm;
+        public NewGrid grid;
+        
+        public Manager gm;
         
         private Vector3 origin;
         
@@ -64,14 +63,17 @@ namespace Characters
         
         protected virtual void Start()
         {
-            gm = GameObject.Find("GameManager").GetComponent<GameManager>();
+            grid = GameObject.Find("Grid").GetComponent<NewGrid>();
+            gm = GameObject.Find("SmallManager").GetComponent<Manager>();
+
+            States = new Stack<State>();
 
             camera = Camera.main;
             TargetLocation = transform.position;
             
             animator = GetComponent<Animator>();
             var ac = animator.runtimeAnimatorController;
-            animations = animator.runtimeAnimatorController.animationClips;
+            animations = ac.animationClips;
             Array.Sort(animations, new AnimationCompare());
 
             facing = 0;

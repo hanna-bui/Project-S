@@ -88,8 +88,7 @@ namespace Finite_State_Machine.Enemy_States
 
         private void SetupPlusOrSide(Enemy agent)
         {
-            var gm = agent.gm;
-            var grid = gm.grid;
+            var grid = agent.grid;
             
             roadPath = new List<Vector3>();
             var origin = agent.Origin;
@@ -166,7 +165,7 @@ namespace Finite_State_Machine.Enemy_States
 
         private void RandomMovement(Enemy agent)
         {
-            var grid = agent.gm.grid;
+            var grid = agent.grid;
             
             var pos = agent.Position();
 

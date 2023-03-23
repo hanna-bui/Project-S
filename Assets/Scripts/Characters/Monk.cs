@@ -4,7 +4,7 @@ using UnityEngine;
 
 namespace Characters
 {
-    public class Monk : MonoBehaviour
+    public class Monk : Player
     {
         private const float HP = 5;
         private const float MP = 10;
