@@ -32,6 +32,8 @@ public class SelectCharacter : MonoBehaviour
             image.sprite = c.sprite;
  
         }
+
+
     }
 
     private void Update()

@@ -107,6 +107,8 @@ namespace Characters
             
             CurrentState = GetTop();
             CurrentState.Execute(this, Time.deltaTime);
+
+          
             
             if (Input.GetMouseButtonDown(0))
             {
