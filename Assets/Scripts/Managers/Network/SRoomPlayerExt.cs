@@ -43,15 +43,15 @@ namespace Managers.Network
                 if (!Utils.IsSceneActive(room.RoomScene))
                     return;
                 
-                if (GUI.Button(new Rect(150, 250, 120, 20), "Ninja"))
+                if (GUI.Button(new Rect(150, 250, 80, 20), "Ninja"))
                 {
                     characterIndex = 0;
                 }
-                if (GUI.Button(new Rect(50, 250, 120, 20), "Samurai"))
+                if (GUI.Button(new Rect(50, 250, 80, 20), "Samurai"))
                 {
                     characterIndex = 1;
                 }
-                if (GUI.Button(new Rect(250, 250, 120, 20), "Monk"))
+                if (GUI.Button(new Rect(250, 250, 80, 20), "Monk"))
                 {
                     characterIndex = 2;
                 }
