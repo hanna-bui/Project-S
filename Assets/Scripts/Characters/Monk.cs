@@ -1,40 +1,24 @@
 using UnityEngine;
+// ReSharper disable InconsistentNaming
+// ReSharper disable IdentifierTypo
 
 namespace Characters
 {
-    public class Monk : Character
+    public class Monk : MonoBehaviour
     {
-        
-        // Start is called before the first frame update
-
-        
-        protected override void Start()
+        private const float HP = 5;
+        private const float MP = 10;
+        private const float SPE = 6;
+        private const float RAN = 6;
+        private const float DMG = 1;
+        private const float MDMG = 10;
+        private const float DEF = 2;
+        private const float MDEF = 8;
+        private const int LVL = 1;
+        private void Awake()
         {
-            base.Start();
-            
-            HP = 5;
-            CHP = HP;
-            MP = 10;
-            CMP = MP;
-            SPE = 6;
-            RAN = 6;
-            DMG = 1;
-            MDMG = 10;
-            DEF = 2;
-            MDEF = 8;
-            LVL = 0;
-            Sprite = GameObject.Find("Monk");
-            //weapon = ;
-            //wa1 = ;
-            //wa2 = ;
-            //wa3 = ;
-            SetupCollider();
-        }
-
-        // Update is called once per frame
-        protected override void Update()
-        {
-            base.Update();
+            var charScript = GetComponent<Character>();
+            charScript.SetupStats(HP, MP, SPE, RAN, DMG, DEF, MDMG, MDEF, LVL);
         }
     }
 }

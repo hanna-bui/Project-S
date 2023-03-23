@@ -1,38 +1,25 @@
 using UnityEngine;
+// ReSharper disable InconsistentNaming
+// ReSharper disable IdentifierTypo
 
 namespace Characters
 {
-    public class Ninja : Character
+    public class Ninja : MonoBehaviour
     {
+        private const float HP = 6;
+        private const float MP = 8;
+        private const float SPE = 10;
+        private const float RAN = 10;
+        private const float DMG = 6;
+        private const float MDMG = 5;
+        private const float DEF = 1;
+        private const float MDEF = 2;
+        private const int LVL = 1;
 
-        // Start is called before the first frame update
-        protected override void Start()
+        private void Awake()
         {
-            base.Start();
-
-            HP = 6;
-            CHP = HP;
-            MP = 8;
-            CMP = MP;
-            SPE = 10;
-            RAN = 10;
-            DMG = 6;
-            MDMG = 5;
-            DEF = 1;
-            MDEF = 2;
-            LVL = 0;
-            Sprite = GameObject.Find("Ninja");
-            //weapon = ;
-            //wa1 = ;
-            //wa2 = ;
-            //wa3 = ;
-            SetupCollider();
-        }
-
-        // Update is called once per frame
-        protected override void Update()
-        {
-            base.Update();
+            var charScript = GetComponent<Character>();
+            charScript.SetupStats(HP, MP, SPE, RAN, DMG, DEF, MDMG, MDEF, LVL);
         }
     }
 }

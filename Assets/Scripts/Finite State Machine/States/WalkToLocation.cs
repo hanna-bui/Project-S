@@ -1,9 +1,8 @@
-﻿using Finite_State_Machine.Enemy_States;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using Characters.Enemy;
 using UnityEngine;
 using Characters;
-using Movement;
+using Motion = Characters.Motion;
 
 namespace Finite_State_Machine.States
 {
@@ -31,8 +30,8 @@ namespace Finite_State_Machine.States
                 switch (agent)
                 {
                     case Character:
-                        agent.SetAnimations(agent.CalculateDirection());
-                        agent.animator.SetBool(gm.click, true);
+                        agent.CalculateDirection();
+                        agent.SetAnimations(Motion.Walk);
                         break;
                     case Enemy:
                         agent.SetAnimations(Action.Jump);
@@ -56,25 +55,13 @@ namespace Finite_State_Machine.States
                         CurrentStatus = StateStatus.Completed;
                     }
 
-                    if (agent is Character)
-                        agent.SetAnimations(agent.CalculateDirection());
-
                     Move(agent);
                 }
             }
 
             if (CurrentStatus is StateStatus.Completed)
             {
-                if (agent is Character)
-                {
-                    agent.StopAnimation();
-                    agent.ChangeState(new PlayerIdle());
-                }
-                else
-                {
-                    agent.SetAnimations(Action.Idle);
-                    agent.ChangeState(new EnemyIdle());
-                }
+                agent.IsSubState();
             }
         }
         

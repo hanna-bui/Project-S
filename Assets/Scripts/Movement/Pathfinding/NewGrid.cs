@@ -7,29 +7,15 @@ namespace Movement.Pathfinding
     public class NewGrid : MonoBehaviour
     {
         [TextArea]// Do not place your note/comment here. Enter your note in the Unity Editor.
-        public string notes = "Floor and Walkable should always be placed in the positive x and y axis. " + 
-                              "It cannot be placed in the negative x and/or y axis. In the sample scene, " + 
-                              "the white square indicates the (0, 0) point. The grid/tilemap should be placed above " + 
-                              "and to the right of the white square. "; 
+        public string notes = "Floor and Walkable should always be placed in the positive x and y axis. It cannot be placed in the negative x and/or y axis. In the sample scene, the white square indicates the (0, 0) point. The grid/tilemap should be placed above and to the right of the white square. "; 
         
         private Tilemap walkableMap;
-        private Astar.Node[,] nodeToNodes;
-        
-        private BoundsInt floorBounds;
-        private BoundsInt walkBounds;
-        
-        protected BoundsInt FloorBounds
-        {
-            get => floorBounds;
-            set => floorBounds = value;
-        }
-        
-        
-        protected BoundsInt WalkBounds
-        {
-            get => walkBounds;
-            set => walkBounds = value;
-        }
+        private Node[,] nodeToNodes;
+
+        private BoundsInt FloorBounds { get; set; }
+
+
+        private BoundsInt WalkBounds { get; set; }
 
         private void Start()
         {
@@ -49,7 +35,7 @@ namespace Movement.Pathfinding
             
             var gridPos = walkableMap.WorldToCell(targetPosition);
 
-            if (gridPos.x >= 0 && gridPos.y >= 0 && gridPos.x <= nodeToNodes.GetUpperBound(0) &&
+            if (gridPos is { x: >= 0, y: >= 0 } && gridPos.x <= nodeToNodes.GetUpperBound(0) &&
                 gridPos.y <= nodeToNodes.GetUpperBound(1))
             {
                 var endNode = nodeToNodes[gridPos.x, gridPos.y];
@@ -70,8 +56,8 @@ namespace Movement.Pathfinding
         
         public Vector3 GetRandomCoords()
         {
-            var x = Random.Range(WalkBounds.xMin, WalkBounds.size.x);
-            var y = Random.Range(WalkBounds.yMin, WalkBounds.size.y);
+            var x = UnityEngine.Random.Range(WalkBounds.xMin, WalkBounds.size.x);
+            var y = UnityEngine.Random.Range(WalkBounds.yMin, WalkBounds.size.y);
             
             return walkableMap.CellToWorld(new Vector3Int(x, y, 0));
         }
@@ -83,13 +69,13 @@ namespace Movement.Pathfinding
             
             FloorBounds = floorMap.cellBounds;
             
-            nodeToNodes = new Astar.Node[FloorBounds.size.x, FloorBounds.size.y];
+            nodeToNodes = new Node[FloorBounds.size.x, FloorBounds.size.y];
             for (var x = FloorBounds.xMin; x < FloorBounds.size.x; x++)
             for (var y = FloorBounds.yMin; y < FloorBounds.size.y; y++)
             {
                 if (walkableMap.HasTile(new Vector3Int(x, y, 0)))
                 {
-                    var newNode = new Astar.Node(x, y);
+                    var newNode = new Node(x, y);
                     nodeToNodes[x, y] = newNode;
                 }
                 else

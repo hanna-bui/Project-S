@@ -1,10 +1,12 @@
 ﻿using System.Collections.Generic;
-using Finite_State_Machine;
 using UnityEngine;
 using Movement;
 using System;
+using Finite_State_Machine.States;
 using Managers;
-using Mirror;
+using Unity.VisualScripting;
+using UnityEditor.Animations;
+using State = Finite_State_Machine.State;
 
 // ReSharper disable IdentifierTypo
 
@@ -15,7 +17,7 @@ using Mirror;
 namespace Characters
 {
 
-    public class MoveableObject : NetworkBehaviour
+    public class MoveableObject : MonoBehaviour
     {
         protected float radius;
 
@@ -30,10 +32,10 @@ namespace Characters
         protected float DEF { get; set; } // defense
         protected float MDEF { get; set; } // magic defense
         [SerializeField] protected int LVL { get; set; } // level
-        protected GameObject Sprite { get; set; } // Enemy Sprite
         
-        [SerializeField] protected List<AnimatorOverrideController> overrideControllers;
+        [SerializeField] protected AnimationClip[] animations;
         public Animator animator;
+        protected int facing;
 
         public Vector3 TargetLocation { get; set; }
         
@@ -42,7 +44,9 @@ namespace Characters
         
         #region State
 
-        protected State currentState;
+        protected Stack<State> States;
+
+        public State CurrentState { get; set; }
 
         public GameManager gm;
         
@@ -64,12 +68,19 @@ namespace Characters
 
             camera = Camera.main;
             TargetLocation = transform.position;
+            
             animator = GetComponent<Animator>();
+            var ac = animator.runtimeAnimatorController;
+            animations = animator.runtimeAnimatorController.animationClips;
+            Array.Sort(animations, new AnimationCompare());
+
+            facing = 0;
         }
 
         protected virtual void Update()
         {
-            currentState.Execute(this);
+            CurrentState = GetTop();
+            CurrentState.Execute(this);
         }
 
         protected void SetupCollider()
@@ -93,35 +104,34 @@ namespace Characters
             return transform.position.Equals(target);
         }
         
-        public int CalculateDirection()
-        {
-            var position = transform.position;
-            if (Math.Abs(TargetLocation.x - position.x) < 0.00001) return 0;
-            if (Math.Abs(TargetLocation.y - position.y) < 0.00001) return 0;
+        #region Animation
+        public virtual void CalculateDirection(){}
+        
+        public virtual void DirectionFromTarget(){}
 
-            var heading = (Vector2)TargetLocation - (Vector2)position;
-            var magnitude = heading / heading.magnitude;
-            var x = (decimal)magnitude.x;
-            var y = (decimal)magnitude.y;
-            
-            if (Math.Max(Math.Abs(y), Math.Abs(x)) == Math.Abs(y))
-            {
-                return y > 0 ? Direction.Up : Direction.Down;
-            }
-            return x > 0 ? Direction.Right : Direction.Left;
+        public virtual void StopAnimation()
+        {
+            SetAnimations(facing);
+        }
+
+        public virtual void SetAnimations(int index)
+        {
+            animator.Play(animations[index].name);
         }
         
-        #region Animation
-
-        public void StopAnimation()
+        class AnimationCompare : IComparer<AnimationClip>
         {
-            animator.SetBool(gm.click, false);
-        }
-
-        public void SetAnimations(int index)
-        {
-            var overrideController = overrideControllers[index];
-            animator.runtimeAnimatorController = overrideController;
+            public int Compare(AnimationClip x, AnimationClip y)
+            {
+                if (x == null || y == null)
+                {
+                    return 0;
+                }
+          
+                // CompareTo() method
+                return string.Compare(x.name, y.name, StringComparison.Ordinal);
+          
+            }
         }
 
         #endregion Animation
@@ -177,6 +187,21 @@ namespace Characters
         {
             CHP -= dmg;
         }
+        
+        public void SetupStats(float hp = 0, float mp = 0, float spe = 0, float ran = 0, float dmg = 0, float def = 0, float mdmg = 0, float mdef = 0, int lvl = 0)
+        {
+            HP = hp;
+            CHP = hp;
+            MP = mp;
+            CMP = mp;
+            SPE = spe;
+            RAN = ran;
+            DMG = dmg;
+            DEF = def;
+            MDMG = mdmg;
+            MDEF = mdef;
+            LVL = lvl;
+        }
 
         public void LevelUp(float healthValue = 0, float manaValue = 0, float damageValue = 0, float rangeValue = 0, float defenceValue = 0, float magicDefenceValue = 0, float speedValue = 0)
         {
@@ -190,9 +215,30 @@ namespace Characters
             LVL += 1;
         }
 
+        public int GetFacing()
+        {
+            return facing;
+        }
+        
+        public State GetTop()
+        {
+            return States.Peek();
+        }
+
+        public virtual bool IsSubState()
+        {
+            return false;
+        }
+        
+        public void AddState(State newState)
+        {
+            States.Push(newState);
+        }
+
         public void ChangeState(State newState)
         {
-            currentState = newState;
+            States.Pop();
+            States.Push(newState);
         }
         
         public void SetPosition(Vector3 newPosition)
