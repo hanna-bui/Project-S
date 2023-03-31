@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 using UnityEngine.Tilemaps;
 
@@ -19,13 +20,34 @@ namespace Movement.Pathfinding
 
         private void Start()
         {
-            walkableMap = transform.GetChild(1).GetComponent<Tilemap>();
+            //walkableMap = transform.GetChild(1).GetComponent<Tilemap>();
+            walkableMap = GetWalkable();
             
             walkableMap.CompressBounds();
             
             WalkBounds = walkableMap.cellBounds;
 
             CreateGrid();
+        }
+
+        private Tilemap GetWalkable()
+        {
+            GameObject Level = GameObject.FindGameObjectWithTag("Level");
+            Tilemap lvlMap = new Tilemap();
+            // This function might be able to merge the maps? Not sure...
+            foreach (Transform t in GameObject.FindGameObjectWithTag("Walk").transform)
+            {
+                Tilemap tmap = t.parent.GetComponent<Tilemap>();
+                lvlMap.SetTiles(new Vector3Int[tmap.size.x * tmap.size.y], tmap.GetTilesBlock(tmap.cellBounds));
+                /*for (int x = 0; x < tmap.size.x; x++)
+                {
+                    for (int y = 0; y < tmap.size.y; y++)
+                    {
+                        
+                    }
+                }*/
+            }
+            return lvlMap;
         }
 
         public List<Vector3> CreatePath(Vector3 character, Vector3 targetPosition)

@@ -10,9 +10,10 @@ GameObject:
   m_Component:
   - component: {fileID: 7185108239027169873}
   - component: {fileID: 8762469167478988058}
+  - component: {fileID: 2850946515515890066}
   m_Layer: 0
   m_Name: Test
-  m_TagString: Untagged
+  m_TagString: Level
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -46,6 +47,22 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   totalRooms: 30
+--- !u!114 &2850946515515890066
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 810696366938602280}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e1c3b1b3f54630c4fbce8c3f5889d80e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  notes: 'Floor and Walkable should always be placed in the positive x and y axis.
+    It cannot be placed in the negative x and/or y axis. In the sample scene, the
+    white square indicates the (0, 0) point. The grid/tilemap should be placed above
+    and to the right of the white square. '
 --- !u!1001 &8022851458441135595
 PrefabInstance:
   m_ObjectHideFlags: 0

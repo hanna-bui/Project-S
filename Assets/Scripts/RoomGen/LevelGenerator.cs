@@ -58,10 +58,13 @@ namespace RoomGen
 
         private RoomTemplates templates;
 
+        private GameObject Level;
+
 
         // Start is called before the first frame update
         void Start()
         {
+            Level = GameObject.FindGameObjectWithTag("Level");
             templates = GameObject.FindGameObjectWithTag("Rooms").GetComponent<RoomTemplates>();
             int i = 0;
             int j = 0;
@@ -103,6 +106,7 @@ namespace RoomGen
         /// </summary>
         private void Spawn()
         {
+            //Transform Walkable = GameObject.FindGameObjectWithTag("Walk").transform;
             Vector3 point = Vector3.zero;
             // Size of rooms (all rooms are square so this represents a side).
             // 15 * 15 represents 15 tiles * 15 scale
@@ -115,8 +119,11 @@ namespace RoomGen
                     int d = (int)RoomDoors[i, j];
                     GameObject room = templates.Rooms[d];
                     room = Instantiate(room, point, room.transform.rotation);
+                    room.transform.parent = Level.transform;
+                    //Transform walkable = room.transform.GetChild(1);
+                    //walkable.parent = Walkable;
+                    
                     //room.transform.localScale = new Vector3(15, 15, 1);
-                    // todo: Set target transform for Grid script.
                     point.y += s;
                 }
                 point.x += s;
