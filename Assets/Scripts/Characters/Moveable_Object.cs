@@ -64,7 +64,7 @@ namespace Characters
         
         protected virtual void Start()
         {
-            grid = GameObject.Find("Grid").GetComponent<NewGrid>();
+            grid = GameObject.FindGameObjectWithTag("Level").GetComponent<NewGrid>();
             var tempGM = GameObject.Find("SmallManager");
             if (tempGM == null)
             {

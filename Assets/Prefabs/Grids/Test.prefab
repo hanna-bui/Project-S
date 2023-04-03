@@ -50,7 +50,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   totalRooms: 30
-  grid: {fileID: 0}
+  grid: {fileID: 2850946515515890066}
 --- !u!114 &2850946515515890066
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -67,8 +67,8 @@ MonoBehaviour:
     It cannot be placed in the negative x and/or y axis. In the sample scene, the
     white square indicates the (0, 0) point. The grid/tilemap should be placed above
     and to the right of the white square. '
-  walkableMap: {fileID: 0}
-  floorMap: {fileID: 0}
+  walkableMap: {fileID: 5318731423173341124}
+  floorMap: {fileID: 7680067869017700294}
 --- !u!156049354 &8235839971664121818
 Grid:
   m_ObjectHideFlags: 0
