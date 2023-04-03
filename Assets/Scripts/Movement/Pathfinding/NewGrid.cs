@@ -1,7 +1,11 @@
 using System.Collections.Generic;
-using System.Linq;
 using UnityEngine;
 using UnityEngine.Tilemaps;
+using Random = UnityEngine.Random;
+
+// ReSharper disable NotAccessedField.Global
+// ReSharper disable IdentifierTypo
+// ReSharper disable Unity.UnknownTag
 
 namespace Movement.Pathfinding
 {
@@ -10,48 +14,56 @@ namespace Movement.Pathfinding
         [TextArea]// Do not place your note/comment here. Enter your note in the Unity Editor.
         public string notes = "Floor and Walkable should always be placed in the positive x and y axis. It cannot be placed in the negative x and/or y axis. In the sample scene, the white square indicates the (0, 0) point. The grid/tilemap should be placed above and to the right of the white square. "; 
         
-        private Tilemap walkableMap;
+        [SerializeField] private Tilemap walkableMap;
+        [SerializeField] private Tilemap floorMap;
         private Node[,] nodeToNodes;
+
 
         private BoundsInt FloorBounds { get; set; }
 
-
         private BoundsInt WalkBounds { get; set; }
 
-        private void Start()
+
+        public void InitializeGrid()
         {
-            //walkableMap = transform.GetChild(1).GetComponent<Tilemap>();
-            walkableMap = GetWalkable();
-            
             walkableMap.CompressBounds();
+            floorMap.CompressBounds();
             
             WalkBounds = walkableMap.cellBounds;
 
             CreateGrid();
         }
 
-        private Tilemap GetWalkable()
+        public void UpdateTilemap(Tilemap newWalkMap, Tilemap newFloorMap, Vector3 point)
         {
-            GameObject Level = GameObject.FindGameObjectWithTag("Level");
-            Tilemap lvlMap = new Tilemap();
-            // This function might be able to merge the maps? Not sure...
-            foreach (Transform t in GameObject.FindGameObjectWithTag("Walk").transform)
-            {
-                Tilemap tmap = t.parent.GetComponent<Tilemap>();
-                lvlMap.SetTiles(new Vector3Int[tmap.size.x * tmap.size.y], tmap.GetTilesBlock(tmap.cellBounds));
-                /*for (int x = 0; x < tmap.size.x; x++)
-                {
-                    for (int y = 0; y < tmap.size.y; y++)
-                    {
-                        
+            var walkBounds = newFloorMap.cellBounds;
+            var walkTiles = newWalkMap.GetTilesBlock(walkBounds);
+            
+            var floorBounds = newFloorMap.cellBounds;
+            var floorTiles = newFloorMap.GetTilesBlock(floorBounds);
+
+            for (var x = 0; x < floorBounds.size.x; x++) {
+                for (var y = 0; y < floorBounds.size.y; y++) {
+                    var floorTile = floorTiles[x + y * floorBounds.size.x];
+                    if (floorTile != null) {
+                        Debug.Log("x:" + point.x + x + " y:" + y + " tile:" + floorTile.name);
+                        floorMap.SetTile(new Vector3Int((int)(point.x/ 15 + x) - 3, (int)(point.y/15 + y) - 14,0), floorTile);
                     }
-                }*/
+                }
             }
-            return lvlMap;
+            for (var x = 0; x < walkBounds.size.x; x++) {
+                for (var y = 0; y < walkBounds.size.y; y++) {
+                    var walkTile = walkTiles[x + y * walkBounds.size.x];
+                    if (walkTile != null) {
+                        walkableMap.SetTile(new Vector3Int((int)(point.x/ 15 + x) - 3, (int)(point.y/15 + y) - 14,0), walkTile);
+                    }
+                }
+            }
         }
 
         public List<Vector3> CreatePath(Vector3 character, Vector3 targetPosition)
         {
+            
             var characterPos = walkableMap.WorldToCell(character);
             var start = nodeToNodes[characterPos.x, characterPos.y];
             
@@ -78,17 +90,14 @@ namespace Movement.Pathfinding
         
         public Vector3 GetRandomCoords()
         {
-            var x = UnityEngine.Random.Range(WalkBounds.xMin, WalkBounds.size.x);
-            var y = UnityEngine.Random.Range(WalkBounds.yMin, WalkBounds.size.y);
+            var x = Random.Range(WalkBounds.xMin, WalkBounds.size.x);
+            var y = Random.Range(WalkBounds.yMin, WalkBounds.size.y);
             
             return walkableMap.CellToWorld(new Vector3Int(x, y, 0));
         }
 
         private void CreateGrid()
         {
-            var floorMap = transform.GetChild(3).GetComponent<Tilemap>();
-            floorMap.CompressBounds();
-            
             FloorBounds = floorMap.cellBounds;
             
             nodeToNodes = new Node[FloorBounds.size.x, FloorBounds.size.y];

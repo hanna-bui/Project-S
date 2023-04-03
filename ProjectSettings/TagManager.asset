@@ -6,6 +6,11 @@ TagManager:
   tags:
   - Enemy
   - Item
+  - Walk
+  - Level
+  - Rooms
+  - SpawnPt
+  - Floor
   layers:
   - Default
   - TransparentFX

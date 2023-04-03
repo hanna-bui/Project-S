@@ -1,7 +1,9 @@
 using System.Collections;
 using System.IO;
+using Movement.Pathfinding;
 using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.Tilemaps;
 using Random = UnityEngine.Random;
 
 namespace RoomGen
@@ -60,6 +62,8 @@ namespace RoomGen
 
         private GameObject Level;
 
+        public NewGrid grid;
+
 
         // Start is called before the first frame update
         void Start()
@@ -99,6 +103,9 @@ namespace RoomGen
             CSVWrite("RoomTypes1.csv");
             Spawn();
             Debug.Log("Spawned rooms.");
+            
+            //something to fix Grid
+            grid.InitializeGrid();
         }
 
         /// <summary>
@@ -120,7 +127,13 @@ namespace RoomGen
                     GameObject room = templates.Rooms[d];
                     room = Instantiate(room, point, room.transform.rotation);
                     room.transform.parent = Level.transform;
-                    //Transform walkable = room.transform.GetChild(1);
+                    
+                    Tilemap walkable = room.transform.GetChild(1).GetComponent<Tilemap>();
+                    Tilemap floor = room.transform.GetChild(3).GetComponent<Tilemap>();
+                    
+                    grid.UpdateTilemap(walkable, floor, point);
+                    
+                    // room.SetActive(false);
                     //walkable.parent = Walkable;
                     
                     //room.transform.localScale = new Vector3(15, 15, 1);
@@ -129,6 +142,7 @@ namespace RoomGen
                 point.x += s;
                 point.y = 0;
             }
+            
         }
         
         /// <summary>
