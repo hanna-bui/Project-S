@@ -11,6 +11,7 @@ GameObject:
   - component: {fileID: 7185108239027169873}
   - component: {fileID: 8762469167478988058}
   - component: {fileID: 2850946515515890066}
+  - component: {fileID: 8235839971664121818}
   m_Layer: 0
   m_Name: Test
   m_TagString: Level
@@ -68,6 +69,18 @@ MonoBehaviour:
     and to the right of the white square. '
   walkableMap: {fileID: 0}
   floorMap: {fileID: 0}
+--- !u!156049354 &8235839971664121818
+Grid:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 810696366938602280}
+  m_Enabled: 1
+  m_CellSize: {x: 1, y: 1, z: 1}
+  m_CellGap: {x: 0, y: 0, z: 0}
+  m_CellLayout: 0
+  m_CellSwizzle: 0
 --- !u!1 &2171436503191560082
 GameObject:
   m_ObjectHideFlags: 0

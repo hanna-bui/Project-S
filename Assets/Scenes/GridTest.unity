@@ -212,34 +212,17 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!1 &484072093 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 810696366938602280, guid: 632e378c65695964eaf64f1340ffa691, type: 3}
-  m_PrefabInstance: {fileID: 8267998818756180522}
-  m_PrefabAsset: {fileID: 0}
 --- !u!114 &484072094 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 2850946515515890066, guid: 632e378c65695964eaf64f1340ffa691, type: 3}
   m_PrefabInstance: {fileID: 8267998818756180522}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 484072093}
+  m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: e1c3b1b3f54630c4fbce8c3f5889d80e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!156049354 &484072097
-Grid:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 484072093}
-  m_Enabled: 1
-  m_CellSize: {x: 1, y: 1, z: 1}
-  m_CellGap: {x: 0, y: 0, z: 0}
-  m_CellLayout: 0
-  m_CellSwizzle: 0
 --- !u!1 &513632103
 GameObject:
   m_ObjectHideFlags: 0
