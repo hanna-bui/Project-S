@@ -18,8 +18,8 @@ namespace RoomGen
         {
             Empty,
             Normal,
-            Special,
-            Chest,
+            Item,
+            Boss,
             Start,
             End
         }
@@ -51,9 +51,22 @@ namespace RoomGen
         public DoorDir[,] RoomDoors = new DoorDir[10, 10];
 
         [Header("Room Variables")] [Tooltip("How many rooms will be generated.")] [SerializeField]
-        private int totalRooms = 30;
+        private int totalRooms = 40;
+        [Header("Room Variables")] [Tooltip("How many rooms will contain items (consumables excluded).")] [SerializeField]
+        private int itemRooms = 5;
+        [Header("Room Variables")] [Tooltip("How many rooms will have a boss fight.")] [SerializeField]
+        private int bossRooms = 2;
 
         private int rooms = 0;
+        // Size of rooms (all rooms are square so this represents a side).
+        // 15 * 15 represents 15 tiles * 15 scale
+        private static int s = 15 * 15;
+        // Offset from center to place things at
+        private Vector3 offsetx = Vector3.right * 15;
+        private Vector3 offsety = Vector3.up * 15;
+        private Vector3 offsetxy = Vector3.right + Vector3.up;
+        // Center of a room to place things at
+        private Vector3 center = (Vector3.up + Vector3.right) * (s/2);
 
         private ArrayList AllRooms = new ArrayList();
         private ArrayList SpawnRooms = new ArrayList();
@@ -92,15 +105,19 @@ namespace RoomGen
             RoomTypes[i, j] = RoomType.Start;
             AllRooms.Add(p);
             SpawnRooms.Add(p);
+            // Set camera to Start Room
+            Transform camera = GameObject.Find("Main Camera").transform;
+            camera.position = ((offsetx * j + offsety * (9-i) + offsetxy * 7.5f) * 15f) + Vector3.back;
+            
             // Let's not count the starting room as a room (to make SpawnRooms2 easier to track)
             //rooms++;
             
             //CreateRooms();
             CreateRooms2(p);
             SetDoorDir();
-            // todo: use this classification to set up a boss room and other special rooms!
+            ChooseRoomTypes();
 
-            CSVWrite("RoomTypes1.csv");
+            CSVWrite("RoomTypes.csv");
             Spawn();
             Debug.Log("Spawned rooms.");
             
@@ -115,9 +132,7 @@ namespace RoomGen
         {
             //Transform Walkable = GameObject.FindGameObjectWithTag("Walk").transform;
             Vector3 point = Vector3.zero;
-            // Size of rooms (all rooms are square so this represents a side).
-            // 15 * 15 represents 15 tiles * 15 scale
-            int s = 15*15;
+            
             for (int j = 0; j <=9; j++)
             {
                 for (int i = 9; i >= 0; i--)
@@ -132,8 +147,63 @@ namespace RoomGen
                     Tilemap floor = room.transform.GetChild(3).GetComponent<Tilemap>();
                     
                     grid.UpdateTilemap(walkable, floor, point);
+
+                    // Fill each room.
+                    // For now, the spawns are very simple, but can later be updated to be more robust
+                    // once we have more items and enemies to choose from!
+                    switch (RoomTypes[i, j])
+                    {
+                        // Normal rooms can just have 1 enemy for now.
+                        // todo: Implement random enemy drops on kill (consumables, coins, etc).
+                        case RoomType.Normal:
+                        {
+                            GameObject enemy = templates.Enemies[Random.Range(0, templates.Enemies.Length)];
+                            enemy = Instantiate(enemy, point + center, enemy.transform.rotation);
+                            break;
+                        }
+                        /*
+                            Item rooms can have 1 item for now.
+                            However, this room will still have an enemy.
+                            More complex item and enemy layouts can be implemented later,
+                            once complex room layouts with obstacles are implemented.
+                        */
+                        case RoomType.Item:
+                        {
+                            GameObject item = templates.Items[Random.Range(0, templates.Items.Length)];
+                            item = Instantiate(item, point + center + (offsetx*2), item.transform.rotation);
+                            item.transform.parent = GameObject.Find("Items").transform;
+                            item.transform.localScale = offsetx+offsety;
+                            GameObject enemy = templates.Enemies[Random.Range(0, templates.Enemies.Length)];
+                            enemy = Instantiate(enemy, point + center - (offsetx*2), enemy.transform.rotation);
+                            break;
+                        }
+                        /*
+                            Boss rooms can have 4 enemies for now.
+                            For now, these enemies will be in each corner around the center.
+                            More complex enemy layouts can be implemented later,
+                            once complex room layouts with obstacles are implemented.
+                            Note: additional enemies are commented out for now as it conflicts with NetworkIdentity.
+                            Note: enemy randomization is commented out for now as we only have 1 enemy type.
+                            In the future, this can be either completely random, or semi-random
+                            (e.g. 1 Boss enemy, or 2 Medium-difficulty enemies with 2 Easy-difficulty enemies)
+                        */
+                        case RoomType.Boss:
+                        {
+                            GameObject enemy = templates.Enemies[Random.Range(0, templates.Enemies.Length)];
+                            enemy = Instantiate(enemy, point + center + offsetx - offsety, enemy.transform.rotation);
+                            //enemy = templates.Enemies[Random.Range(0, templates.Enemies.Length)];
+                            /*
+                             enemy = Instantiate(enemy, point + center - offsetx + offsety, enemy.transform.rotation);
+                            //enemy = templates.Enemies[Random.Range(0, templates.Enemies.Length)];
+                            enemy = Instantiate(enemy, point + center - offsetx - offsety, enemy.transform.rotation);
+                            //enemy = templates.Enemies[Random.Range(0, templates.Enemies.Length)];
+                            enemy = Instantiate(enemy, point + center + offsetx + offsety, enemy.transform.rotation);
+                            */
+                            break;
+                        }
+                    }
                     
-                    // room.SetActive(false);
+                    //room.SetActive(false);
                     //walkable.parent = Walkable;
                     
                     //room.transform.localScale = new Vector3(15, 15, 1);
@@ -150,6 +220,30 @@ namespace RoomGen
         /// </summary>
         private void ChooseRoomTypes()
         {
+            OrderedPair room;
+            ArrayList eRooms = new ArrayList();
+            foreach (OrderedPair o in AllRooms)
+            {
+                if (RoomTypes[o.i, o.j] == RoomType.Normal)
+                    eRooms.Add(o);
+            }
+
+            int rCount = 0;
+            for (; rCount < bossRooms; rCount++)
+            {
+                int r = Random.Range(0, eRooms.Count);
+                room = (OrderedPair)eRooms[r];
+                RoomTypes[room.i, room.j] = RoomType.Boss;
+                eRooms.RemoveAt(r);
+            }
+            
+            for (rCount = 0; rCount < itemRooms; rCount++)
+            {
+                int r = Random.Range(0, eRooms.Count);
+                room = (OrderedPair)eRooms[r];
+                RoomTypes[room.i, room.j] = RoomType.Item;
+                eRooms.RemoveAt(r);
+            }
             
         }
         
@@ -222,14 +316,13 @@ namespace RoomGen
             {
                 // validPoints keeps track of spawn points that currently have a (-1, -1) point attached.
                 // The corresponding index array value is set to 0 if it is invalid.
-                //int[] validPoints = { 1, 1, 1, 1 };
+                
                 for (int n = 0; n < 4; n++)
                 {
-                    /*
-                    // Skip over the point if not valid -- i.e. don't try to generate a new room off of (-1, -1).
-                    if (validPoints[n] == 0)
-                        continue;
-                    */
+                    // Break once rooms are all spawned!
+                    if (rooms == totalRooms)
+                        break;
+                    
                     
                     // If ChooseNewRoom successfully found a room, we can set the corresponding spawn point to start there instead!
                     if ((room = ChooseNewRoom(points[n])).i != -1)
@@ -252,7 +345,6 @@ namespace RoomGen
                             room = ChooseNewRoom(points[n]);
                             points[n] = room;
                         } while (points[n].i == -1);
-                        // todo: do something to continue generating from another point
                         /* The following code has a chance to "fail" 
                          * -- i.e. the spawn point was not reset to a valid location this iteration.
                          * In this case, the next while loop iteration has another chance to find a valid location for this spawn point.
@@ -268,6 +360,12 @@ namespace RoomGen
                                 validPoints[n] = 1;
                             }
                         } */
+                    }
+                    
+                    // This will set the last room spawned to be the end
+                    if (rooms == totalRooms - 1)
+                    {
+                        RoomTypes[room.i, room.j] = RoomType.End;
                     }
                 }
             }

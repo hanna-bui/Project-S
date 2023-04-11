@@ -46,7 +46,7 @@ namespace Movement.Pathfinding
                 for (var y = 0; y < floorBounds.size.y; y++) {
                     var floorTile = floorTiles[x + y * floorBounds.size.x];
                     if (floorTile != null) {
-                        Debug.Log("x:" + point.x + x + " y:" + y + " tile:" + floorTile.name);
+                        //Debug.Log("x:" + point.x + x + " y:" + y + " tile:" + floorTile.name);
                         floorMap.SetTile(new Vector3Int((int)(point.x/ 15 + x) + 3, (int)(point.y/15 + y) - 14,0), floorTile);
                     }
                 }
