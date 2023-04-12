@@ -2,7 +2,6 @@
 using UnityEngine;
 using System;
 using GameManager_Hide;
-using Mirror;
 using Movement.Pathfinding;
 using State = Finite_State_Machine.State;
 
@@ -15,7 +14,7 @@ using State = Finite_State_Machine.State;
 namespace Characters
 {
 
-    public class MoveableObject : NetworkBehaviour
+    public class MoveableObject : MonoBehaviour
     {
         protected float radius;
 

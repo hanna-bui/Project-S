@@ -1,6 +1,4 @@
 using System.Collections.Generic;
-using Managers.Network;
-using Mirror;
 using UnityEngine;
 using UnityEngine.UI;
 

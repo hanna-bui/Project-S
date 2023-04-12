@@ -7,11 +7,7 @@ using UnityEngine.SceneManagement;
 
 public class ButtonController : MonoBehaviour
 {
-    public void ChooseCharacter()
-    {
-        SceneManager.LoadSceneAsync("Lobby");
-    }
-
+   
     public void SpawnEnemy()
     {
         ///GameObject enemy = Instantiate(enemyPrefab, transform.position, transform.rotation);

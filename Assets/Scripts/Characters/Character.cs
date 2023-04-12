@@ -1,7 +1,6 @@
 using System.Collections.Generic;
 using Finite_State_Machine;
 using Finite_State_Machine.States;
-using Managers.Network;
 using TMPro;
 using UnityEngine;
 using Item = Items.Items;
@@ -103,6 +102,7 @@ namespace Characters
         }
         
         private Camera myCamera;
+        /*
         public override void OnStartLocalPlayer()
         {
             myCamera = Instantiate(Camera.main);
@@ -116,10 +116,10 @@ namespace Characters
             var canvas = transform.GetChild(1).gameObject;
             canvas.SetActive(true);
         }
+        */
 
         protected override void Update()
         {
-            if (!isLocalPlayer) return;
             
             CurrentState = GetTop();
             CurrentState.Execute(this, Time.deltaTime);
