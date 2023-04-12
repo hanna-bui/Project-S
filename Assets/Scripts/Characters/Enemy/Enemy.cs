@@ -107,11 +107,11 @@ namespace Characters.Enemy{
         {
             //return LVL * Random.Range(IsBoss ? 20 : 15, 31);
             /* Nonika:
-             * I made the health range specific to enemy type
-             * So regular enemies get 15-25 hp, bosses get 25-35 hp.
-             * Regular health:
+             * I made the stat range specific to enemy type
+             * So regular enemies get 15-25, bosses get 25-35.
+             * Regular stats:
              * return LVL * Random.Range(IsBoss ? 25 : 15, IsBoss ? 36 : 26);
-             * Health based on enemy size:
+             * Stats based on enemy size:
              */
             return (float)Math.Ceiling(LVL * scale * Random.Range(IsBoss ? 25 : 15, IsBoss ? 36 : 26));
         }

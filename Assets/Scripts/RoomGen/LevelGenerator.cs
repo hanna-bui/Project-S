@@ -171,13 +171,14 @@ namespace RoomGen
                         }
                         /*
                             Item rooms can have 1 item for now.
+                            This has to be a consumable as scrolls don't affect stats yet.
                             However, this room will have two regular enemies.
                             More complex item and enemy layouts can be implemented later,
                             once complex room layouts with obstacles are implemented.
                         */
                         case RoomType.Item:
                         {
-                            GameObject item = templates.Items[Random.Range(0, templates.Items.Length)];
+                            GameObject item = templates.Consumables[Random.Range(0, templates.Consumables.Length)];
                             item = Instantiate(item, point + center, item.transform.rotation);
                             item.transform.parent = GameObject.Find("Items").transform;
                             item.transform.localScale = offsetx+offsety;
