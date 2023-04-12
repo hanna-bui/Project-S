@@ -24,19 +24,14 @@ namespace Finite_State_Machine.States
 
         public override void Execute(MoveableObject agent)
         {
-            var enemyList = agent.gm.Enemies;
-            
             switch (CurrentStatus)
             {
                 case StateStatus.Initialize:
                     if (TargetStat is null)
                     {
-                        if (enemyList.Contains(Target))
-                        {
-                            TargetStat = enemyList[Target] as Enemy;
-                            agent.TargetLocation = TargetStat.Position();
-                            agent.CalculateDirection();
-                        }
+                        TargetStat = Target.GetComponent<Enemy>();
+                        agent.TargetLocation = TargetStat.Position();
+                        agent.CalculateDirection();
                         interval = DefaultInterval;
                     }
                     break;
