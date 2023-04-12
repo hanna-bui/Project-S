@@ -297,9 +297,21 @@ PrefabInstance:
       propertyPath: m_Name
       value: Ninja
       objectReference: {fileID: 0}
+    - target: {fileID: 4100542446493419681, guid: 7826c52cccabce84e8fc38e42cd1d775, type: 3}
+      propertyPath: sceneId
+      value: 3816586123
+      objectReference: {fileID: 0}
     - target: {fileID: 8557662488860030740, guid: 7826c52cccabce84e8fc38e42cd1d775, type: 3}
       propertyPath: m_RootOrder
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8557662488860030740, guid: 7826c52cccabce84e8fc38e42cd1d775, type: 3}
+      propertyPath: m_LocalScale.x
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8557662488860030740, guid: 7826c52cccabce84e8fc38e42cd1d775, type: 3}
+      propertyPath: m_LocalScale.y
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 8557662488860030740, guid: 7826c52cccabce84e8fc38e42cd1d775, type: 3}
       propertyPath: m_LocalPosition.x
@@ -405,9 +417,21 @@ PrefabInstance:
       propertyPath: m_Name
       value: Monk
       objectReference: {fileID: 0}
+    - target: {fileID: 2820846657359632934, guid: 46395e21c53acc44eb0bbe047a8870e3, type: 3}
+      propertyPath: sceneId
+      value: 3415388510
+      objectReference: {fileID: 0}
     - target: {fileID: 8557662488860030740, guid: 46395e21c53acc44eb0bbe047a8870e3, type: 3}
       propertyPath: m_RootOrder
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8557662488860030740, guid: 46395e21c53acc44eb0bbe047a8870e3, type: 3}
+      propertyPath: m_LocalScale.x
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8557662488860030740, guid: 46395e21c53acc44eb0bbe047a8870e3, type: 3}
+      propertyPath: m_LocalScale.y
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 8557662488860030740, guid: 46395e21c53acc44eb0bbe047a8870e3, type: 3}
       propertyPath: m_LocalPosition.x
@@ -521,7 +545,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e1c3b1b3f54630c4fbce8c3f5889d80e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  target: {fileID: 1155354284}
+  notes: 'Floor and Walkable should always be placed in the positive x and y axis.
+    It cannot be placed in the negative x and/or y axis. In the sample scene, the
+    white square indicates the (0, 0) point. The grid/tilemap should be placed above
+    and to the right of the white square. '
 --- !u!1 &1410869647
 GameObject:
   m_ObjectHideFlags: 0
@@ -4665,9 +4692,21 @@ PrefabInstance:
     serializedVersion: 2
     m_TransformParent: {fileID: 635041856}
     m_Modifications:
+    - target: {fileID: 1363858759198646308, guid: 87629502d522ed34ea1602fec0d6e183, type: 3}
+      propertyPath: sceneId
+      value: 2854702337
+      objectReference: {fileID: 0}
     - target: {fileID: 1889768590978699481, guid: 87629502d522ed34ea1602fec0d6e183, type: 3}
       propertyPath: m_RootOrder
       value: -1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1889768590978699481, guid: 87629502d522ed34ea1602fec0d6e183, type: 3}
+      propertyPath: m_LocalScale.x
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1889768590978699481, guid: 87629502d522ed34ea1602fec0d6e183, type: 3}
+      propertyPath: m_LocalScale.y
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 1889768590978699481, guid: 87629502d522ed34ea1602fec0d6e183, type: 3}
       propertyPath: m_LocalPosition.x

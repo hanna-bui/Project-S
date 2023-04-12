@@ -2,6 +2,7 @@ using System.Collections;
 using Characters;
 using Characters.Enemy;
 using Movement.Pathfinding;
+using Unity.VisualScripting;
 using UnityEngine;
 
 namespace Managers
@@ -9,18 +10,9 @@ namespace Managers
     public class GameManager : MonoBehaviour
     {
         public static GameManager instance;
-        public Character[] characters;
+        public Player[] characters;
 
-        public Character currCharacter;
-    
-        #region Goals
-        public readonly int click = Animator.StringToHash("Click");
-        
-        private GameObject gridObject;
-        public NewGrid grid;
-
-        public Hashtable Enemies { get; set; }
-        #endregion
+        public Player currCharacter;
 
         private void Awake()
         {
@@ -37,31 +29,21 @@ namespace Managers
 
         private void Start()
         {
-            if(currCharacter == null)
+            if (currCharacter == null)
             {
-                currCharacter = characters[0];
+                var temp = GameObject.Find("Ninja");
+                
+                if (temp == null) temp = GameObject.Find("Samurai");
+                else currCharacter = temp.GetComponent<Ninja>();
+                
+                if (temp == null) temp = GameObject.Find("Monk");
+                else currCharacter = temp.GetComponent<Samurai>();
             }
-        
-            #region Goals
-            Enemies = new Hashtable();
-            var enemyObject = GameObject.Find("Enemies");
-            if (enemyObject == null) return;
-            
-            SettingUpEnemies(enemyObject.transform);
-            #endregion
         }
 
-        public void SetCharacter(Character character)
+        public void SetCharacter(Player character)
         {
             currCharacter = character;
-        }
-        
-        private void SettingUpEnemies(Transform e)
-        {
-            foreach (Transform child in e)
-            {
-                Enemies.Add(child.gameObject, child.GetComponent<Enemy>());
-            }
         }
     }
 }

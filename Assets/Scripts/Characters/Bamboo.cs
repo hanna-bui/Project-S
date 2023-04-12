@@ -1,40 +1,25 @@
 using UnityEngine;
+// ReSharper disable InconsistentNaming
+// ReSharper disable IdentifierTypo
 
 namespace Characters
 {
-
-    public class Bamboo : Character
+    public class Bamboo : MonoBehaviour
     {
-        // Bamboo is an enemy character
-        // Start is called before the first frame update
-        protected override void Start()
+        private const float HP = 10;
+        private const float MP = 10;
+        private const float SPE = 1;
+        private const float RAN = 2;
+        private const float DMG = 8;
+        private const float MDMG = 6;
+        private const float DEF = 6;
+        private const float MDEF = 5;
+        private const int LVL = 1;
+        
+        private void Awake()
         {
-            base.Start();
-
-            HP = 10;
-            CHP = HP;
-            MP = 10;
-            CMP = MP;
-            SPE = 1;
-            RAN = 2;
-            DMG = 8;
-            MDMG = 6;
-            DEF = 6;
-            MDEF = 5;
-            LVL = 0;
-            ///icon = ;
-            Sprite = GameObject.Find("Bamboo");
-            //weapon = ;
-            //wa1 = ;
-            //wa2 = ;
-            //wa3 = ;
-            SetupCollider();
-        }
-
-        // Update is called once per frame
-        protected override void Update()
-        {
-            base.Update();
+            var charScript = GetComponent<Character>();
+            charScript.SetupStats(HP, MP, SPE, RAN, DMG, DEF, MDMG, MDEF, LVL);
         }
     }
 }

@@ -9,6 +9,6 @@ public class PlayerSpawner : MonoBehaviour
     private void Start()
     {
         GameObject player = Instantiate(GameManager.instance.currCharacter.prefab, transform.position, transform.rotation);
-        player.transform.localScale = new Vector3(20, 20, 0);
+        player.transform.localScale = new Vector3(30, 30, 0);
     }
 }

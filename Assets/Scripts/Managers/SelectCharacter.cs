@@ -11,7 +11,8 @@ public class SelectCharacter : MonoBehaviour
 
     private void Start()
     {
-        foreach (Character c in GameManager.instance.characters)
+
+        foreach (Player c in GameManager.instance.characters)
         {
             GameObject option = Instantiate(optionPrefab, transform);
             Button button = option.GetComponent<Button>();
@@ -28,9 +29,11 @@ public class SelectCharacter : MonoBehaviour
 
             Image image = option.GetComponentInChildren<Image>();
             // chooses display image from sprite 
-            // image.sprite = c.sprite;
+            image.sprite = c.sprite;
  
         }
+
+
     }
 
     private void Update()

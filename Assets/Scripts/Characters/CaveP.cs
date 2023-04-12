@@ -1,39 +1,26 @@
 using UnityEngine;
+// ReSharper disable InconsistentNaming
+// ReSharper disable IdentifierTypo
 
 namespace Characters
 {
 
-    public class CaveP : Character
+    public class CaveP : MonoBehaviour
     {
-
-        // Start is called before the first frame update
-        protected override void Start()
+        private const float HP = 10;
+        private const float MP = 5;
+        private const float SPE = 8;
+        private const float RAN = 6;
+        private const float DMG = 10;
+        private const float MDMG = 1;
+        private const float DEF = 6;
+        private const float MDEF = 2;
+        private const int LVL = 1;
+        
+        private void Awake()
         {
-            base.Start();
-
-            HP = 10;
-            CHP = HP;
-            MP = 5;
-            CMP =  MP;
-            SPE = 8;
-            RAN = 6;
-            DMG = 10;
-            MDMG = 1;
-            DEF = 6;
-            MDEF = 2;
-            LVL = 0;
-            Sprite = GameObject.Find("CaveP");
-            //weapon = ;
-            //wa1 = ;
-            //wa2 = ;
-            //wa3 = ;
-            SetupCollider();
-        }
-
-        // Update is called once per frame
-        protected override void Update()
-        {
-            base.Update();
+            var charScript = GetComponent<Character>();
+            charScript.SetupStats(HP, MP, SPE, RAN, DMG, DEF, MDMG, MDEF, LVL);
         }
     }
 }

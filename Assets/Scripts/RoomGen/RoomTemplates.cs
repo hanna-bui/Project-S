@@ -6,5 +6,9 @@ public class RoomTemplates : MonoBehaviour
 {
     public GameObject[] Rooms;
 
-    //public List<GameObject> rooms;
+    public GameObject[] Enemies;
+
+    public GameObject[] Consumables;
+
+    public GameObject[] Items;
 }
