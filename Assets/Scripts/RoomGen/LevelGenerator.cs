@@ -51,12 +51,14 @@ namespace RoomGen
         public RoomType[,] RoomTypes = new RoomType[10, 10];
         public DoorDir[,] RoomDoors = new DoorDir[10, 10];
 
-        [Header("Room Variables")] [Tooltip("How many rooms will be generated.")] [SerializeField]
-        private int totalRooms = 40;
+        [Header("Room Variables")] [Tooltip("The size of the level.")] [SerializeField]
+        private static int lvlScale = 3;
+        [Tooltip("How many rooms will be generated.")] [SerializeField]
+        private static int totalRooms = lvlScale*10;
         [Tooltip("How many rooms will contain items (consumables excluded).")] [SerializeField]
-        private int itemRooms = 5;
+        private static int itemRooms = lvlScale*3;
         [Tooltip("How many rooms will have a boss fight.")] [SerializeField]
-        private int bossRooms = 2;
+        private static int bossRooms = lvlScale;
         [Tooltip("If the boss rooms will be easy (or hard).")] [SerializeField]
         public bool easyBoss = true;
 
@@ -354,7 +356,7 @@ namespace RoomGen
             points[3] = ChooseNewRoom(start);
             // Initial 4 rooms must be valid, so they will all be set in ChooseNewRoom.
             OrderedPair room;
-            while (rooms < totalRooms)
+            while (rooms <= totalRooms)
             {
                 // validPoints keeps track of spawn points that currently have a (-1, -1) point attached.
                 // The corresponding index array value is set to 0 if it is invalid.
@@ -362,7 +364,7 @@ namespace RoomGen
                 for (int n = 0; n < 4; n++)
                 {
                     // Break once rooms are all spawned!
-                    if (rooms == totalRooms)
+                    if (rooms == totalRooms+1)
                         break;
                     
                     
