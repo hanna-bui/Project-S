@@ -19,6 +19,6 @@ public class Navigation : MonoBehaviour
     }
     public void Multi()
     {
-        SceneManager.LoadScene("MultiplayerNetwork");
+        SceneManager.LoadScene("Starting");
     }
 }
