@@ -17,8 +17,16 @@ public class Navigation : MonoBehaviour
     {
         SceneManager.LoadScene("ChooseCharacter");
     }
+    /*
     public void Multi()
     {
         SceneManager.LoadScene("Starting");
     }
+    */
+
+    public void ChooseCharacter()
+    {
+        SceneManager.LoadSceneAsync("PlayDemo");
+    }
+
 }

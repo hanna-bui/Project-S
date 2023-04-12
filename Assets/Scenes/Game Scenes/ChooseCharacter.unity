@@ -284,7 +284,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 585093386}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 47630d5c4c2c1cd4899ac183df8e2a97, type: 3}
+  m_Script: {fileID: 11500000, guid: f01a66375a4ff4082a4c62b954404fd8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!1 &730929847
@@ -736,7 +736,7 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 585093390}
-        m_TargetAssemblyTypeName: ButtonController, Assembly-CSharp
+        m_TargetAssemblyTypeName: Navigation, Assembly-CSharp
         m_MethodName: ChooseCharacter
         m_Mode: 1
         m_Arguments:
