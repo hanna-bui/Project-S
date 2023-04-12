@@ -448,6 +448,10 @@ PrefabInstance:
       propertyPath: Rooms.Array.data[15]
       value: 
       objectReference: {fileID: 8635651316082662512, guid: dd59aab78f2979643acdb34569f45dd0, type: 3}
+    - target: {fileID: 8762469167478988058, guid: 632e378c65695964eaf64f1340ffa691, type: 3}
+      propertyPath: easyBoss
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_AddedGameObjects: []
   m_SourcePrefab: {fileID: 100100000, guid: 632e378c65695964eaf64f1340ffa691, type: 3}

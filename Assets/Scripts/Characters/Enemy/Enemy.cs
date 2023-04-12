@@ -1,8 +1,10 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using Finite_State_Machine;
 using Finite_State_Machine.Enemy_States;
 using TMPro;
 using UnityEngine;
+using Random = UnityEngine.Random;
 
 // ReSharper disable InconsistentNaming
 // ReSharper disable IdentifierTypo
@@ -33,6 +35,7 @@ namespace Characters.Enemy{
         [SerializeField] public bool IsBoss = false;
         [SerializeField] public MovementOptions MovementStyle = MovementOptions.Plus;
         [SerializeField] private int lvl = 1;
+        [SerializeField] public float scale = 1;
         private TextMeshProUGUI hpValue;
         
         
@@ -69,7 +72,11 @@ namespace Characters.Enemy{
             
             
             transform.parent = GameObject.Find("Enemies").transform;
-            transform.localScale = new Vector3(1, 1, 1);
+            //transform.localScale = new Vector3(1, 1, 1);
+            /* Nonika:
+             * I made the scale a variable so I can fit more enemies in a room by making them smaller.
+             */
+            transform.localScale = new Vector3(scale, scale, 1);
         }
 
         protected override void Update()
@@ -98,7 +105,15 @@ namespace Characters.Enemy{
 
         private float RandomStat()
         {
-            return LVL * Random.Range(IsBoss ? 20 : 15, 31);
+            //return LVL * Random.Range(IsBoss ? 20 : 15, 31);
+            /* Nonika:
+             * I made the health range specific to enemy type
+             * So regular enemies get 15-25 hp, bosses get 25-35 hp.
+             * Regular health:
+             * return LVL * Random.Range(IsBoss ? 25 : 15, IsBoss ? 36 : 26);
+             * Health based on enemy size:
+             */
+            return (float)Math.Ceiling(LVL * scale * Random.Range(IsBoss ? 25 : 15, IsBoss ? 36 : 26));
         }
         
         public override void TakeDamage(float dmg)

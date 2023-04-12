@@ -1,5 +1,6 @@
 using System.Collections;
 using System.IO;
+using Characters.Enemy;
 using Movement.Pathfinding;
 using Unity.VisualScripting;
 using UnityEngine;
@@ -52,10 +53,12 @@ namespace RoomGen
 
         [Header("Room Variables")] [Tooltip("How many rooms will be generated.")] [SerializeField]
         private int totalRooms = 40;
-        [Header("Room Variables")] [Tooltip("How many rooms will contain items (consumables excluded).")] [SerializeField]
+        [Tooltip("How many rooms will contain items (consumables excluded).")] [SerializeField]
         private int itemRooms = 5;
-        [Header("Room Variables")] [Tooltip("How many rooms will have a boss fight.")] [SerializeField]
+        [Tooltip("How many rooms will have a boss fight.")] [SerializeField]
         private int bossRooms = 2;
+        [Tooltip("If the boss rooms will be easy (or hard).")] [SerializeField]
+        public bool easyBoss = true;
 
         private int rooms = 0;
         // Size of rooms (all rooms are square so this represents a side).
@@ -158,31 +161,36 @@ namespace RoomGen
                         case RoomType.Normal:
                         {
                             GameObject enemy = templates.Enemies[Random.Range(0, templates.Enemies.Length)];
-                            enemy = Instantiate(enemy, point + center, enemy.transform.rotation);
+                            Enemy e = enemy.GetComponent<Enemy>();
+                            e.IsBoss = false;
+                            e.scale = 0.75f;
+                            Instantiate(enemy, point + center, enemy.transform.rotation);
                             break;
                         }
                         /*
                             Item rooms can have 1 item for now.
-                            However, this room will still have an enemy.
+                            However, this room will have two regular enemies.
                             More complex item and enemy layouts can be implemented later,
                             once complex room layouts with obstacles are implemented.
                         */
                         case RoomType.Item:
                         {
                             GameObject item = templates.Items[Random.Range(0, templates.Items.Length)];
-                            item = Instantiate(item, point + center + (offsetx*2), item.transform.rotation);
+                            item = Instantiate(item, point + center, item.transform.rotation);
                             item.transform.parent = GameObject.Find("Items").transform;
                             item.transform.localScale = offsetx+offsety;
                             GameObject enemy = templates.Enemies[Random.Range(0, templates.Enemies.Length)];
-                            enemy = Instantiate(enemy, point + center - (offsetx*2), enemy.transform.rotation);
+                            Enemy e = enemy.GetComponent<Enemy>();
+                            e.IsBoss = false;
+                            e.scale = 0.5f;
+                            Instantiate(enemy, point + center + offsetx*3, enemy.transform.rotation);
+                            Instantiate(enemy, point + center - offsetx*3, enemy.transform.rotation);
                             break;
                         }
                         /*
-                            Boss rooms can have 4 enemies for now.
-                            For now, these enemies will be in each corner around the center.
+                            Boss rooms can have 1 giant enemy for now.
                             More complex enemy layouts can be implemented later,
                             once complex room layouts with obstacles are implemented.
-                            Note: additional enemies are commented out for now as it conflicts with NetworkIdentity.
                             Note: enemy randomization is commented out for now as we only have 1 enemy type.
                             In the future, this can be either completely random, or semi-random
                             (e.g. 1 Boss enemy, or 2 Medium-difficulty enemies with 2 Easy-difficulty enemies)
@@ -190,15 +198,49 @@ namespace RoomGen
                         case RoomType.Boss:
                         {
                             GameObject enemy = templates.Enemies[Random.Range(0, templates.Enemies.Length)];
-                            enemy = Instantiate(enemy, point + center + offsetx - offsety, enemy.transform.rotation);
-                            //enemy = templates.Enemies[Random.Range(0, templates.Enemies.Length)];
+                            Enemy e = enemy.GetComponent<Enemy>();
+                            e.IsBoss = true;
+                            e.scale = 1f;
+                            Instantiate(enemy, point + center, enemy.transform.rotation);
+                            
+                            // Easy Boss means we just spawn the one boss, so we can break here.
+                            // Hard Boss will proceed to spawn 4 regular enemies in the corners.
+                            if (easyBoss)
+                                break;
+                            
                             /*
-                             enemy = Instantiate(enemy, point + center - offsetx + offsety, enemy.transform.rotation);
-                            //enemy = templates.Enemies[Random.Range(0, templates.Enemies.Length)];
-                            enemy = Instantiate(enemy, point + center - offsetx - offsety, enemy.transform.rotation);
-                            //enemy = templates.Enemies[Random.Range(0, templates.Enemies.Length)];
-                            enemy = Instantiate(enemy, point + center + offsetx + offsety, enemy.transform.rotation);
+                            // The full code for random enemies below is commented out for now since we only have
+                            // 1 enemy type, so repetitive rerolls and variable setting is unnecessary.
+                            enemy = templates.Enemies[Random.Range(0, templates.Enemies.Length)];
+                            e = enemy.GetComponent<Enemy>();
+                            e.IsBoss = false;
+                            e.scale = 0.5f;
+                            Instantiate(enemy, point + center + offsetxy * 45, enemy.transform.rotation);
+                            enemy = templates.Enemies[Random.Range(0, templates.Enemies.Length)];
+                            e = enemy.GetComponent<Enemy>();
+                            e.IsBoss = false;
+                            e.scale = 0.5f;
+                            Instantiate(enemy, point + center - offsetxy * 45, enemy.transform.rotation);
+                            enemy = templates.Enemies[Random.Range(0, templates.Enemies.Length)];
+                            e = enemy.GetComponent<Enemy>();
+                            e.IsBoss = false;
+                            e.scale = 0.5f;
+                            Instantiate(enemy, point + center + (offsetx - offsety) * 3, enemy.transform.rotation);
+                            enemy = templates.Enemies[Random.Range(0, templates.Enemies.Length)];
+                            e = enemy.GetComponent<Enemy>();
+                            e.IsBoss = false;
+                            e.scale = 0.5f;
+                            Instantiate(enemy, point + center + (offsetx - offsety) * -3, enemy.transform.rotation);
                             */
+                            
+                            e.IsBoss = false;
+                            e.scale = 0.5f;
+                            Quaternion eRotation = enemy.transform.rotation;
+                            Instantiate(enemy, point + center + offsetxy * 45, eRotation);
+                            Instantiate(enemy, point + center - offsetxy * 45, eRotation);
+                            Instantiate(enemy, point + center + (offsetx - offsety) * 3, eRotation);
+                            Instantiate(enemy, point + center + (offsetx - offsety) * -3, eRotation);
+                            
                             break;
                         }
                     }
