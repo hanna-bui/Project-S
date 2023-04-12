@@ -204,6 +204,16 @@ namespace Characters
             return false;
         }
 
+        public bool isAttack()
+        {
+            return CurrentState is Attack;
+        }
+        
+        public bool isWalkToLocation()
+        {
+            return CurrentState is WalkToLocation;
+        }
+
         #endregion
 
         

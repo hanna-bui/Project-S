@@ -15,16 +15,32 @@ namespace Characters
         }
         private void OnTriggerEnter2D(Collider2D col)
         {
-            if (col.gameObject.CompareTag("Enemy") && agent.CurrentState is not Attack)
+            if (col.gameObject.CompareTag("Enemy") && !agent.isAttack())
             {
                 if (agent.CurrentState is WalkToLocation)
                     agent.StopAnimation();
-                Debug.Log("Colliding with Enemy");
                 var newState = new Attack(col.transform.gameObject);
                 agent.ChangeState(newState);
             }
-            
         }
+        private void OnTriggerStay2D(Collider2D col)
+        {
+            if (col.gameObject.CompareTag("Enemy") && !agent.isAttack() && !agent.isWalkToLocation())
+            {
+                if (agent.CurrentState is WalkToLocation)
+                    agent.StopAnimation();
+                var newState = new Attack(col.transform.gameObject);
+                agent.ChangeState(newState);
+            }
+        }
+        // private void OnTriggerExit2D(Collider2D col)
+        // {
+        //     if (col.gameObject.CompareTag("Enemy") && agent.CurrentState is Attack)
+        //     {
+        //         agent.ChangeState(new PlayerIdle());
+        //     }
+        // }
+        
         public void SetupCollider(float rad)
         {
             var rig = gameObject.AddComponent<Rigidbody2D>();
