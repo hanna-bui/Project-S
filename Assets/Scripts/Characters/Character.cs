@@ -100,7 +100,6 @@ namespace Characters
             transform.localScale = new Vector3(1, 1, 0);
         }
         
-        private Camera myCamera;
         /*
         public override void OnStartLocalPlayer()
         {
