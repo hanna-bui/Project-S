@@ -1,3 +1,4 @@
+<<<<<<< Updated upstream
 ,,,BR,NT,NT,BL,,,,
 ,,,NL,A,A,NR,,,,
 ,,,NL,A,A,NR,,,,
@@ -8,3 +9,15 @@
 ,,T,,,,,,,,
 ,,,,,,,,,,
 ,,,,,,,,,,
+=======
+,,,,,,,,,,
+BR,L,,,,,,,,,
+I1,,BR,BL,,,,,,,
+I1,,NL,NR,,,,,,,
+I1,,NL,TL,,,,,,,
+TR,NT,NR,,,,,,,,
+,NL,A,BL,,,BR,I2,L,,
+BR,A,A,NB,I2,I2,TL,,,,
+NL,A,TL,,,,,,,,
+TR,TL,,,,,,,,,
+>>>>>>> Stashed changes
