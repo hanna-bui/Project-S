@@ -1,10 +1,7 @@
-using System;
 using System.Collections;
 using System.IO;
 using Characters.Enemy;
-using Mirror;
 using Movement.Pathfinding;
-using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.Tilemaps;
 using Random = UnityEngine.Random;
@@ -15,7 +12,7 @@ namespace RoomGen
     /// Generator responsible for creating the layout of the entire level.
     /// </summary>
     [DisallowMultipleComponent]
-    public class LevelGenerator : NetworkBehaviour
+    public class LevelGenerator : MonoBehaviour
     {
         public enum RoomType : byte
         {
