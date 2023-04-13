@@ -68,9 +68,9 @@ namespace Managers.Network
         {
             if (sceneName == GameplayScene)
             {
-                var s = Instantiate(Test);
-                // DontDestroyOnLoad(s);
-                NetworkServer.Spawn(s);
+                // var s = Instantiate(Test);
+                // // DontDestroyOnLoad(s);
+                // NetworkServer.Spawn(s);
             }
             base.OnRoomServerSceneChanged(sceneName);
         }

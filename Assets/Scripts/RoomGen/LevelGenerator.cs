@@ -156,7 +156,7 @@ namespace RoomGen
                     Tilemap walkable = room.transform.GetChild(1).GetComponent<Tilemap>();
                     Tilemap floor = room.transform.GetChild(3).GetComponent<Tilemap>();
                     
-                    grid.UpdateTilemap(walkable, floor, point);
+                    grid.UpdateTilemap(walkable, floor, point, -3);
 
                     // Fill each room.
                     // For now, the spawns are very simple, but can later be updated to be more robust
@@ -557,6 +557,12 @@ namespace RoomGen
         {
             this.i = i;
             this.j = j;
+        }
+
+        public OrderedPair()
+        {
+            i = 0;
+            j = 0;
         }
     }
 }

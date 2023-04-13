@@ -69,7 +69,7 @@ Transform:
   - {fileID: 2744553384647752298}
   - {fileID: 6147973492577929403}
   - {fileID: 797046855889033710}
-  - {fileID: 8368733377955084491}
+  - {fileID: 108203175707022142}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -89,7 +89,7 @@ MonoBehaviour:
   syncMode: 0
   syncInterval: 0.1
   easyBoss: 1
-  spawnpt: {fileID: 8368733377955084492}
+  spawnpt: {fileID: 4841857460889636553, guid: fa922a84e9ba97242ab5356ec66af17c, type: 3}
   grid: {fileID: 2850946515515890066}
 --- !u!114 &2850946515515890066
 MonoBehaviour:
@@ -468,7 +468,7 @@ TilemapRenderer:
   m_Mode: 0
   m_DetectChunkCullingBounds: 0
   m_MaskInteraction: 0
---- !u!1001 &3968248652447708677
+--- !u!1001 &4805852633974758896
 PrefabInstance:
   m_ObjectHideFlags: 0
   serializedVersion: 2
@@ -527,15 +527,10 @@ PrefabInstance:
     m_RemovedComponents: []
     m_AddedGameObjects: []
   m_SourcePrefab: {fileID: 100100000, guid: fa922a84e9ba97242ab5356ec66af17c, type: 3}
---- !u!4 &8368733377955084491 stripped
+--- !u!4 &108203175707022142 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 4841857460889636558, guid: fa922a84e9ba97242ab5356ec66af17c, type: 3}
-  m_PrefabInstance: {fileID: 3968248652447708677}
-  m_PrefabAsset: {fileID: 0}
---- !u!1 &8368733377955084492 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 4841857460889636553, guid: fa922a84e9ba97242ab5356ec66af17c, type: 3}
-  m_PrefabInstance: {fileID: 3968248652447708677}
+  m_PrefabInstance: {fileID: 4805852633974758896}
   m_PrefabAsset: {fileID: 0}
 --- !u!1001 &8022851458441135595
 PrefabInstance:
