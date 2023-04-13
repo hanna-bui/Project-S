@@ -251,6 +251,18 @@ namespace RoomGen
                             
                             break;
                         }
+                        /*
+                            End rooms have a chalice for now which will end the game.
+                            The objective is to make it to the end of the level without dying.
+                        */
+                        case RoomType.End:
+                        {
+                            GameObject item = templates.Items[0];
+                            item = Instantiate(item, point + center, item.transform.rotation);
+                            item.transform.parent = GameObject.Find("Items").transform;
+                            item.transform.localScale = offsetx+offsety;
+                            break;
+                        }
                     }
                     
                     //room.SetActive(false);
