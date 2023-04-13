@@ -797,6 +797,8 @@ MonoBehaviour:
     It cannot be placed in the negative x and/or y axis. In the sample scene, the
     white square indicates the (0, 0) point. The grid/tilemap should be placed above
     and to the right of the white square. '
+  walkableMap: {fileID: 0}
+  floorMap: {fileID: 0}
 --- !u!1 &1606832236
 GameObject:
   m_ObjectHideFlags: 0
@@ -2325,7 +2327,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1841597931}
-  - component: {fileID: 1841597932}
   m_Layer: 0
   m_Name: Spawn
   m_TagString: Untagged
@@ -2348,18 +2349,6 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &1841597932
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1841597930}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 41f84591ce72545258ea98cb7518d8b9, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1 &2144144328
 GameObject:
   m_ObjectHideFlags: 0
