@@ -5,10 +5,12 @@ using UnityEngine;
 
 public class PlayerSpawner : MonoBehaviour
 {
-    // Start is called before the first frame update
-    private void spawn()
+    private Vector3 startPos;
+    private void Awake()
     {
-        GameObject player = Instantiate(GameManager.instance.currCharacter.prefab, transform.position, transform.rotation);
-        player.transform.localScale = new Vector3(30, 30, 0);
+        Instantiate(GameManager.instance.currCharacter.prefab, transform.position, Quaternion.identity);
+        startPos = GameObject.Find("Walkable").transform.position;
+        GameObject player = GameObject.FindWithTag("Player");
+        player.transform.position = startPos;
     }
 }
