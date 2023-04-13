@@ -6,17 +6,17 @@ namespace RoomGen
     {
         public readonly OrderedPair pair;
         public LevelGenerator.RoomType rt;
-        public LevelGenerator.DoorDir dd;
+        public DD dd;
         public GameObject g;
 
         public Room()
         {
             this.pair = new OrderedPair(0, 0);
             this.rt = LevelGenerator.RoomType.Empty;
-            this.dd = LevelGenerator.DoorDir.E;
+            this.dd = DD.E;
         }
 
-        public Room(OrderedPair pair_, LevelGenerator.RoomType rt_, LevelGenerator.DoorDir dd_)
+        public Room(OrderedPair pair_, LevelGenerator.RoomType rt_, DD dd_)
         {
             this.pair = pair_;
             this.rt = rt_;
