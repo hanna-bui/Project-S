@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 <<<<<<< Updated upstream
 =======
 <<<<<<< Updated upstream
@@ -11,6 +12,16 @@
 ,TR,NT,A,A,NB,NR,,,,
 ,,NL,NB,TL,,T,,,,
 ,,T,,,,,,,,
+=======
+,,BR,BL,,,,,,,
+,,NL,A,BL,,,,BR,L,
+,,NL,A,A,NT,NT,I2,TL,,
+,R,A,A,A,A,TL,,,,
+,,NL,NB,NB,NR,,,,,
+,BR,TL,,,I1,,,,,
+R,TL,,,,I1,,,,,
+,,,,,TR,L,,,,
+>>>>>>> main
 ,,,,,,,,,,
 ,,,,,,,,,,
 <<<<<<< Updated upstream

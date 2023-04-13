@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 <<<<<<< Updated upstream
 =======
 <<<<<<< Updated upstream
@@ -11,6 +12,16 @@
 ,Item,Normal,Normal,Normal,Normal,Normal,,,,
 ,,Item,Normal,Normal,,End,,,,
 ,,Normal,,,,,,,,
+=======
+,,Boss,Normal,,,,,,,
+,,Item,Normal,Normal,,,,Normal,End,
+,,Normal,Item,Start,Item,Normal,Normal,Item,,
+,Normal,Item,Normal,Normal,Item,Normal,,,,
+,,Boss,Normal,Normal,Normal,,,,,
+,Boss,Normal,,,Normal,,,,,
+Item,Normal,,,,Normal,,,,,
+,,,,,Item,Item,,,,
+>>>>>>> main
 ,,,,,,,,,,
 ,,,,,,,,,,
 <<<<<<< Updated upstream
