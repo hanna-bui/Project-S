@@ -1,6 +1,6 @@
 using Mirror;
-using Mirror.Examples.NetworkRoom;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 /*
 	Documentation: https://mirror-networking.gitbook.io/docs/components/network-manager
@@ -10,6 +10,7 @@ using UnityEngine;
 namespace Managers.Network
 {
     [AddComponentMenu("")]
+    
     public class SRoomManagerExt : NetworkRoomManager
     {
         // [Header("Spawner Setup")]
@@ -17,6 +18,7 @@ namespace Managers.Network
         // public GameObject rewardPrefab;
 
         public static new SRoomManagerExt singleton { get; private set; }
+        [SerializeField] public GameObject Test; 
 
         /// <summary>
         /// Runs on both Server and Client
@@ -25,7 +27,19 @@ namespace Managers.Network
         public override void Awake()
         {
             base.Awake();
+            
             singleton = this;
+        }
+
+        /// <summary>Called from ServerChangeScene immediately before SceneManager.LoadSceneAsync is executed</summary>
+        public override void OnServerChangeScene(string newSceneName)
+        {
+            // if (newSceneName == GameplayScene)
+            // {
+            //     var s = Instantiate(Test);
+            //     DontDestroyOnLoad(s);
+            //     NetworkServer.Spawn(s);
+            // }
         }
 
         /// <summary>
@@ -35,12 +49,32 @@ namespace Managers.Network
         public override void OnRoomServerSceneChanged(string sceneName)
         {
             // // spawn the initial batch of Rewards
+            if (sceneName == RoomScene)
+            {
+            }
             if (sceneName == GameplayScene)
             {
+                // NetworkServer.Spawn(Object.Instantiate(Test));
                 Debug.Log("Loading GameplayScene");
-                Spawner.InitialSpawn();
+                // Spawner.InitialSpawn();
             }
         }
+        
+        /// <summary>
+        /// Called on the server when a scene is completed loaded, when the scene load was initiated by the server with ServerChangeScene().
+        /// </summary>
+        /// <param name="sceneName">The name of the new scene.</param>
+        public override void OnServerSceneChanged(string sceneName)
+        {
+            if (sceneName == GameplayScene)
+            {
+                var s = Instantiate(Test);
+                // DontDestroyOnLoad(s);
+                NetworkServer.Spawn(s);
+            }
+            base.OnRoomServerSceneChanged(sceneName);
+        }
+
 
         public override GameObject OnRoomServerCreateGamePlayer(NetworkConnectionToClient conn, GameObject roomPlayer)
         {

@@ -1,6 +1,7 @@
 using System.Collections;
 using System.IO;
 using Characters.Enemy;
+using Mirror;
 using Movement.Pathfinding;
 using Unity.VisualScripting;
 using UnityEngine;
@@ -13,7 +14,7 @@ namespace RoomGen
     /// Generator responsible for creating the layout of the entire level.
     /// </summary>
     [DisallowMultipleComponent]
-    public class LevelGenerator : MonoBehaviour
+    public class LevelGenerator : NetworkBehaviour
     {
         public enum RoomType : byte
         {
@@ -80,6 +81,8 @@ namespace RoomGen
 
         private GameObject Level;
 
+        public GameObject spawnpt;
+
         public NewGrid grid;
 
 
@@ -111,8 +114,11 @@ namespace RoomGen
             AllRooms.Add(p);
             SpawnRooms.Add(p);
             // Set camera to Start Room
-            Transform camera = GameObject.Find("Main Camera").transform;
-            camera.position = ((offsetx * j + offsety * (9-i) + offsetxy * 7.5f) * 15f) + Vector3.back;
+            // Transform camera = Camera.main.transform;
+            // var s = Instantiate(spawnpt);
+            spawnpt = GameObject.Find("SpawnPoint");
+            spawnpt.transform.position = ((offsetx * j + offsety * (9-i) + offsetxy * 7.5f) * 15f);
+            // camera.position = ((offsetx * j + offsety * (9-i) + offsetxy * 7.5f) * 15f) + Vector3.back;
             
             // Let's not count the starting room as a room (to make SpawnRooms2 easier to track)
             //rooms++;
@@ -135,7 +141,6 @@ namespace RoomGen
         /// </summary>
         private void Spawn()
         {
-            //Transform Walkable = GameObject.FindGameObjectWithTag("Walk").transform;
             Vector3 point = Vector3.zero;
             
             for (int j = 0; j <=9; j++)

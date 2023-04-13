@@ -1,18 +1,20 @@
 using System.Collections;
 using Characters;
 using Characters.Enemy;
+using Mirror;
 using Movement.Pathfinding;
 using Unity.VisualScripting;
 using UnityEngine;
 
 namespace Managers
 {
-    public class GameManager : MonoBehaviour
+    public class GameManager : NetworkBehaviour
     {
         public static GameManager instance;
         public Player[] characters;
 
         public Player currCharacter;
+        
 
         private void Awake()
         {
@@ -24,6 +26,8 @@ namespace Managers
             {
                 Destroy(gameObject);
             }
+            
+            
             DontDestroyOnLoad(gameObject);
         }
 

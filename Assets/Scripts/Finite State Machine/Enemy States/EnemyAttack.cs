@@ -22,8 +22,6 @@ namespace Finite_State_Machine.Enemy_States
 
         public override void Execute(MoveableObject agent)
         {
-            var playerList = agent.gm.Players;
-
             switch (CurrentStatus)
             {
                 case StateStatus.Initialize:

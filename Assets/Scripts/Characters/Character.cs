@@ -97,20 +97,21 @@ namespace Characters
             mpValue = transform.GetChild(1).GetChild(1).GetComponent<TextMeshProUGUI>();
             mpValue.text = "MP: " + CMP + "";
             
-            var parent = GameObject.Find("Characters").transform;
-            transform.parent = parent;
-            transform.localScale = new Vector3(1, 1, 0);
+            // var parent = GameObject.Find("Characters").transform;
+            // transform.parent = parent;
+            transform.localScale = new Vector3(20, 20, 0);
         }
         
-        private Camera myCamera;
+        
         public override void OnStartLocalPlayer()
         {
-            myCamera = Instantiate(Camera.main);
-            myCamera.transform.rotation = transform.rotation;
-            myCamera.transform.position = transform.position + new Vector3(0, 0, -10);
-            myCamera.transform.SetParent(transform);
-            myCamera.transform.localScale = new Vector3(0.05f, 0.05f, 1);
-            myCamera.nearClipPlane = 0;
+            var cam = Instantiate(Camera.main);
+            var c_tran = cam.transform;
+            c_tran.SetParent(transform);
+            c_tran.rotation = transform.rotation;
+            c_tran.localPosition = new Vector3(0, 0, -1);
+            c_tran.localScale = new Vector3(0.05f, 0.05f, 1);
+            cam.nearClipPlane = 0;
             Camera.main.gameObject.SetActive(false);
 
             var canvas = transform.GetChild(1).gameObject;
