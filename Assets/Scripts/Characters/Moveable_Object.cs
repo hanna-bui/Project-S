@@ -1,7 +1,6 @@
 ﻿using System.Collections.Generic;
 using UnityEngine;
 using System;
-using GameManager_Hide;
 using Movement.Pathfinding;
 using State = Finite_State_Machine.State;
 
@@ -47,8 +46,6 @@ namespace Characters
 
         public NewGrid grid;
         
-        public Manager gm;
-        
         private Vector3 origin;
         
         // ReSharper disable once ConvertToAutoProperty
@@ -64,17 +61,6 @@ namespace Characters
         protected virtual void Start()
         {
             grid = GameObject.FindGameObjectWithTag("Level").GetComponent<NewGrid>();
-            var tempGM = GameObject.Find("SmallManager");
-            if (tempGM == null)
-            {
-                tempGM = GameObject.Find("GameManager");
-                if (tempGM != null)
-                    gm = tempGM.GetComponent<Manager>();
-            }
-            else
-            {
-                gm = tempGM.GetComponent<Manager>();
-            }
 
             States = new Stack<State>();
 

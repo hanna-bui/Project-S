@@ -22,20 +22,16 @@ namespace Finite_State_Machine.Enemy_States
 
         public override void Execute(MoveableObject agent)
         {
-            var playerList = agent.gm.Players;
 
             switch (CurrentStatus)
             {
                 case StateStatus.Initialize:
                     if (TargetStat is null)
                     {
-                        if (playerList.Contains(Target))
-                        {
-                            TargetStat = playerList[Target] as Character;
+                        TargetStat = Target.GetComponent<Character>();
                             
-                            agent.TargetLocation = TargetStat.Position();
-                            agent.CalculateDirection();
-                        }
+                        agent.TargetLocation = TargetStat.Position();
+                        agent.CalculateDirection();
 
                         interval = DefaultInterval;
                         ChangeStatus(StateStatus.Executing);
