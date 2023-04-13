@@ -1,4 +1,3 @@
-<<<<<<< Updated upstream
 ,,,Normal,Boss,Normal,Item,,,,
 ,,,Normal,Normal,Normal,Item,,,,
 ,,,Item,Start,Item,Normal,,,,
@@ -9,15 +8,3 @@
 ,,Normal,,,,,,,,
 ,,,,,,,,,,
 ,,,,,,,,,,
-=======
-,,,,,,,,,,
-Normal,End,,,,,,,,,
-Normal,,Item,Item,,,,,,,
-Boss,,Normal,Normal,,,,,,,
-Normal,,Normal,Normal,,,,,,,
-Item,Item,Normal,,,,,,,,
-,Boss,Start,Item,,,Item,Normal,Normal,,
-Normal,Normal,Normal,Normal,Item,Normal,Normal,,,,
-Item,Normal,Boss,,,,,,,,
-Item,Normal,,,,,,,,,
->>>>>>> Stashed changes
