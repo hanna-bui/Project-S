@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -5,6 +6,10 @@ using UnityEngine.SceneManagement;
 
 public class Navigation : MonoBehaviour
 {
+    private PlayerSpawner ps;
+    
+    public static string main = "PlayDemo";
+
     public void PlayGame()
     {
         SceneManager.LoadScene("GameSetup");
@@ -24,9 +29,12 @@ public class Navigation : MonoBehaviour
     }
     */
 
-    public void ChooseCharacter()
+    public IEnumerator  ChooseCharacter()
     {
-        SceneManager.LoadSceneAsync("PlayDemo");
+        var ao = SceneManager.LoadSceneAsync("PlayDemo");
+        while (!ao.isDone)
+        {
+            yield return null;
+        }
     }
-
 }

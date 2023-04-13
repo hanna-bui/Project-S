@@ -1,16 +1,14 @@
-using System.Collections;
-using System.Collections.Generic;
 using Managers;
+using Movement.Pathfinding;
 using UnityEngine;
 
 public class PlayerSpawner : MonoBehaviour
 {
-    private Vector3 startPos;
-    private void Awake()
+    public void Spawn(GameObject player)
     {
-        Instantiate(GameManager.instance.currCharacter.prefab, transform.position, Quaternion.identity);
-        startPos = GameObject.Find("Walkable").transform.position;
-        GameObject player = GameObject.FindWithTag("Player");
-        player.transform.position = startPos;
+        var grid = GameObject.FindWithTag("Level").GetComponent<NewGrid>();
+        var startPos = grid.GetRandomCoords();
+        Instantiate(player, startPos, Quaternion.identity);
+        if (Camera.main != null) Camera.main.GetComponent<FollowPlayer>().AttachToPlayer(player);
     }
 }

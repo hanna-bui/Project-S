@@ -1,18 +1,16 @@
-using System.Collections;
-using Characters;
-using Characters.Enemy;
-using Movement.Pathfinding;
 using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 namespace Managers
 {
     public class GameManager : MonoBehaviour
     {
         public static GameManager instance;
-        public Player[] characters;
+        private const string Main = "PlayDemo";
+        public GameObject currCharacter;
 
-        public Player currCharacter;
+        private bool notSpawned;
 
         private void Awake()
         {
@@ -24,26 +22,46 @@ namespace Managers
             {
                 Destroy(gameObject);
             }
-            DontDestroyOnLoad(gameObject);
+            
         }
 
-        private void Start()
+        private void Update()
         {
-            if (currCharacter == null)
+            if (SceneManager.GetActiveScene () == SceneManager.GetSceneByName (Main) && !notSpawned)
             {
-                var temp = GameObject.Find("Ninja");
-                
-                if (temp == null) temp = GameObject.Find("Samurai");
-                else currCharacter = temp.GetComponent<Ninja>();
-                
-                if (temp == null) temp = GameObject.Find("Monk");
-                else currCharacter = temp.GetComponent<Samurai>();
+                GetComponent<PlayerSpawner>().Spawn(currCharacter.GameObject());
+                notSpawned = !notSpawned;
             }
         }
 
-        public void SetCharacter(Player character)
+        public void SetCharacter(GameObject character)
         {
             currCharacter = character;
+        }
+        
+        public void PlayGame()
+        {
+            SceneManager.LoadScene("GameSetup");
+        }
+        public void HowTo()
+        {
+            ///load overlay canvas with simple instructions
+        }
+        public void Solo()
+        {
+            SceneManager.LoadScene("ChooseCharacter");
+        }
+        /*
+        public void Multi()
+        {
+            SceneManager.LoadScene("Starting");
+        }
+        */
+        
+        public void Play()
+        {
+            DontDestroyOnLoad(gameObject);
+            SceneManager.LoadSceneAsync("PlayDemo");
         }
     }
 }
