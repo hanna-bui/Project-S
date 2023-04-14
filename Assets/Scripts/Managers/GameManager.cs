@@ -12,7 +12,7 @@ namespace Managers
         public GameObject currCharacter;
         public GameObject player = null;
         public int lvl = 1;
-        public int scale = 3;
+        public int scale = 1;
         private int currLvl = 1;
 
         private bool notSpawned;

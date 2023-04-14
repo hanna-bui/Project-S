@@ -51,13 +51,13 @@ namespace RoomGen
         public DoorDir[,] RoomDoors = new DoorDir[10, 10];
 
         [Header("Room Variables")] [Tooltip("The size of the level.")] [SerializeField]
-        private int lvlScale = 3;
+        private int lvlScale = 1;
         [Tooltip("How many rooms will be generated.")] [SerializeField]
-        private int totalRooms; // = lvlScale*10;
+        private int totalRooms = 10; // = lvlScale*10;
         [Tooltip("How many rooms will contain items (consumables excluded).")] [SerializeField]
-        private int itemRooms; // = lvlScale*3;
+        private int itemRooms = 3; // = lvlScale*3;
         [Tooltip("How many rooms will have a boss fight.")] [SerializeField]
-        private int bossRooms; // = lvlScale;
+        private int bossRooms = 1; // = lvlScale;
         [Tooltip("If the boss rooms will be easy (or hard).")] [SerializeField]
         public bool easyBoss = true;
         private bool final = true;
@@ -142,7 +142,7 @@ namespace RoomGen
 
             CSVWrite("RoomTypes.csv");
             Spawn();
-            Debug.Log("Spawned rooms.");
+            Debug.Log("Spawned "+ rooms + "rooms.");
             
             //something to fix Grid
         }
