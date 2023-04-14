@@ -270,9 +270,9 @@ namespace RoomGen
                         case RoomType.End:
                         {
                             GameObject item = templates.Items[final ? 0 : 1];
-                            item = Instantiate(item, point + center, item.transform.rotation);
+                            item = Instantiate(item, item.transform.position + point + center, item.transform.rotation);
                             item.transform.parent = GameObject.Find("Items").transform;
-                            item.transform.localScale = offsetx+offsety;
+                            item.transform.localScale = (offsetx+offsety)*0.25f;
                             break;
                         }
                     }
