@@ -1,3 +1,4 @@
+using Finite_State_Machine;
 using Finite_State_Machine.States;
 using UnityEngine;
 
@@ -33,13 +34,13 @@ namespace Characters
                 agent.ChangeState(newState);
             }
         }
-        // private void OnTriggerExit2D(Collider2D col)
-        // {
-        //     if (col.gameObject.CompareTag("Enemy") && agent.CurrentState is Attack)
-        //     {
-        //         agent.ChangeState(new PlayerIdle());
-        //     }
-        // }
+        private void OnTriggerExit2D(Collider2D col)
+        {
+            if (col.gameObject.CompareTag("Enemy"))
+            {
+                agent.CurrentState.ChangeStatus(StateStatus.Completed);
+            }
+        }
         
         public void SetupCollider(float rad)
         {
