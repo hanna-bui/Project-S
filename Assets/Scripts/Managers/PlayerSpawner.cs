@@ -6,7 +6,7 @@ using UnityEngine;
 public class PlayerSpawner : MonoBehaviour
 {
     // ReSharper disable Unity.PerformanceAnalysis
-    public void Spawn(GameObject player)
+    public GameObject Spawn(GameObject player)
     {
         //var grid = GameObject.FindWithTag("Level").GetComponent<NewGrid>();
         //var startPos = grid.GetSpawnPt();
@@ -21,5 +21,6 @@ public class PlayerSpawner : MonoBehaviour
         var s = cam.AddComponent<FollowPlayer>();
         s.AttachToPlayer(player);
         if (Camera.main != null) Camera.main.gameObject.SetActive(false);
+        return player;
     }
 }

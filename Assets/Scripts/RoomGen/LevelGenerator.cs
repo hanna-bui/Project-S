@@ -51,15 +51,16 @@ namespace RoomGen
         public DoorDir[,] RoomDoors = new DoorDir[10, 10];
 
         [Header("Room Variables")] [Tooltip("The size of the level.")] [SerializeField]
-        private static int lvlScale = 3;
+        private int lvlScale = 3;
         [Tooltip("How many rooms will be generated.")] [SerializeField]
-        private static int totalRooms = lvlScale*10;
+        private int totalRooms; // = lvlScale*10;
         [Tooltip("How many rooms will contain items (consumables excluded).")] [SerializeField]
-        private static int itemRooms = lvlScale*3;
+        private int itemRooms; // = lvlScale*3;
         [Tooltip("How many rooms will have a boss fight.")] [SerializeField]
-        private static int bossRooms = lvlScale;
+        private int bossRooms; // = lvlScale;
         [Tooltip("If the boss rooms will be easy (or hard).")] [SerializeField]
         public bool easyBoss = true;
+        private bool final = true;
 
         private int rooms = 0;
         // Size of rooms (all rooms are square so this represents a side).
@@ -94,8 +95,15 @@ namespace RoomGen
             // setupLevelGenerator();
         }
 
-        public void setupLevelGenerator()
+        public void setupLevelGenerator(int lvlScale, bool final)
         {
+            // Set up level Variables
+            this.lvlScale = lvlScale;
+            totalRooms = lvlScale*10;
+            itemRooms = lvlScale*3;
+            bossRooms = lvlScale;
+            this.final = final;
+            
             Level = GameObject.FindGameObjectWithTag("Level");
             templates = GameObject.FindGameObjectWithTag("Rooms").GetComponent<RoomTemplates>();
             int i = 0;
@@ -120,13 +128,10 @@ namespace RoomGen
             RoomTypes[i, j] = RoomType.Start;
             AllRooms.Add(p);
             SpawnRooms.Add(p);
-            // Set camera to Start Room
-            // Transform camera = Camera.main.transform;
-            // var s = Instantiate(spawnpt);
+            // Set spawn point to this starting room to spawn in Character
             spawnpt = GameObject.Find("SpawnPoint");
             spawnpt.transform.position = ((offsetx * j + offsety * (9-i) + offsetxy * 7.5f) * 15f) + Vector3.back;
-            // camera.position = ((offsetx * j + offsety * (9-i) + offsetxy * 7.5f) * 15f) + Vector3.back;
-            
+
             // Let's not count the starting room as a room (to make SpawnRooms2 easier to track)
             //rooms++;
             
@@ -183,6 +188,8 @@ namespace RoomGen
                         /*
                             Item rooms can have 1 item for now.
                             This has to be a consumable as scrolls don't affect stats yet.
+                            Note: to use items instead, we would call:
+                            GameObject item = templates.Items[Random.Range(2, templates.Items.Length)];
                             However, this room will have two regular enemies.
                             More complex item and enemy layouts can be implemented later,
                             once complex room layouts with obstacles are implemented.
@@ -255,6 +262,17 @@ namespace RoomGen
                             Instantiate(enemy, point + center + (offsetx - offsety) * 3, eRotation);
                             Instantiate(enemy, point + center + (offsetx - offsety) * -3, eRotation);
                             
+                            break;
+                        }
+                        /*
+                            The final room has a Gold or Silver Chalice and touching it completes the level!
+                         */
+                        case RoomType.End:
+                        {
+                            GameObject item = templates.Items[final ? 0 : 1];
+                            item = Instantiate(item, point + center, item.transform.rotation);
+                            item.transform.parent = GameObject.Find("Items").transform;
+                            item.transform.localScale = offsetx+offsety;
                             break;
                         }
                     }

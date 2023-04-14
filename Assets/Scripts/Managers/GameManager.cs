@@ -10,6 +10,10 @@ namespace Managers
         public static GameManager instance;
         private const string Main = "PlayDemo";
         public GameObject currCharacter;
+        public GameObject player;
+        public int lvl = 1;
+        public int scale = 3;
+        private int currLvl = 1;
 
         private bool notSpawned;
 
@@ -32,9 +36,9 @@ namespace Managers
             {
                 notSpawned = !notSpawned;
                 var lg = GameObject.FindWithTag("Level").GetComponent<LevelGenerator>();
-                lg.setupLevelGenerator();
+                lg.setupLevelGenerator(scale, currLvl==lvl);
                 lg.grid.InitializeGrid();
-                GetComponent<PlayerSpawner>().Spawn(currCharacter.GameObject());
+                player = GetComponent<PlayerSpawner>().Spawn(currCharacter.GameObject());
             }
         }
 
@@ -66,6 +70,7 @@ namespace Managers
         {
             DontDestroyOnLoad(gameObject);
             SceneManager.LoadSceneAsync("PlayDemo");
+            player = GameObject.FindWithTag("Player");
         }
     }
 }
