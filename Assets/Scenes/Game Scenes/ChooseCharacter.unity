@@ -409,7 +409,7 @@ MonoBehaviour:
   currCharacter: {fileID: 1870814044837786759, guid: 7826c52cccabce84e8fc38e42cd1d775, type: 3}
   player: {fileID: 0}
   lvl: 1
-  scale: 3
+  scale: 1
 --- !u!4 &881672034
 Transform:
   m_ObjectHideFlags: 0
