@@ -118,7 +118,6 @@ namespace Characters
 
         protected override void Update()
         {
-            
             CurrentState = GetTop();
             CurrentState.Execute(this, Time.deltaTime);
 

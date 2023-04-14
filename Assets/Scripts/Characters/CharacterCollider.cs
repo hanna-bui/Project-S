@@ -34,13 +34,6 @@ namespace Characters
                 agent.ChangeState(newState);
             }
         }
-        private void OnTriggerExit2D(Collider2D col)
-        {
-            if (col.gameObject.CompareTag("Enemy"))
-            {
-                agent.CurrentState.ChangeStatus(StateStatus.Completed);
-            }
-        }
         
         public void SetupCollider(float rad)
         {
