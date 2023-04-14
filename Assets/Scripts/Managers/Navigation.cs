@@ -37,15 +37,7 @@ public class Navigation : MonoBehaviour
     }
     */
 
-    public void LevelSelect()
-    {
-        FindObjectOfType<SelectLevels>().Select();
-    }
-    
-    public void RoomSelect()
-    {
-        FindObjectOfType<SelectRooms>().Select();
-    }
+    public void Continue() {}
 
     public void PlayAgain()
     {

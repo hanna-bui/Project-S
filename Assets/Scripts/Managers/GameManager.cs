@@ -36,13 +36,9 @@ namespace Managers
 
         private void Update()
         {
-            if (!spawned)
-            {
-                Destroy(level);
-                level = Instantiate(levelPrefab);
-            }
             if (SceneManager.GetActiveScene() == SceneManager.GetSceneByName (Main) && SceneManager.GetActiveScene().isLoaded && !spawned)
             {
+                level = Instantiate(levelPrefab);
                 spawned = true;
                 var lg = GameObject.FindWithTag("Level").GetComponent<LevelGenerator>();
                 lg.setupLevelGenerator(scale, currLvl==lvl);
@@ -111,25 +107,32 @@ namespace Managers
 
         public void Next()
         {
-            Destroy(level);
             currLvl++;
-            Update();
+            Clear();
+            Play();
+            //SceneManager.LoadScene("LoadingScreen");
         }
 
         public void Win()
         {
+            Clear();
             SceneManager.LoadScene("WinScreen");
-            //spawned = false;
-            Destroy(player);
-            Destroy(level);
         }
         
         public void Lose()
         {
+            Clear();
             SceneManager.LoadScene("LossScreen");
-            //spawned = false;
+        }
+
+        public void Clear()
+        {
+            spawned = false;
             Destroy(player);
             Destroy(level);
+            Destroy(GameObject.Find("Characters"));
+            Destroy(GameObject.Find("Enemies"));
+            Destroy(GameObject.Find("Items"));
         }
     }
 }

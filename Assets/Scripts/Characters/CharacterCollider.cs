@@ -29,7 +29,7 @@ namespace Characters
             else if (col.gameObject.name.Contains("Inactive"))
             {
                 Debug.Log("Level Complete!");
-                manager.Play();
+                manager.Next();
             }
             else if (col.gameObject.name.Contains("Active"))
             {

@@ -160,6 +160,7 @@ namespace RoomGen
                 {
                     // d is the door direction enum for the current cell cast to an int
                     int d = (int)RoomDoors[i, j];
+                    Debug.Log("d = " + d);
                     GameObject room = templates.Rooms[d];
                     room = Instantiate(room, point, room.transform.rotation);
                     room.transform.parent = Level.transform;
