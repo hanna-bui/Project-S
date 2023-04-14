@@ -124,7 +124,7 @@ namespace RoomGen
             // Transform camera = Camera.main.transform;
             // var s = Instantiate(spawnpt);
             spawnpt = GameObject.Find("SpawnPoint");
-            spawnpt.transform.position = ((offsetx * j + offsety * (9-i) + offsetxy * 7.5f) * 15f);
+            spawnpt.transform.position = ((offsetx * j + offsety * (9-i) + offsetxy * 7.5f) * 15f) + Vector3.back;
             // camera.position = ((offsetx * j + offsety * (9-i) + offsetxy * 7.5f) * 15f) + Vector3.back;
             
             // Let's not count the starting room as a room (to make SpawnRooms2 easier to track)
