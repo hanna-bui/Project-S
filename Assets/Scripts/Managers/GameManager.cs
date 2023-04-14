@@ -56,6 +56,16 @@ namespace Managers
             currCharacter = character;
         }
         
+        public void SetLevels(Slider slider)
+        {
+            lvl = (int)slider.value;
+        }
+        
+        public void SetRooms(Slider slider)
+        {
+            scale = (int)slider.value;
+        }
+        
         public void PlayGame()
         {
             SceneManager.LoadScene("GameSetup");
@@ -86,6 +96,8 @@ namespace Managers
             //spawned = false;
             //Update();
         }
+
+        
         
         public void Play()
         {
