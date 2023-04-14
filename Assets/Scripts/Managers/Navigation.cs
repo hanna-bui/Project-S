@@ -19,7 +19,14 @@ public class Navigation : MonoBehaviour
     {
         ///load overlay canvas with simple instructions
     }
+    
     public void Solo()
+    {
+        SceneManager.LoadScene("GameSelect");
+    }
+    
+    /*
+     public void Solo()
     {
         SceneManager.LoadScene("ChooseLevel");
     }
@@ -28,6 +35,7 @@ public class Navigation : MonoBehaviour
     {
         SceneManager.LoadScene("ChooseCharacter");
     }
+    */
 
     public void LevelSelect()
     {
