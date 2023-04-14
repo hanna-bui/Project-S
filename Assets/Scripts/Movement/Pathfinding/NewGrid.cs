@@ -18,6 +18,7 @@ namespace Movement.Pathfinding
         [SerializeField] private Tilemap floorMap;
         private Node[,] nodeToNodes;
 
+        private Vector3? spawnPt = null;
 
         private BoundsInt FloorBounds { get; set; }
 
@@ -42,11 +43,12 @@ namespace Movement.Pathfinding
             var floorBounds = newFloorMap.cellBounds;
             var floorTiles = newFloorMap.GetTilesBlock(floorBounds);
 
+            var flag = Random.Range(0, 2)==1;
+
             for (var x = 0; x < floorBounds.size.x; x++) {
                 for (var y = 0; y < floorBounds.size.y; y++) {
                     var floorTile = floorTiles[x + y * floorBounds.size.x];
                     if (floorTile != null) {
-                        //Debug.Log("x:" + point.x + x + " y:" + y + " tile:" + floorTile.name);
                         floorMap.SetTile(new Vector3Int((int)(point.x/ 15 + x) + 3, (int)(point.y/15 + y) - 14,0), floorTile);
                     }
                 }
@@ -56,6 +58,8 @@ namespace Movement.Pathfinding
                     var walkTile = walkTiles[x + y * walkBounds.size.x];
                     if (walkTile != null) {
                         walkableMap.SetTile(new Vector3Int((int)(point.x/ 15 + x) - 3, (int)(point.y/15 + y) - 14,0), walkTile);
+                        if (spawnPt==null && flag) 
+                            spawnPt = new Vector3((int)(point.x/ 15 + x) - 3, (int)(point.y/15 + y) - 14,0);
                     }
                 }
             }
@@ -81,11 +85,22 @@ namespace Movement.Pathfinding
             }
             return null;
         }
+        
+        public bool IsWalkable(int x, int y)
+        {
+            var gridPos = walkableMap.WorldToCell(new Vector3(x, y, 0));
+            return nodeToNodes[gridPos.x, gridPos.y] != null;
+        }
 
         public bool IsWalkable(Vector3 position)
         {
             var gridPos = walkableMap.WorldToCell(position);
             return nodeToNodes[gridPos.x, gridPos.y] != null;
+        }
+
+        public Vector3? GetSpawnPt()
+        {
+            return spawnPt;
         }
         
         public Vector3 GetRandomCoords()

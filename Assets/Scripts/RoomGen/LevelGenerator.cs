@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.IO;
 using Characters.Enemy;
@@ -82,9 +83,18 @@ namespace RoomGen
 
         public NewGrid grid;
 
+        private void Awake()
+        {
+            DontDestroyOnLoad(this);
+        }
 
         // Start is called before the first frame update
         void Start()
+        {
+            // setupLevelGenerator();
+        }
+
+        public void setupLevelGenerator()
         {
             Level = GameObject.FindGameObjectWithTag("Level");
             templates = GameObject.FindGameObjectWithTag("Rooms").GetComponent<RoomTemplates>();
@@ -127,7 +137,6 @@ namespace RoomGen
             Debug.Log("Spawned rooms.");
             
             //something to fix Grid
-            grid.InitializeGrid();
         }
 
         /// <summary>

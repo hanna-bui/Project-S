@@ -1,3 +1,4 @@
+using RoomGen;
 using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.SceneManagement;
@@ -27,10 +28,13 @@ namespace Managers
 
         private void Update()
         {
-            if (SceneManager.GetActiveScene () == SceneManager.GetSceneByName (Main) && !notSpawned)
+            if (SceneManager.GetActiveScene() == SceneManager.GetSceneByName (Main) && SceneManager.GetActiveScene().isLoaded && !notSpawned)
             {
-                GetComponent<PlayerSpawner>().Spawn(currCharacter.GameObject());
                 notSpawned = !notSpawned;
+                var lg = GameObject.FindWithTag("Level").GetComponent<LevelGenerator>();
+                lg.setupLevelGenerator();
+                lg.grid.InitializeGrid();
+                GetComponent<PlayerSpawner>().Spawn(currCharacter.GameObject());
             }
         }
 

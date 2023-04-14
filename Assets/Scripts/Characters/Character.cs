@@ -96,8 +96,7 @@ namespace Characters
             mpValue = transform.GetChild(1).GetChild(1).GetComponent<TextMeshProUGUI>();
             mpValue.text = "MP: " + CMP + "";
             
-            var parent = GameObject.Find("Characters").transform;
-            transform.parent = parent;
+            
             transform.localScale = new Vector3(1, 1, 0);
         }
         

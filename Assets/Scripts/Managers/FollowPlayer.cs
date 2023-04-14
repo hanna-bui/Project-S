@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using Unity.VisualScripting;
@@ -13,7 +14,7 @@ public class FollowPlayer : MonoBehaviour
         transform.position = player.transform.position + new Vector3(0, 0, -10);
         transform.SetParent(player.transform);
         transform.localScale = new Vector3(0.05f, 0.05f, 1);
-        Camera.main.nearClipPlane = 0;
+        GetComponent<Camera>().nearClipPlane = 0;
     }
 
     // Update is called once per frame
