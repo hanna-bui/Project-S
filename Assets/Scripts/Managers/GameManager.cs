@@ -55,9 +55,10 @@ namespace Managers
         {
             ///load overlay canvas with simple instructions
         }
+        
         public void Solo()
         {
-            SceneManager.LoadScene("ChooseCharacter");
+            SceneManager.LoadScene("ChooseLevel");
         }
         /*
         public void Multi()
@@ -65,12 +66,12 @@ namespace Managers
             SceneManager.LoadScene("Starting");
         }
         */
-
-        public void LevelSelect(int scale, int levels)
+        
+        public void ChooseLevel()
         {
-            lvl = levels;
-            currLvl = 1;
-            this.scale = scale;
+            SceneManager.LoadScene("ChooseCharacter");
+            notSpawned = false;
+            this.Update();
         }
         
         public void Play()

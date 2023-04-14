@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using Managers;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
@@ -20,7 +21,22 @@ public class Navigation : MonoBehaviour
     }
     public void Solo()
     {
+        SceneManager.LoadScene("ChooseLevel");
+    }
+
+    public void ChooseLevel()
+    {
         SceneManager.LoadScene("ChooseCharacter");
+    }
+
+    public void LevelSelect()
+    {
+        FindObjectOfType<SelectLevels>().Select();
+    }
+    
+    public void RoomSelect()
+    {
+        FindObjectOfType<SelectRooms>().Select();
     }
     /*
     public void Multi()
