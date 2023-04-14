@@ -2,12 +2,15 @@ using RoomGen;
 using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using UnityEngine.UI;
 
 namespace Managers
 {
     public class GameManager : MonoBehaviour
     {
         public static GameManager instance;
+        public GameObject levelPrefab;
+        public GameObject level;
         private const string Main = "PlayDemo";
         public GameObject currCharacter;
         public GameObject player = null;
@@ -15,13 +18,14 @@ namespace Managers
         public int scale = 1;
         private int currLvl = 1;
 
-        private bool notSpawned;
+        private bool spawned = true;
 
         private void Awake()
         {
             if(instance == null)
             {
                 instance = this;
+                DontDestroyOnLoad(this);
             }
             else
             {
@@ -32,9 +36,14 @@ namespace Managers
 
         private void Update()
         {
-            if (SceneManager.GetActiveScene() == SceneManager.GetSceneByName (Main) && SceneManager.GetActiveScene().isLoaded && !notSpawned)
+            if (!spawned)
             {
-                notSpawned = !notSpawned;
+                Destroy(level);
+                level = Instantiate(levelPrefab);
+            }
+            if (SceneManager.GetActiveScene() == SceneManager.GetSceneByName (Main) && SceneManager.GetActiveScene().isLoaded && !spawned)
+            {
+                spawned = true;
                 var lg = GameObject.FindWithTag("Level").GetComponent<LevelGenerator>();
                 lg.setupLevelGenerator(scale, currLvl==lvl);
                 lg.grid.InitializeGrid();
@@ -69,23 +78,46 @@ namespace Managers
         
         public void ChooseLevel()
         {
-            SceneManager.LoadScene("ChooseCharacter");
-            notSpawned = false;
-            this.Update();
+            // Currently does not work for playing again
+            SceneManager.LoadSceneAsync("ChooseCharacter");
+            Button button = GameObject.Find("Start").GetComponent<Button>();
+            button.onClick.AddListener(Play);
+            Debug.Log("added listener");
+            //spawned = false;
+            //Update();
         }
         
         public void Play()
         {
-            DontDestroyOnLoad(gameObject);
+            Debug.Log("Called Play");
+            spawned = false;
+            Update();
+            //DontDestroyOnLoad(gameObject);
             SceneManager.LoadSceneAsync("PlayDemo");
             player = GameObject.FindWithTag("Player");
         }
 
         public void Next()
         {
-            notSpawned = false;
+            Destroy(level);
             currLvl++;
-            this.Update();
+            Update();
+        }
+
+        public void Win()
+        {
+            SceneManager.LoadScene("WinScreen");
+            //spawned = false;
+            Destroy(player);
+            Destroy(level);
+        }
+        
+        public void Lose()
+        {
+            SceneManager.LoadScene("LossScreen");
+            //spawned = false;
+            Destroy(player);
+            Destroy(level);
         }
     }
 }

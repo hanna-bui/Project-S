@@ -86,7 +86,7 @@ namespace RoomGen
 
         private void Awake()
         {
-            DontDestroyOnLoad(this);
+            //DontDestroyOnLoad(this);
         }
 
         // Start is called before the first frame update

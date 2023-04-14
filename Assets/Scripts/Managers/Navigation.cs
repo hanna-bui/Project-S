@@ -38,6 +38,13 @@ public class Navigation : MonoBehaviour
     {
         FindObjectOfType<SelectRooms>().Select();
     }
+
+    public void PlayAgain()
+    {
+        SceneManager.LoadScene("MainMenu");
+    }
+
+
     /*
     public void Multi()
     {

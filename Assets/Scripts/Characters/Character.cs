@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using Finite_State_Machine;
 using Finite_State_Machine.States;
+using Managers;
 using TMPro;
 using UnityEngine;
 using Item = Items.Items;
@@ -61,6 +62,12 @@ namespace Characters
             if (col.gameObject.CompareTag("Item") && CurrentState is not WalkToLocation)
             {
                 ChangeState(new ItemPickup(col.GetComponent<Item>()));
+            }
+
+            if (CHP <= 0)
+            {
+                Debug.Log("You lost...");
+                GameManager.instance.Lose();
             }
         }
         private void OnTriggerStay2D(Collider2D col)

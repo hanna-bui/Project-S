@@ -4,6 +4,7 @@ using UnityEngine;
 
 namespace Items
 {
+    // My first attempt - Doesn't do anything
     public class GInactive : Items
     {
         private GameManager manager;

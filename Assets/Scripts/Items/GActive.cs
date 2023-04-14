@@ -4,6 +4,7 @@ using UnityEngine;
 
 namespace Items
 {
+    // My first attempt - Doesn't do anything
     public class GActive : Items
     {
         private GameManager manager;
@@ -17,7 +18,8 @@ namespace Items
         {
             if (other.CompareTag("Player"))
             {
-                manager.Next();
+                Debug.Log("You Won!");
+                manager.Win();
             }
         }
     }

@@ -12,13 +12,13 @@ EditorBuildSettings:
     path: Assets/Scenes/TestScenes/SampleScene2.0.unity
     guid: c897da1b55f5c44408dfbdda6d760887
   - enabled: 0
-    path: Assets/Mirror/Examples/Room/Scenes/RoomScene.unity
+    path: 
     guid: 48478f4d522f96945b8396f376299d3a
   - enabled: 0
-    path: Assets/Mirror/Examples/Room/Scenes/OfflineScene.unity
+    path: 
     guid: 9e6f14982412b2545a0911ebaaa46a23
   - enabled: 0
-    path: Assets/Mirror/Examples/Room/Scenes/OnlineScene.unity
+    path: 
     guid: d7a6763559b31854586c9e49916273ef
   - enabled: 1
     path: Assets/Scenes/Game Scenes/MainMenu.unity
@@ -47,4 +47,10 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/Game Scenes/ChooseLevel.unity
     guid: fc238d24327d22445ad95d6291bf9d10
+  - enabled: 1
+    path: Assets/Scenes/Game Scenes/WinScreen.unity
+    guid: bd5b0b5ff3589a047a6acc6f64883e01
+  - enabled: 1
+    path: Assets/Scenes/Game Scenes/LossScreen.unity
+    guid: a56c0ff9eb0466b41a877063469bcb42
   m_configObjects: {}
