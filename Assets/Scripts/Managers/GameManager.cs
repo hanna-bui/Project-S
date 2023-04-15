@@ -115,13 +115,13 @@ namespace Managers
 
         public void Win()
         {
-            Clear();
+            Destroy(level);
             SceneManager.LoadScene("WinScreen");
         }
         
         public void Lose()
         {
-            Clear();
+            Destroy(level);
             SceneManager.LoadScene("LossScreen");
         }
 
