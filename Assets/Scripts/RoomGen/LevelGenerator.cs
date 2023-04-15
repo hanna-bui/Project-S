@@ -122,6 +122,8 @@ namespace RoomGen
              starting room. In this case, one or two room spawn directions would be invalid from the start, and the
              algorithm would be constantly trying to find a new valid direction for rooms to spawn in.
              */
+            AllRooms.Clear();
+            SpawnRooms.Clear();
             i = Random.Range(2, 7);
             j = Random.Range(2, 7);
             OrderedPair p = new OrderedPair(i, j);
@@ -160,7 +162,6 @@ namespace RoomGen
                 {
                     // d is the door direction enum for the current cell cast to an int
                     int d = (int)RoomDoors[i, j];
-                    Debug.Log("d = " + d);
                     GameObject room = templates.Rooms[d];
                     room = Instantiate(room, point, room.transform.rotation);
                     room.transform.parent = Level.transform;
