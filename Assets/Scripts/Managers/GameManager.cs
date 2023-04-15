@@ -18,33 +18,15 @@ namespace Managers
         public int scale = 1;
         private int currLvl = 1;
 
-        private bool spawned = true;
-
         private void Awake()
         {
-            if(instance == null)
+            if (instance != null)
             {
-                instance = this;
-                DontDestroyOnLoad(this);
-            }
-            else
-            {
-                Destroy(gameObject);
+                Destroy(instance.gameObject);
             }
             
-        }
-
-        private void Update()
-        {
-            if (SceneManager.GetActiveScene() == SceneManager.GetSceneByName (Main) && SceneManager.GetActiveScene().isLoaded && !spawned)
-            {
-                level = Instantiate(levelPrefab);
-                spawned = true;
-                var lg = GameObject.FindWithTag("Level").GetComponent<LevelGenerator>();
-                lg.setupLevelGenerator(scale, currLvl==lvl);
-                lg.grid.InitializeGrid();
-                player = GetComponent<PlayerSpawner>().Spawn(currCharacter.GameObject());
-            }
+            instance = this;
+            DontDestroyOnLoad(gameObject);
         }
 
         public void SetCharacter(GameObject character)
@@ -66,15 +48,17 @@ namespace Managers
         {
             SceneManager.LoadScene("GameSetup");
         }
+        
         public void HowTo()
         {
-            ///load overlay canvas with simple instructions
+            // Load overlay canvas with simple instructions.
         }
         
         public void Solo()
         {
             SceneManager.LoadScene("ChooseLevel");
         }
+        
         /*
         public void Multi()
         {
@@ -84,25 +68,16 @@ namespace Managers
         
         public void ChooseLevel()
         {
-            // Currently does not work for playing again
             SceneManager.LoadSceneAsync("ChooseCharacter");
             Button button = GameObject.Find("Start").GetComponent<Button>();
             button.onClick.AddListener(Play);
-            Debug.Log("added listener");
-            //spawned = false;
-            //Update();
+            Debug.Log("Added listener");
         }
 
-        
-        
         public void Play()
         {
             Debug.Log("Called Play");
-            spawned = false;
-            Update();
-            //DontDestroyOnLoad(gameObject);
             SceneManager.LoadSceneAsync("PlayDemo");
-            player = GameObject.FindWithTag("Player");
         }
 
         public void Next()
@@ -110,7 +85,6 @@ namespace Managers
             currLvl++;
             Clear();
             Play();
-            //SceneManager.LoadScene("LoadingScreen");
         }
 
         public void Win()
@@ -127,12 +101,39 @@ namespace Managers
 
         public void Clear()
         {
-            spawned = false;
+            //spawned = false;
             Destroy(player);
             Destroy(level);
             Destroy(GameObject.Find("Characters"));
             Destroy(GameObject.Find("Enemies"));
             Destroy(GameObject.Find("Items"));
+        }
+
+        private void OnEnable()
+        {
+            // Bind callback for every level change.
+            SceneManager.sceneLoaded += OnSceneLoaded;
+        }
+
+        private void OnDisable()
+        {
+            // Cleanup callback for every level change.
+            SceneManager.sceneLoaded -= OnSceneLoaded;
+        }
+
+        private void OnSceneLoaded(Scene scene, LoadSceneMode mode)
+        {
+            // If this is the start of the main level, set it up.
+            if (scene != SceneManager.GetSceneByName(Main) || levelPrefab == null)
+            {
+                return;
+            }
+                
+            level = Instantiate(levelPrefab);
+            LevelGenerator lg = level.GetComponent<LevelGenerator>();
+            lg.setupLevelGenerator(scale, currLvl==lvl);
+            lg.grid.InitializeGrid();
+            player = GetComponent<PlayerSpawner>().Spawn(currCharacter.GameObject());
         }
     }
 }
