@@ -8,9 +8,7 @@ public class PlayerSpawner : MonoBehaviour
     // ReSharper disable Unity.PerformanceAnalysis
     public GameObject Spawn(GameObject player)
     {
-        //var grid = GameObject.FindWithTag("Level").GetComponent<NewGrid>();
-        //var startPos = grid.GetSpawnPt();
-        Transform spawnpt = GameObject.Find("SpawnPoint").transform;
+        var spawnpt = GameObject.Find("SpawnPoint").transform;
         player = Instantiate(player);
         
         var parent = GameObject.Find("Characters").transform;

@@ -17,8 +17,8 @@ namespace Characters.Enemy
         {
             if (col.gameObject.CompareTag("Player"))
             {
-                var player = col.gameObject.transform;
-                agent.ChangeState(new EnemyAttack(col.transform.gameObject));
+                var player = col.transform.parent.gameObject;
+                agent.ChangeState(new EnemyAttack(player));
             }
         }
         private void OnTriggerExit2D(Collider2D col)
@@ -26,6 +26,7 @@ namespace Characters.Enemy
             if (col.gameObject.CompareTag("Player"))
             {
                 agent.CurrentState.ChangeStatus(StateStatus.Completed);
+                
             }
         }
         public void SetupCollider(float rad)

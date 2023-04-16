@@ -38,7 +38,7 @@ namespace Finite_State_Machine.Enemy_States
                     }
                     break;
                 case StateStatus.Executing:
-                    if (TargetStat is not null && TargetStat.CHP > 0)
+                    if (TargetStat is not null)
                     {
                         agent.SetAnimations(Action.Attack);
                         TargetStat.TakeDamage(agent.DMG);
@@ -46,14 +46,14 @@ namespace Finite_State_Machine.Enemy_States
                     else
                     {
                         ChangeStatus(StateStatus.Completed);
+                        interval = 0;
                     }
                     break;
                 case StateStatus.Completed:
-                    if (agent.CHP < agent.HP)
-                    {
+                    if (agent.NeedsHealing())
                         agent.ChangeState(new EnemyHeal());
-                    }
-                    agent.ChangeState(new EnemyIdle());
+                    else
+                        agent.ChangeState(new PatternWalk());
                     break;
                 case StateStatus.Failed:
                     break;

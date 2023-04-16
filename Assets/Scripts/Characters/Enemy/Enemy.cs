@@ -62,11 +62,6 @@ namespace Characters.Enemy{
 
             Origin = transform.position;
             
-            States = new Stack<State>();
-            SetAnimations(Action.Idle);
-            States.Push(new PatternWalk());
-            
-            // hpValue = transform.GetChild(1).GetChild(0).GetComponent<TextMeshProUGUI>();
             hpValue.text = "HP: " + CHP + "";
             
             
@@ -76,17 +71,16 @@ namespace Characters.Enemy{
              * I made the scale a variable so I can fit more enemies in a room by making them smaller.
              */
             transform.localScale = new Vector3(scale, scale, 1);
+            
+            States = new Stack<State>();
+            SetAnimations(Action.Idle);
+            States.Push(new PatternWalk());
         }
 
         protected override void Update()
         {
             CurrentState = GetTop();
             CurrentState.Execute(this, Time.deltaTime);
-            
-            if (CHP <= 0)
-            {
-                Destroy(gameObject);
-            }
         }
         
         public override bool IsSubState()
@@ -101,6 +95,8 @@ namespace Characters.Enemy{
             States.Push(new EnemyIdle());
             return false;
         }
+
+        #region Stats Management
 
         private int RandomStat()
         {
@@ -118,7 +114,11 @@ namespace Characters.Enemy{
         public override void TakeDamage(int dmg)
         {
             base.TakeDamage(dmg);
-            SetAnimations(Action.Hit);
+            if (CHP > 0) SetAnimations(Action.Hit);
+            else Destroy(gameObject);
         }
+
+        #endregion
+        
     }
 }

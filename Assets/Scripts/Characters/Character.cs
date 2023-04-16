@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using Finite_State_Machine;
 using Finite_State_Machine.States;
@@ -63,12 +64,6 @@ namespace Characters
             {
                 ChangeState(new ItemPickup(col.GetComponent<Item>()));
             }
-
-            if (CHP <= 0)
-            {
-                Debug.Log("You lost...");
-                GameManager.instance.Lose();
-            }
         }
         private void OnTriggerStay2D(Collider2D col)
         {
@@ -106,54 +101,12 @@ namespace Characters
             transform.localScale = new Vector3(1, 1, 0);
         }
         
-        /*
-        public override void OnStartLocalPlayer()
-        {
-            myCamera = Instantiate(Camera.main);
-            myCamera.transform.rotation = transform.rotation;
-            myCamera.transform.position = transform.position + new Vector3(0, 0, -10);
-            myCamera.transform.SetParent(transform);
-            myCamera.transform.localScale = new Vector3(0.05f, 0.05f, 1);
-            myCamera.nearClipPlane = 0;
-            Camera.main.gameObject.SetActive(false);
-
-            var canvas = transform.GetChild(1).gameObject;
-            canvas.SetActive(true);
-        }
-        */
-
         protected override void Update()
         {
             CurrentState = GetTop();
             CurrentState.Execute(this, Time.deltaTime);
 
-          
-            
-            if (Input.GetMouseButtonDown(0))
-            {
-                TargetLocation = camera.ScreenToWorldPoint(Input.mousePosition);
-                
-                var origin = new Vector2(TargetLocation.x, TargetLocation.y);
-                var t = Physics2D.Raycast(origin, Vector2.zero, 0f);
-                
-                if (t && t.transform.CompareTag("Enemy"))
-                {
-                    if (CurrentState is Attack)
-                    {
-                        if (CurrentState.CurrentStatus is StateStatus.Initialize)
-                        {
-                            CurrentState.ChangeStatus(StateStatus.Executing);
-                        } 
-                    }
-                    else
-                        ChangeState(new WalkToLocation());
-                }
-                else
-                    ChangeState(new WalkToLocation());
-            }
-
-            if (Input.GetKeyDown(KeyCode.F) && CurrentState is ItemPickup)
-                CurrentState.ChangeStatus(StateStatus.Executing);
+            inputToState();
         }
 
         #region Animations
@@ -193,6 +146,20 @@ namespace Characters
 
         #endregion
 
+        #region Stats Management
+
+        public override void TakeDamage(int dmg)
+        {
+            base.TakeDamage(dmg);
+            if (CHP == 0)
+            {
+                Debug.Log("You lost...");
+                GameManager.instance.Lose();
+            }
+        }
+
+        #endregion
+        
         #region States
 
         public override bool IsSubState()
@@ -215,6 +182,35 @@ namespace Characters
         public bool isWalkToLocation()
         {
             return CurrentState is WalkToLocation;
+        }
+
+        public void inputToState()
+        {
+            if (Input.GetMouseButtonDown(0))
+            {
+                TargetLocation = camera.ScreenToWorldPoint(Input.mousePosition);
+                
+                var origin = new Vector2(TargetLocation.x, TargetLocation.y);
+                var t = Physics2D.Raycast(origin, Vector2.zero, 0f);
+                
+                if (t && t.transform.CompareTag("Enemy"))
+                {
+                    if (CurrentState is Attack)
+                    {
+                        if (CurrentState.CurrentStatus is StateStatus.Initialize)
+                        {
+                            CurrentState.ChangeStatus(StateStatus.Executing);
+                        } 
+                    }
+                    else
+                        ChangeState(new WalkToLocation());
+                }
+                else
+                    ChangeState(new WalkToLocation());
+            }
+            
+            if (Input.GetKeyDown(KeyCode.F) && CurrentState is ItemPickup)
+                CurrentState.ChangeStatus(StateStatus.Executing);
         }
 
         #endregion
