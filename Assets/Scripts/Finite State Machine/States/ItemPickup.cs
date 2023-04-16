@@ -16,25 +16,20 @@ namespace Finite_State_Machine.States
             interval = 0f;
         }
 
-        public override void Execute(MoveableObject agent)
+        protected override void Initialize(MoveableObject agent) 
         {
-            switch (CurrentStatus)
-            {
-                case StateStatus.Initialize:
-                    break;
-                case StateStatus.Executing:
-                    item.UpdateCharacterStat(agent as Character);
-                    CurrentStatus = StateStatus.Completed;
-                    break;
-                case StateStatus.Completed:
-                    agent.ChangeState(new PlayerIdle());
-                    break;
-                case StateStatus.Failed:
-                    break;
-                default:
-                    throw new ArgumentOutOfRangeException();
-            }
+             
         }
 
+        protected override void Executing(MoveableObject agent)
+        {
+            item.UpdateCharacterStat(agent as Character);
+            CurrentStatus = StateStatus.Completed;
+        }
+
+        protected override void Completed(MoveableObject agent)
+        {
+            agent.ChangeState(new PlayerIdle());
+        }
     }
 }

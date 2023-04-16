@@ -14,54 +14,51 @@ namespace Finite_State_Machine.States
         {
             interval = 0f;
         }
-
-        public override void Execute(MoveableObject agent)
+        
+        protected override void Initialize(MoveableObject agent) 
         {
             var grid = agent.grid;
+            
+            var pos = agent.Position();
+            var tar = agent.TargetLocation;
 
-            if (CurrentStatus is StateStatus.Initialize)
+            roadPath = grid.CreatePath(pos, tar);
+
+            switch (agent)
             {
-                var pos = agent.Position();
-                var tar = agent.TargetLocation;
+                case Character:
+                    agent.CalculateDirection();
+                    agent.SetAnimations(Motion.Walk);
+                    break;
+                case Enemy:
+                    agent.SetAnimations(Action.Jump);
+                    break;
+            }
 
-                roadPath = grid.CreatePath(pos, tar);
+            CurrentStatus = StateStatus.Executing;
+        }
 
-                switch (agent)
+        protected override void Executing(MoveableObject agent)
+        {
+            if (roadPath != null && roadPath.Count != 0)
+            {
+                agent.TargetLocation = roadPath[0];
+
+                if (agent.IsAtPosition()) roadPath.RemoveAt(0);
+
+                if (roadPath.Count == 0)
                 {
-                    case Character:
-                        agent.CalculateDirection();
-                        agent.SetAnimations(Motion.Walk);
-                        break;
-                    case Enemy:
-                        agent.SetAnimations(Action.Jump);
-                        break;
+                    roadPath = null;
+                    CurrentStatus = StateStatus.Completed;
                 }
 
-                CurrentStatus = StateStatus.Executing;
+                Move(agent);
             }
+        }
 
-            if (CurrentStatus is StateStatus.Executing)
-            {
-                if (roadPath != null && roadPath.Count != 0)
-                {
-                    agent.TargetLocation = roadPath[0];
-
-                    if (agent.IsAtPosition()) roadPath.RemoveAt(0);
-
-                    if (roadPath.Count == 0)
-                    {
-                        roadPath = null;
-                        CurrentStatus = StateStatus.Completed;
-                    }
-
-                    Move(agent);
-                }
-            }
-
-            if (CurrentStatus is StateStatus.Completed)
-            {
-                agent.IsSubState();
-            }
+        protected override void Completed(MoveableObject agent)
+        {
+            agent.IsSubState();
         }
         
         private static void Move(MoveableObject agent)

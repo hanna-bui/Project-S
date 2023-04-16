@@ -19,47 +19,41 @@ namespace Finite_State_Machine.Enemy_States
             interval = 0f;
             Target = target;
         }
-
-        public override void Execute(MoveableObject agent)
+        
+        protected override void Initialize(MoveableObject agent) 
         {
-
-            switch (CurrentStatus)
+            if (TargetStat is null)
             {
-                case StateStatus.Initialize:
-                    if (TargetStat is null)
-                    {
-                        TargetStat = Target.GetComponent<Character>();
+                TargetStat = Target.GetComponent<Character>();
                             
-                        agent.TargetLocation = TargetStat.Position();
-                        agent.CalculateDirection();
+                agent.TargetLocation = TargetStat.Position();
+                agent.CalculateDirection();
 
-                        interval = DefaultInterval;
-                        ChangeStatus(StateStatus.Executing);
-                    }
-                    break;
-                case StateStatus.Executing:
-                    if (TargetStat is not null && TargetStat.isAttackable())
-                    {
-                        agent.SetAnimations(Action.Attack);
-                        TargetStat.TakeDamage(agent.DMG);
-                    }
-                    else
-                    {
-                        ChangeStatus(StateStatus.Completed);
-                        interval = 0;
-                    }
-                    break;
-                case StateStatus.Completed:
-                    if (agent.NeedsHealing())
-                        agent.ChangeState(new EnemyHeal());
-                    else
-                        agent.ChangeState(new PatternWalk());
-                    break;
-                case StateStatus.Failed:
-                    break;
-                default:
-                    throw new ArgumentOutOfRangeException();
+                interval = DefaultInterval;
+                ChangeStatus(StateStatus.Executing);
             }
+        }
+
+        protected override void Executing(MoveableObject agent)
+        {
+            if (TargetStat is not null && TargetStat.isAttackable())
+            {
+                agent.SetAnimations(Action.Attack);
+                TargetStat.TakeDamage(agent.DMG);
+            }
+            else
+            {
+                ChangeStatus(StateStatus.Completed);
+                interval = 0;
+            }
+        }
+
+        protected override void Completed(MoveableObject agent)
+        {
+            if (agent.NeedsHealing())
+                agent.ChangeState(new EnemyHeal());
+            else
+                agent.ChangeState(new PatternWalk());
         }
     }
 }

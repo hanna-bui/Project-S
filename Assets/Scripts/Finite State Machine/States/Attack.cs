@@ -22,38 +22,38 @@ namespace Finite_State_Machine.States
             Target = target;
         }
 
-        public override void Execute(MoveableObject agent)
+        // public override void Execute(MoveableObject agent)
+        // {
+        //     
+        // }
+
+        protected override void Initialize(MoveableObject agent)
         {
-            switch (CurrentStatus)
+            if (TargetStat is null)
             {
-                case StateStatus.Initialize:
-                    if (TargetStat is null)
-                    {
-                        TargetStat = Target.GetComponent<Enemy>();
-                        agent.TargetLocation = TargetStat.Position();
-                        agent.CalculateDirection();
-                        interval = DefaultInterval;
-                    }
-                    break;
-                case StateStatus.Executing:
-                    if (TargetStat is not null && TargetStat.isAttackable())
-                    {
-                        agent.SetAnimations(Motion.Attack);
-                        TargetStat.TakeDamage(agent.DMG);
-                    }
-                    else
-                    {
-                        ChangeStatus(StateStatus.Completed);
-                    }
-                    break;
-                case StateStatus.Completed:
-                    agent.ChangeState(new PlayerIdle());
-                    break;
-                case StateStatus.Failed:
-                    break;
-                default:
-                    throw new ArgumentOutOfRangeException();
+                TargetStat = Target.GetComponent<Enemy>();
+                agent.TargetLocation = TargetStat.Position();
+                agent.CalculateDirection();
+                interval = DefaultInterval;
             }
+        }
+
+        protected override void Executing(MoveableObject agent)
+        {
+            if (TargetStat is not null && TargetStat.isAttackable())
+            {
+                agent.SetAnimations(Motion.Attack);
+                TargetStat.TakeDamage(agent.DMG);
+            }
+            else
+            {
+                ChangeStatus(StateStatus.Completed);
+            }
+        }
+
+        protected override void Completed(MoveableObject agent)
+        {
+            agent.ChangeState(new PlayerIdle());
         }
     }
 }

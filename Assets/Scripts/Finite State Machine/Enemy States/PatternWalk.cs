@@ -21,47 +21,42 @@ namespace Finite_State_Machine.Enemy_States
         {
             interval = 0f;
         }
-
-        public override void Execute(MoveableObject agent)
+        
+        protected override void Initialize(MoveableObject agent)
         {
-            if (agent is Enemy enemy)
+            var enemy = agent as Enemy;
+            switch (enemy.MovementStyle)
             {
-                switch (CurrentStatus)
-                {
-                    case StateStatus.Initialize:
-                        switch (enemy.MovementStyle)
-                        {
-                            case MO.Plus:
-                                SetupPlusOrSide(enemy);
-                                break;
-                            case MO.Side:
-                                SetupPlusOrSide(enemy);
-                                break;
-                            case MO.Random:
-                                roadPath = null;
-                                break;
-                            case MO.None:
-                                break;
-                            default:
-                                throw new ArgumentOutOfRangeException();
-                        }
-
-                        enemy.SetAnimations(Action.Jump);
-                        CurrentStatus = StateStatus.Executing;
-                        break;
-                    case StateStatus.Executing:
-                        Move(enemy);
-                        break;
-                    case StateStatus.Completed:
-                        enemy.SetAnimations(Action.Idle);
-                        enemy.ChangeState(new EnemyIdle());
-                        break;
-                    case StateStatus.Failed:
-                        break;
-                    default:
-                        throw new ArgumentOutOfRangeException();
-                }
+                case MO.Plus:
+                    SetupPlusOrSide(enemy);
+                    break;
+                case MO.Side:
+                    SetupPlusOrSide(enemy);
+                    break;
+                case MO.Random:
+                    roadPath = null;
+                    break;
+                case MO.None:
+                    break;
+                default:
+                    throw new ArgumentOutOfRangeException();
             }
+
+            enemy.SetAnimations(Action.Jump);
+            CurrentStatus = StateStatus.Executing;
+        }
+
+        protected override void Executing(MoveableObject agent)
+        {
+            var enemy = agent as Enemy;
+            Move(enemy);
+        }
+
+        protected override void Completed(MoveableObject agent)
+        {
+            var enemy = agent as Enemy;
+            enemy.SetAnimations(Action.Idle);
+            enemy.ChangeState(new EnemyIdle());
         }
 
         private void Move(Enemy agent)

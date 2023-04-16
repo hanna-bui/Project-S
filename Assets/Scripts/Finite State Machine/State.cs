@@ -1,4 +1,5 @@
-﻿using Characters;
+﻿using System;
+using Characters;
 using UnityEngine;
 
 // ReSharper disable ConvertToAutoProperty
@@ -40,10 +41,33 @@ namespace Finite_State_Machine
             }
         }
         
-        public virtual void Execute(MoveableObject agent)
+        public void Execute(MoveableObject agent) 
         {
-            
+            switch (CurrentStatus)
+            {
+                case StateStatus.Initialize:
+                    Initialize(agent);
+                    break;
+                case StateStatus.Executing:
+                    Executing(agent);
+                    break;
+                case StateStatus.Completed:
+                    Completed(agent);
+                    break;
+                case StateStatus.Failed:
+                    break;
+                default:
+                    throw new ArgumentOutOfRangeException();
+            } 
         }
+
+        protected virtual void Initialize(MoveableObject agent) { }
+
+        protected virtual void Executing(MoveableObject agent) { }
+
+        protected virtual void Completed(MoveableObject agent) { }
+        
+        
 
         public void ChangeStatus(StateStatus status)
         {
