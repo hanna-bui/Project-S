@@ -127,16 +127,19 @@ namespace Characters
         public bool NeedsHealing()
         {
             return CHP < HP;
+    
         }
 
         public void ChangeHP(int healthValue)
         {
             HP += healthValue;
+            if (CHP != 0) UpdateUI();
         }
         
         public void ChangeMana(int manaValue)
         {
             MP += manaValue;
+            if (CHP != 0) UpdateUI();
         }
         
         public void ChangeDamage(int damageValue)

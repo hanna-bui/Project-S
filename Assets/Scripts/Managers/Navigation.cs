@@ -17,9 +17,9 @@ public class Navigation : MonoBehaviour
     }
     public void HowTo()
     {
-        ///load overlay canvas with simple instructions
+        SceneManager.LoadScene("HowTo");
     }
-    
+
     public void Solo()
     {
         SceneManager.LoadScene("GameSelect");
