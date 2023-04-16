@@ -1,3 +1,5 @@
+using System.Collections.Generic;
+using Characters;
 using RoomGen;
 using Unity.VisualScripting;
 using UnityEngine;
@@ -14,9 +16,12 @@ namespace Managers
         private const string Main = "PlayDemo";
         public GameObject currCharacter;
         public GameObject player = null;
+        public bool keepPlayer;
         public int lvl = 1;
         public int scale = 1;
         private int currLvl = 1;
+
+        private List<int> playerStat;
 
         private void Awake()
         {
@@ -68,10 +73,17 @@ namespace Managers
         
         public void ChooseLevel()
         {
+            keepPlayer = false;
             SceneManager.LoadSceneAsync("ChooseCharacter");
-            Button button = GameObject.Find("Start").GetComponent<Button>();
+            var button = GameObject.Find("Start").GetComponent<Button>();
             button.onClick.AddListener(Play);
             Debug.Log("Added listener");
+        }
+        
+        public void Respawn()
+        {
+            keepPlayer = true;
+            Play();
         }
 
         public void Play()
@@ -82,7 +94,9 @@ namespace Managers
 
         public void Next()
         {
-            currLvl++;
+            keepPlayer = true;
+            player.GetComponent<Character>().LevelUp(10,10,10,10,10,10,10);
+            playerStat = player.GetComponent<Character>().CLS();
             Clear();
             Play();
         }
@@ -95,6 +109,7 @@ namespace Managers
         
         public void Lose()
         {
+            playerStat = player.GetComponent<Character>().CLS();
             Destroy(level);
             SceneManager.LoadScene("LossScreen");
         }
@@ -102,7 +117,7 @@ namespace Managers
         public void Clear()
         {
             //spawned = false;
-            Destroy(player);
+            // Destroy(player);
             Destroy(level);
             Destroy(GameObject.Find("Characters"));
             Destroy(GameObject.Find("Enemies"));
@@ -133,7 +148,15 @@ namespace Managers
             LevelGenerator lg = level.GetComponent<LevelGenerator>();
             lg.setupLevelGenerator(scale, currLvl==lvl);
             lg.grid.InitializeGrid();
-            player = GetComponent<PlayerSpawner>().Spawn(currCharacter.GameObject());
+            if (keepPlayer)
+            {
+                player = Instantiate(currCharacter.GameObject());
+                var c = player.GetComponent<Character>();
+                c.RestoreStats(playerStat);
+                c.isRespawning = true;
+                GetComponent<PlayerSpawner>().Spawn(player.GameObject());
+            }
+            else player = GetComponent<PlayerSpawner>().Spawn(Instantiate(currCharacter.GameObject()));
         }
     }
 }

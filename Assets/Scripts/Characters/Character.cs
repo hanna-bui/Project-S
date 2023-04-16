@@ -57,7 +57,7 @@ namespace Characters
         protected void a3()
         {
         } // ability 3
-        
+
         private void OnTriggerEnter2D(Collider2D col)
         {
             if (col.gameObject.CompareTag("Item") && CurrentState is not WalkToLocation)
@@ -88,17 +88,19 @@ namespace Characters
             States.Push(new PlayerIdle());
             radius = 0.5f;
 
+            mpValue = transform.GetChild(1).GetChild(1).GetComponent<TextMeshProUGUI>();
+
+            transform.localScale = new Vector3(1, 1, 0);
+            
+            LoadPlayer();
             SetupCollider();
             var child = transform.GetChild(0).gameObject.GetComponent<CharacterCollider>();
             child.SetupCollider(RAN);
-            
-            hpValue.text = "HP: " + CHP + "";
-            
-            mpValue = transform.GetChild(1).GetChild(1).GetComponent<TextMeshProUGUI>();
-            mpValue.text = "MP: " + CMP + "";
-            
-            
-            transform.localScale = new Vector3(1, 1, 0);
+        }
+
+        public virtual void LoadPlayer()
+        {
+            UpdateUI();
         }
         
         protected override void Update()
@@ -106,7 +108,9 @@ namespace Characters
             CurrentState = GetTop();
             CurrentState.Execute(this, Time.deltaTime);
 
+            UpdateUI();
             inputToState();
+            
         }
 
         #region Animations
@@ -146,6 +150,12 @@ namespace Characters
 
         #endregion
 
+        public override void UpdateUI()
+        {
+            hpValue.text = "HP: " + CHP + "";
+            mpValue.text = "MP: " + CMP + "";
+        }
+        
         #region Stats Management
 
         public override void TakeDamage(int dmg)

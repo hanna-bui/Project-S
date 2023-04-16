@@ -13,34 +13,28 @@ namespace Finite_State_Machine.Enemy_States
 
         private const float DefaultInterval = 1.6f;
         
-        public override void Execute(MoveableObject agent)
+        protected override void Initialize(MoveableObject agent) 
         {
-            // agent = agent as Enemy;
-            switch (CurrentStatus)
+            agent.SetAnimations(Action.Charge);
+            interval = DefaultInterval;
+            ChangeStatus(StateStatus.Executing);
+        }
+
+        protected override void Executing(MoveableObject agent)
+        {
+            if (agent.NeedsHealing())
             {
-                case StateStatus.Initialize:
-                    agent.SetAnimations(Action.Charge);
-                    interval = DefaultInterval;
-                    ChangeStatus(StateStatus.Executing);
-                    break;
-                case StateStatus.Executing:
-                    if (agent.NeedsHealing())
-                    {
-                        agent.RestoreHP(2);
-                    }
-                    else
-                    {
-                        ChangeStatus(StateStatus.Completed);
-                    }
-                    break;
-                case StateStatus.Completed:
-                    agent.ChangeState(new PatternWalk());
-                    break;
-                case StateStatus.Failed:
-                    break;
-                default:
-                    throw new ArgumentOutOfRangeException();
+                agent.RestoreHP(2);
             }
+            else
+            {
+                ChangeStatus(StateStatus.Completed);
+            }
+        }
+
+        protected override void Completed(MoveableObject agent)
+        {
+            agent.ChangeState(new PatternWalk());
         }
     }
 }

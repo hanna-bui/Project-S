@@ -5,59 +5,62 @@ using Managers;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
-public class Navigation : MonoBehaviour
+namespace Managers
 {
-    private PlayerSpawner ps;
-    
-    public static string main = "PlayDemo";
 
-    public void PlayGame()
+    public class Navigation : MonoBehaviour
     {
-        SceneManager.LoadScene("GameSetup");
-    }
-    public void HowTo()
-    {
-        SceneManager.LoadScene("HowTo");
-    }
+        private PlayerSpawner ps;
 
-    public void Solo()
-    {
-        SceneManager.LoadScene("GameSelect");
-    }
-    
-    /*
-     public void Solo()
-    {
-        SceneManager.LoadScene("ChooseLevel");
-    }
+        public static string main = "PlayDemo";
 
-    public void ChooseLevel()
-    {
-        SceneManager.LoadScene("ChooseCharacter");
-    }
-    */
+        public void PlayGame()
+        {
+            SceneManager.LoadScene("GameSetup");
+        }
+        public void HowTo()
+        {
+            SceneManager.LoadScene("HowTo");
+        }
 
-    public void Continue() {}
+        public void Solo()
+        {
+            SceneManager.LoadScene("GameSelect");
+        }
+        
+        public void Respawn()
+        {
+            GameManager.instance.Respawn();
+        }
+            
+        public void Play()
+        {
+            GameManager.instance.Play();
+        }
+        
+        public void Lose()
+        {
+            GameManager.instance.Lose();
+        }
 
-    public void PlayAgain()
-    {
-        SceneManager.LoadScene("MainMenu");
-    }
+        public void Next()
+        {
+            GameManager.instance.Next();
+        }
+        
+        public void Continue() {}    
+        
+        public void PlayAgain()
+        {
+            SceneManager.LoadScene("MainMenu");
+        }
 
 
-    /*
+        /*
     public void Multi()
     {
         SceneManager.LoadScene("Starting");
     }
     */
-
-    public IEnumerator  ChooseCharacter()
-    {
-        var ao = SceneManager.LoadSceneAsync("PlayDemo");
-        while (!ao.isDone)
-        {
-            yield return null;
-        }
     }
 }

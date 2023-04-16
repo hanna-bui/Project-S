@@ -17,7 +17,7 @@ namespace Characters.Enemy
         {
             if (col.gameObject.CompareTag("Player"))
             {
-                var player = col.transform.parent.gameObject;
+                var player = col.transform.gameObject;
                 agent.ChangeState(new EnemyAttack(player));
             }
         }

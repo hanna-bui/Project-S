@@ -1,25 +1,34 @@
-using UnityEngine;
+using System.Collections.Generic;
 // ReSharper disable InconsistentNaming
 // ReSharper disable IdentifierTypo
 
 namespace Characters
 {
-    public class Ninja : Player
+    public class Ninja : Character
     {
-        private const int HP = 6;
-        private const int MP = 8;
-        private const int SPE = 10;
-        private const int RAN = 10;
-        private const int DMG = 6;
-        private const int MDMG = 5;
-        private const int DEF = 1;
-        private const int MDEF = 2;
-        private const int LVL = 1;
+        private const int hp = 6;
+        private const int mp = 8;
+        private const int spe = 10;
+        private const int ran = 10;
+        private const int dmg = 6;
+        private const int def = 1;
+        private const int mdmg = 5;
+        private const int mdef = 2;
+        private const int lvl = 1;
 
-        private void Awake()
+        protected override void Start()
         {
-            var charScript = GetComponent<Character>();
-            charScript.SetupStats(HP, MP, SPE, RAN, DMG, DEF, MDMG, MDEF, LVL);
+            base.Start();
+            LoadPlayer();
+            SetupCollider();
+            var child = transform.GetChild(0).gameObject.GetComponent<CharacterCollider>();
+            child.SetupCollider(RAN);
+        }
+        
+        public override void LoadPlayer()
+        {
+            RestoreStats(isRespawning ? CLS() : new List<int> { hp, mp, spe, ran, dmg, def, mdmg, mdef, lvl });
+            base.LoadPlayer();
         }
     }
 }

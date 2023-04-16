@@ -27,6 +27,8 @@ namespace Characters
 
         protected TextMeshProUGUI hpValue;
         
+        public bool isRespawning;
+        
         
         protected virtual void Start()
         {
@@ -46,7 +48,6 @@ namespace Characters
             facing = 0;
             
             hpValue = transform.GetChild(1).GetChild(0).GetComponent<TextMeshProUGUI>();
-            // hpValue.text = "HP: " + CHP + "";
         }
 
         protected virtual void Update()
@@ -93,7 +94,7 @@ namespace Characters
 
         #region UI
 
-        private void UpdateUI()
+        public virtual void UpdateUI()
         {
             hpValue.text = "HP: " + CHP + "";
             ///healthbar.setHealth(CHP);
@@ -103,7 +104,7 @@ namespace Characters
         
         #region Stats & Its Management
         
-        protected int HP { get; set; } // health points
+        [SerializeField] public int HP { get; set; } // health points
         protected int CHP { get; set; } // current health points
         protected int MP { get; set; } // mana points
         protected int CMP { get; set; } // current mana points
@@ -115,13 +116,23 @@ namespace Characters
         protected int MDEF { get; set; } // magic defense
         protected int LVL { get; set; } // level
 
+        public void RestoreStats(List<int> stats)
+        {
+            SetupStats(stats[0], stats[1], stats[2], stats[3], stats[4], stats[5], stats[6], stats[7], stats[8]);
+        }
+
         /// <summary>
         /// Current Level Stats, contains all of the stats of the player/enemy at their current level.
         /// </summary>
         /// <returns>List of Stats</returns>
-        protected List<int> CLS()
+        public List<int> CLS()
         {
-            return new List<int> { HP, MP, SPE, RAN, DMG, MDMG, DEF, MDEF, LVL };
+            return new List<int> { HP, MP, SPE, RAN, DMG, DEF, MDMG, MDEF, LVL };
+        }
+
+        public bool isAttackable()
+        {
+            return CHP > 0;
         }
 
         public bool NeedsHealing()

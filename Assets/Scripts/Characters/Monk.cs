@@ -1,24 +1,25 @@
-using UnityEngine;
+using System.Collections.Generic;
 // ReSharper disable InconsistentNaming
 // ReSharper disable IdentifierTypo
 
 namespace Characters
 {
-    public class Monk : Player
+    public class Monk : Character
     {
-        private const int HP = 5;
-        private const int MP = 10;
-        private const int SPE = 6;
-        private const int RAN = 6;
-        private const int DMG = 1;
-        private const int MDMG = 10;
-        private const int DEF = 2;
-        private const int MDEF = 8;
-        private const int LVL = 1;
-        private void Awake()
+        private const int hp = 5;
+        private const int mp = 10;
+        private const int spe = 6;
+        private const int ran = 6;
+        private const int dmg = 1;
+        private const int def = 2;
+        private const int mdmg = 10;
+        private const int mdef = 8;
+        private const int lvl = 1;
+        
+        public override void LoadPlayer()
         {
-            var charScript = GetComponent<Character>();
-            charScript.SetupStats(HP, MP, SPE, RAN, DMG, DEF, MDMG, MDEF, LVL);
+            RestoreStats(isRespawning ? CLS() : new List<int> { hp, mp, spe, ran, dmg, def, mdmg, mdef, lvl });
+            base.LoadPlayer();
         }
     }
 }
