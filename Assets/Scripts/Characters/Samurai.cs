@@ -16,15 +16,6 @@ namespace Characters
         private const int mdef = 6;
         private const int lvl = 1;
         
-        protected override void Start()
-        {
-            base.Start();
-            LoadPlayer();
-            SetupCollider();
-            var child = transform.GetChild(0).gameObject.GetComponent<CharacterCollider>();
-            child.SetupCollider(RAN);
-        }
-        
         public override void LoadPlayer()
         {
             RestoreStats(isRespawning ? CLS() : new List<int> { hp, mp, spe, ran, dmg, def, mdmg, mdef, lvl });

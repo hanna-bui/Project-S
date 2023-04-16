@@ -15,15 +15,6 @@ namespace Characters
         private const int mdmg = 5;
         private const int mdef = 2;
         private const int lvl = 1;
-
-        protected override void Start()
-        {
-            base.Start();
-            LoadPlayer();
-            SetupCollider();
-            var child = transform.GetChild(0).gameObject.GetComponent<CharacterCollider>();
-            child.SetupCollider(RAN);
-        }
         
         public override void LoadPlayer()
         {
