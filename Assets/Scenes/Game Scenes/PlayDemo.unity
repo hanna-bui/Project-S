@@ -875,7 +875,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 1357521177}
         m_TargetAssemblyTypeName: Managers.Navigation, Assembly-CSharp
-        m_MethodName: Next
+        m_MethodName: TestNextLvlUp
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
