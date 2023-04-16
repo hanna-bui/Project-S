@@ -1,4 +1,3 @@
-using System.Collections;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
@@ -53,8 +52,14 @@ namespace Managers
     }
     */
 
-        public void Continue()
+        public void Next()
         {
+            GameManager.instance.Next();
+        }
+        
+        public void TestNextLvlUp()
+        {
+            GameManager.instance.Next();
         }
 
         public void PlayAgain()

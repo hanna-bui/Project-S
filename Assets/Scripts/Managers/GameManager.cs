@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using Characters;
 using RoomGen;
 using Unity.VisualScripting;
@@ -19,6 +20,8 @@ namespace Managers
         public int lvl = 1;
         public int scale = 1;
         private int currLvl = 1;
+
+        private List<int> playerStat;
 
         private void Awake()
         {
@@ -93,6 +96,7 @@ namespace Managers
         {
             currLvl++;
             Clear();
+            keepPlayer = true;
             Play();
         }
 
@@ -104,6 +108,7 @@ namespace Managers
         
         public void Lose()
         {
+            playerStat = player.GetComponent<Character>().CLS();
             Destroy(level);
             SceneManager.LoadScene("LossScreen");
         }
@@ -144,12 +149,11 @@ namespace Managers
             lg.grid.InitializeGrid();
             if (keepPlayer)
             {
-                var stats = player.GetComponent<Character>().CLS();
                 player = currCharacter.GameObject();
-                player.GetComponent<Character>().RestoreStats(stats);
+                player.GetComponent<Character>().RestoreStats(playerStat);
                 GetComponent<PlayerSpawner>().Spawn(player.GameObject());
             }
-            else GetComponent<PlayerSpawner>().Spawn(currCharacter.GameObject());
+            else player = GetComponent<PlayerSpawner>().Spawn(currCharacter.GameObject());
         }
     }
 }
