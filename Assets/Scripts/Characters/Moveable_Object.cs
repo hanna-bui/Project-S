@@ -18,6 +18,9 @@ namespace Characters
     {
         protected float radius;
 
+
+        /// public healthBar healthbar;
+
         public Vector3 TargetLocation { get; set; }
         
         protected new Camera camera;
@@ -28,6 +31,7 @@ namespace Characters
         protected virtual void Start()
         {
             grid = GameObject.FindGameObjectWithTag("Level").GetComponent<NewGrid>();
+            ///healthbar.setMaxHealth(HP);
 
             States = new Stack<State>();
 
@@ -92,6 +96,7 @@ namespace Characters
         private void UpdateUI()
         {
             hpValue.text = "HP: " + CHP + "";
+            ///healthbar.setHealth(CHP);
         }
 
         #endregion
