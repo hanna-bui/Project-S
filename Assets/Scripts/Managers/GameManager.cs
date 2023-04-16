@@ -94,15 +94,6 @@ namespace Managers
 
         public void Next()
         {
-            currLvl++;
-            Clear();
-            keepPlayer = true;
-            Play();
-        }
-        
-        public void TestNextLvlUp()
-        {
-            currLvl++;
             keepPlayer = true;
             player.GetComponent<Character>().LevelUp(10,10,10,10,10,10,10);
             playerStat = player.GetComponent<Character>().CLS();

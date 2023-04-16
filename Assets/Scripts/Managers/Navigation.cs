@@ -56,11 +56,6 @@ namespace Managers
         {
             GameManager.instance.Next();
         }
-        
-        public void TestNextLvlUp()
-        {
-            GameManager.instance.TestNextLvlUp();
-        }
 
         public void PlayAgain()
         {
