@@ -1,20 +1,25 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class FollowPlayer : MonoBehaviour
 {
-    public GameObject player;
-
     // Start is called before the first frame update
-    void Start()
+    public void AttachToPlayer(GameObject player)
     {
-        player = GameObject.FindGameObjectWithTag("Player"); // The player
+        transform.SetParent(player.transform);
+        transform.rotation = player.transform.rotation;
+        transform.position = player.transform.position + new Vector3(0, 0, -10);
+        transform.SetParent(player.transform);
+        transform.localScale = new Vector3(0.05f, 0.05f, 1);
+        GetComponent<Camera>().nearClipPlane = 0;
     }
 
     // Update is called once per frame
     void Update()
     {
-        transform.position = new Vector3(player.transform.position.x, player.transform.position.y + 5, player.transform.position.z - 10);
+        
     }
 }

@@ -36,7 +36,6 @@ namespace Characters.Enemy{
         [SerializeField] public MovementOptions MovementStyle = MovementOptions.Plus;
         [SerializeField] private int lvl = 1;
         [SerializeField] public float scale = 1;
-        private TextMeshProUGUI hpValue;
         
         
         protected override void Start()
@@ -63,11 +62,6 @@ namespace Characters.Enemy{
 
             Origin = transform.position;
             
-            States = new Stack<State>();
-            SetAnimations(Action.Idle);
-            States.Push(new PatternWalk());
-            
-            hpValue = transform.GetChild(1).GetChild(0).GetComponent<TextMeshProUGUI>();
             hpValue.text = "HP: " + CHP + "";
             
             
@@ -77,17 +71,16 @@ namespace Characters.Enemy{
              * I made the scale a variable so I can fit more enemies in a room by making them smaller.
              */
             transform.localScale = new Vector3(scale, scale, 1);
+            
+            States = new Stack<State>();
+            SetAnimations(Action.Idle);
+            States.Push(new PatternWalk());
         }
 
         protected override void Update()
         {
             CurrentState = GetTop();
             CurrentState.Execute(this, Time.deltaTime);
-            
-            if (CHP <= 0)
-            {
-                Destroy(gameObject);
-            }
         }
         
         public override bool IsSubState()
@@ -103,7 +96,9 @@ namespace Characters.Enemy{
             return false;
         }
 
-        private float RandomStat()
+        #region Stats Management
+
+        private int RandomStat()
         {
             //return LVL * Random.Range(IsBoss ? 20 : 15, 31);
             /* Nonika:
@@ -113,14 +108,17 @@ namespace Characters.Enemy{
              * return LVL * Random.Range(IsBoss ? 25 : 15, IsBoss ? 36 : 26);
              * Stats based on enemy size:
              */
-            return (float)Math.Ceiling(LVL * scale * Random.Range(IsBoss ? 25 : 15, IsBoss ? 36 : 26));
+            return (int)(LVL * scale * Random.Range(IsBoss ? 25 : 15, IsBoss ? 36 : 26));
         }
         
-        public override void TakeDamage(float dmg)
+        public override void TakeDamage(int dmg)
         {
-            CHP -= dmg;
-            hpValue.text = "HP: " + CHP + "";
-            SetAnimations(Action.Hit);
+            base.TakeDamage(dmg);
+            if (CHP > 0) SetAnimations(Action.Hit);
+            else Destroy(gameObject);
         }
+
+        #endregion
+        
     }
 }

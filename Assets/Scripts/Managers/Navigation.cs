@@ -1,10 +1,16 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
+using Managers;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
 public class Navigation : MonoBehaviour
 {
+    private PlayerSpawner ps;
+    
+    public static string main = "PlayDemo";
+
     public void PlayGame()
     {
         SceneManager.LoadScene("GameSetup");
@@ -13,10 +19,32 @@ public class Navigation : MonoBehaviour
     {
         ///load overlay canvas with simple instructions
     }
+    
     public void Solo()
+    {
+        SceneManager.LoadScene("GameSelect");
+    }
+    
+    /*
+     public void Solo()
+    {
+        SceneManager.LoadScene("ChooseLevel");
+    }
+
+    public void ChooseLevel()
     {
         SceneManager.LoadScene("ChooseCharacter");
     }
+    */
+
+    public void Continue() {}
+
+    public void PlayAgain()
+    {
+        SceneManager.LoadScene("MainMenu");
+    }
+
+
     /*
     public void Multi()
     {
@@ -24,9 +52,12 @@ public class Navigation : MonoBehaviour
     }
     */
 
-    public void ChooseCharacter()
+    public IEnumerator  ChooseCharacter()
     {
-        SceneManager.LoadSceneAsync("PlayDemo");
+        var ao = SceneManager.LoadSceneAsync("PlayDemo");
+        while (!ao.isDone)
+        {
+            yield return null;
+        }
     }
-
 }

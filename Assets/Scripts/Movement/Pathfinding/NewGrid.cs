@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.Tilemaps;
 using Random = UnityEngine.Random;
@@ -18,6 +19,7 @@ namespace Movement.Pathfinding
         [SerializeField] private Tilemap floorMap;
         private Node[,] nodeToNodes;
 
+        private List<Vector3Int> tileLocations = new List<Vector3Int>();
 
         private BoundsInt FloorBounds { get; set; }
 
@@ -42,12 +44,12 @@ namespace Movement.Pathfinding
             var floorBounds = newFloorMap.cellBounds;
             var floorTiles = newFloorMap.GetTilesBlock(floorBounds);
 
+
             for (var x = 0; x < floorBounds.size.x; x++) {
                 for (var y = 0; y < floorBounds.size.y; y++) {
                     var floorTile = floorTiles[x + y * floorBounds.size.x];
                     if (floorTile != null) {
-                        //Debug.Log("x:" + point.x + x + " y:" + y + " tile:" + floorTile.name);
-                        floorMap.SetTile(new Vector3Int((int)(point.x/ 15 + x) + 3, (int)(point.y/15 + y) - 14,0), floorTile);
+                        floorMap.SetTile(new Vector3Int((int)(point.x/ 15 + x) - 3, (int)(point.y/15 + y) - 14,0), floorTile);
                     }
                 }
             }
@@ -56,6 +58,7 @@ namespace Movement.Pathfinding
                     var walkTile = walkTiles[x + y * walkBounds.size.x];
                     if (walkTile != null) {
                         walkableMap.SetTile(new Vector3Int((int)(point.x/ 15 + x) - 3, (int)(point.y/15 + y) - 14,0), walkTile);
+                        tileLocations.Add(new Vector3Int((int)(point.x/ 15 + x) - 3, (int)(point.y/15 + y) - 14,0));
                     }
                 }
             }
@@ -81,19 +84,36 @@ namespace Movement.Pathfinding
             }
             return null;
         }
+        
+        public bool IsWalkable(int x, int y)
+        {
+            var gridPos = walkableMap.WorldToCell(new Vector3(x, y, 0));
+            return nodeToNodes[gridPos.x, gridPos.y] != null;
+        }
 
         public bool IsWalkable(Vector3 position)
         {
             var gridPos = walkableMap.WorldToCell(position);
             return nodeToNodes[gridPos.x, gridPos.y] != null;
         }
+
+        public Vector3? GetSpawnPt()
+        {
+            var index = Random.Range(0, tileLocations.Count);
+            var tile = tileLocations[index];
+            return walkableMap.CellToWorld(tile);
+        }
         
         public Vector3 GetRandomCoords()
         {
-            var x = Random.Range(WalkBounds.xMin, WalkBounds.size.x);
-            var y = Random.Range(WalkBounds.yMin, WalkBounds.size.y);
+            // var x = Random.Range(WalkBounds.xMin, WalkBounds.size.x);
+            // var y = Random.Range(WalkBounds.yMin, WalkBounds.size.y);
             
-            return walkableMap.CellToWorld(new Vector3Int(x, y, 0));
+            var index = Random.Range(0, tileLocations.Count);
+            var tile = tileLocations[index];
+            // return tile;
+            
+            return walkableMap.CellToWorld(tile);
         }
 
         private void CreateGrid()

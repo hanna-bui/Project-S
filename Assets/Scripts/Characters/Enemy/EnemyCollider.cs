@@ -1,4 +1,5 @@
 using System;
+using Finite_State_Machine;
 using Finite_State_Machine.Enemy_States;
 using UnityEngine;
 
@@ -16,15 +17,16 @@ namespace Characters.Enemy
         {
             if (col.gameObject.CompareTag("Player"))
             {
-                var player = col.gameObject.transform;
-                agent.ChangeState(new EnemyAttack(col.transform.gameObject));
+                var player = col.transform.parent.gameObject;
+                agent.ChangeState(new EnemyAttack(player));
             }
         }
         private void OnTriggerExit2D(Collider2D col)
         {
             if (col.gameObject.CompareTag("Player"))
             {
-                agent.ChangeState(new PatternWalk());
+                agent.CurrentState.ChangeStatus(StateStatus.Completed);
+                
             }
         }
         public void SetupCollider(float rad)

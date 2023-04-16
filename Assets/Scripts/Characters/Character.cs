@@ -1,6 +1,8 @@
+using System;
 using System.Collections.Generic;
 using Finite_State_Machine;
 using Finite_State_Machine.States;
+using Managers;
 using TMPro;
 using UnityEngine;
 using Item = Items.Items;
@@ -33,7 +35,7 @@ namespace Characters
     {
         // All Characters have:
         
-        private TextMeshProUGUI hpValue;
+        
         private TextMeshProUGUI mpValue;
 
         // Assets
@@ -90,67 +92,21 @@ namespace Characters
             var child = transform.GetChild(0).gameObject.GetComponent<CharacterCollider>();
             child.SetupCollider(RAN);
             
-            hpValue = transform.GetChild(1).GetChild(0).GetComponent<TextMeshProUGUI>();
             hpValue.text = "HP: " + CHP + "";
             
             mpValue = transform.GetChild(1).GetChild(1).GetComponent<TextMeshProUGUI>();
             mpValue.text = "MP: " + CMP + "";
             
-            var parent = GameObject.Find("Characters").transform;
-            transform.parent = parent;
+            
             transform.localScale = new Vector3(1, 1, 0);
         }
         
-        private Camera myCamera;
-        /*
-        public override void OnStartLocalPlayer()
-        {
-            myCamera = Instantiate(Camera.main);
-            myCamera.transform.rotation = transform.rotation;
-            myCamera.transform.position = transform.position + new Vector3(0, 0, -10);
-            myCamera.transform.SetParent(transform);
-            myCamera.transform.localScale = new Vector3(0.05f, 0.05f, 1);
-            myCamera.nearClipPlane = 0;
-            Camera.main.gameObject.SetActive(false);
-
-            var canvas = transform.GetChild(1).gameObject;
-            canvas.SetActive(true);
-        }
-        */
-
         protected override void Update()
         {
-            
             CurrentState = GetTop();
             CurrentState.Execute(this, Time.deltaTime);
 
-          
-            
-            if (Input.GetMouseButtonDown(0))
-            {
-                TargetLocation = camera.ScreenToWorldPoint(Input.mousePosition);
-                
-                var origin = new Vector2(TargetLocation.x, TargetLocation.y);
-                var t = Physics2D.Raycast(origin, Vector2.zero, 0f);
-                
-                if (t && t.transform.CompareTag("Enemy"))
-                {
-                    if (CurrentState is Attack)
-                    {
-                        if (CurrentState.CurrentStatus is StateStatus.Initialize)
-                        {
-                            CurrentState.ChangeStatus(StateStatus.Executing);
-                        } 
-                    }
-                    else
-                        ChangeState(new WalkToLocation());
-                }
-                else
-                    ChangeState(new WalkToLocation());
-            }
-
-            if (Input.GetKeyDown(KeyCode.F) && CurrentState is ItemPickup)
-                CurrentState.ChangeStatus(StateStatus.Executing);
+            inputToState();
         }
 
         #region Animations
@@ -190,6 +146,20 @@ namespace Characters
 
         #endregion
 
+        #region Stats Management
+
+        public override void TakeDamage(int dmg)
+        {
+            base.TakeDamage(dmg);
+            if (CHP == 0)
+            {
+                Debug.Log("You lost...");
+                GameManager.instance.Lose();
+            }
+        }
+
+        #endregion
+        
         #region States
 
         public override bool IsSubState()
@@ -204,14 +174,46 @@ namespace Characters
             return false;
         }
 
+        public bool isAttack()
+        {
+            return CurrentState is Attack;
+        }
+        
+        public bool isWalkToLocation()
+        {
+            return CurrentState is WalkToLocation;
+        }
+
+        public void inputToState()
+        {
+            if (Input.GetMouseButtonDown(0))
+            {
+                TargetLocation = camera.ScreenToWorldPoint(Input.mousePosition);
+                
+                var origin = new Vector2(TargetLocation.x, TargetLocation.y);
+                var t = Physics2D.Raycast(origin, Vector2.zero, 0f);
+                
+                if (t && t.transform.CompareTag("Enemy"))
+                {
+                    if (CurrentState is Attack)
+                    {
+                        if (CurrentState.CurrentStatus is StateStatus.Initialize)
+                        {
+                            CurrentState.ChangeStatus(StateStatus.Executing);
+                        } 
+                    }
+                    else
+                        ChangeState(new WalkToLocation());
+                }
+                else
+                    ChangeState(new WalkToLocation());
+            }
+            
+            if (Input.GetKeyDown(KeyCode.F) && CurrentState is ItemPickup)
+                CurrentState.ChangeStatus(StateStatus.Executing);
+        }
+
         #endregion
 
-        
-        
-        public override void TakeDamage(float dmg)
-        {
-            CHP -= dmg;
-            hpValue.text = "HP: " + CHP + "";
-        }
     }
 }

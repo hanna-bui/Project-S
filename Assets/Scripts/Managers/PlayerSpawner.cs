@@ -1,16 +1,24 @@
-using System.Collections;
-using System.Collections.Generic;
 using Managers;
+using Movement.Pathfinding;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class PlayerSpawner : MonoBehaviour
 {
-    private Vector3 startPos;
-    private void Awake()
+    // ReSharper disable Unity.PerformanceAnalysis
+    public GameObject Spawn(GameObject player)
     {
-        Instantiate(GameManager.instance.currCharacter.prefab, transform.position, Quaternion.identity);
-        startPos = GameObject.Find("Walkable").transform.position;
-        GameObject player = GameObject.FindWithTag("Player");
-        player.transform.position = startPos;
+        var spawnpt = GameObject.Find("SpawnPoint").transform;
+        player = Instantiate(player);
+        
+        var parent = GameObject.Find("Characters").transform;
+        if (parent!=null) player.transform.SetParent(parent);
+        if (spawnpt != null) player.transform.position = spawnpt.position;
+
+        var cam = Instantiate(Camera.main);
+        var s = cam.AddComponent<FollowPlayer>();
+        s.AttachToPlayer(player);
+        if (Camera.main != null) Camera.main.gameObject.SetActive(false);
+        return player;
     }
 }

@@ -1,49 +1,139 @@
-using System.Collections;
-using Characters;
-using Characters.Enemy;
-using Movement.Pathfinding;
+using RoomGen;
 using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.SceneManagement;
+using UnityEngine.UI;
 
 namespace Managers
 {
     public class GameManager : MonoBehaviour
     {
         public static GameManager instance;
-        public Player[] characters;
-
-        public Player currCharacter;
+        public GameObject levelPrefab;
+        public GameObject level;
+        private const string Main = "PlayDemo";
+        public GameObject currCharacter;
+        public GameObject player = null;
+        public int lvl = 1;
+        public int scale = 1;
+        private int currLvl = 1;
 
         private void Awake()
         {
-            if(instance == null)
+            if (instance != null)
             {
-                instance = this;
+                Destroy(instance.gameObject);
             }
-            else
-            {
-                Destroy(gameObject);
-            }
+            
+            instance = this;
             DontDestroyOnLoad(gameObject);
         }
 
-        private void Start()
-        {
-            if (currCharacter == null)
-            {
-                var temp = GameObject.Find("Ninja");
-                
-                if (temp == null) temp = GameObject.Find("Samurai");
-                else currCharacter = temp.GetComponent<Ninja>();
-                
-                if (temp == null) temp = GameObject.Find("Monk");
-                else currCharacter = temp.GetComponent<Samurai>();
-            }
-        }
-
-        public void SetCharacter(Player character)
+        public void SetCharacter(GameObject character)
         {
             currCharacter = character;
+        }
+        
+        public void SetLevels(Slider slider)
+        {
+            lvl = (int)slider.value;
+        }
+        
+        public void SetRooms(Slider slider)
+        {
+            scale = (int)slider.value;
+        }
+        
+        public void PlayGame()
+        {
+            SceneManager.LoadScene("GameSetup");
+        }
+        
+        public void HowTo()
+        {
+            // Load overlay canvas with simple instructions.
+        }
+        
+        public void Solo()
+        {
+            SceneManager.LoadScene("ChooseLevel");
+        }
+        
+        /*
+        public void Multi()
+        {
+            SceneManager.LoadScene("Starting");
+        }
+        */
+        
+        public void ChooseLevel()
+        {
+            SceneManager.LoadSceneAsync("ChooseCharacter");
+            Button button = GameObject.Find("Start").GetComponent<Button>();
+            button.onClick.AddListener(Play);
+            Debug.Log("Added listener");
+        }
+
+        public void Play()
+        {
+            Debug.Log("Called Play");
+            SceneManager.LoadSceneAsync("PlayDemo");
+        }
+
+        public void Next()
+        {
+            currLvl++;
+            Clear();
+            Play();
+        }
+
+        public void Win()
+        {
+            Destroy(level);
+            SceneManager.LoadScene("WinScreen");
+        }
+        
+        public void Lose()
+        {
+            Destroy(level);
+            SceneManager.LoadScene("LossScreen");
+        }
+
+        public void Clear()
+        {
+            //spawned = false;
+            Destroy(player);
+            Destroy(level);
+            Destroy(GameObject.Find("Characters"));
+            Destroy(GameObject.Find("Enemies"));
+            Destroy(GameObject.Find("Items"));
+        }
+
+        private void OnEnable()
+        {
+            // Bind callback for every level change.
+            SceneManager.sceneLoaded += OnSceneLoaded;
+        }
+
+        private void OnDisable()
+        {
+            // Cleanup callback for every level change.
+            SceneManager.sceneLoaded -= OnSceneLoaded;
+        }
+
+        private void OnSceneLoaded(Scene scene, LoadSceneMode mode)
+        {
+            // If this is the start of the main level, set it up.
+            if (scene != SceneManager.GetSceneByName(Main) || levelPrefab == null)
+            {
+                return;
+            }
+                
+            level = Instantiate(levelPrefab);
+            LevelGenerator lg = level.GetComponent<LevelGenerator>();
+            lg.setupLevelGenerator(scale, currLvl==lvl);
+            lg.grid.InitializeGrid();
+            player = GetComponent<PlayerSpawner>().Spawn(currCharacter.GameObject());
         }
     }
 }

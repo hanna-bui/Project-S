@@ -2,7 +2,6 @@ using System.Collections;
 using System.IO;
 using Characters.Enemy;
 using Movement.Pathfinding;
-using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.Tilemaps;
 using Random = UnityEngine.Random;
@@ -52,15 +51,16 @@ namespace RoomGen
         public DoorDir[,] RoomDoors = new DoorDir[10, 10];
 
         [Header("Room Variables")] [Tooltip("The size of the level.")] [SerializeField]
-        private static int lvlScale = 3;
+        private int lvlScale = 1;
         [Tooltip("How many rooms will be generated.")] [SerializeField]
-        private static int totalRooms = lvlScale*10;
+        private int totalRooms = 10; // = lvlScale*10;
         [Tooltip("How many rooms will contain items (consumables excluded).")] [SerializeField]
-        private static int itemRooms = lvlScale*3;
+        private int itemRooms = 3; // = lvlScale*3;
         [Tooltip("How many rooms will have a boss fight.")] [SerializeField]
-        private static int bossRooms = lvlScale;
+        private int bossRooms = 1; // = lvlScale;
         [Tooltip("If the boss rooms will be easy (or hard).")] [SerializeField]
         public bool easyBoss = true;
+        private bool final = true;
 
         private int rooms = 0;
         // Size of rooms (all rooms are square so this represents a side).
@@ -80,12 +80,30 @@ namespace RoomGen
 
         private GameObject Level;
 
+        public GameObject spawnpt;
+
         public NewGrid grid;
 
+        private void Awake()
+        {
+            //DontDestroyOnLoad(this);
+        }
 
         // Start is called before the first frame update
         void Start()
         {
+            // setupLevelGenerator();
+        }
+
+        public void setupLevelGenerator(int lvlScale, bool final)
+        {
+            // Set up level Variables
+            this.lvlScale = lvlScale;
+            totalRooms = lvlScale*10;
+            itemRooms = lvlScale*3;
+            bossRooms = lvlScale;
+            this.final = final;
+            
             Level = GameObject.FindGameObjectWithTag("Level");
             templates = GameObject.FindGameObjectWithTag("Rooms").GetComponent<RoomTemplates>();
             int i = 0;
@@ -104,16 +122,18 @@ namespace RoomGen
              starting room. In this case, one or two room spawn directions would be invalid from the start, and the
              algorithm would be constantly trying to find a new valid direction for rooms to spawn in.
              */
+            AllRooms.Clear();
+            SpawnRooms.Clear();
             i = Random.Range(2, 7);
             j = Random.Range(2, 7);
             OrderedPair p = new OrderedPair(i, j);
             RoomTypes[i, j] = RoomType.Start;
             AllRooms.Add(p);
             SpawnRooms.Add(p);
-            // Set camera to Start Room
-            Transform camera = GameObject.Find("Main Camera").transform;
-            camera.position = ((offsetx * j + offsety * (9-i) + offsetxy * 7.5f) * 15f) + Vector3.back;
-            
+            // Set spawn point to this starting room to spawn in Character
+            spawnpt = GameObject.Find("SpawnPoint");
+            spawnpt.transform.position = ((offsetx * j + offsety * (9-i) + offsetxy * 7.5f) * 15f) + Vector3.back;
+
             // Let's not count the starting room as a room (to make SpawnRooms2 easier to track)
             //rooms++;
             
@@ -124,10 +144,9 @@ namespace RoomGen
 
             CSVWrite("RoomTypes.csv");
             Spawn();
-            Debug.Log("Spawned rooms.");
+            Debug.Log("Spawned "+ rooms + "rooms.");
             
             //something to fix Grid
-            grid.InitializeGrid();
         }
 
         /// <summary>
@@ -135,7 +154,6 @@ namespace RoomGen
         /// </summary>
         private void Spawn()
         {
-            //Transform Walkable = GameObject.FindGameObjectWithTag("Walk").transform;
             Vector3 point = Vector3.zero;
             
             for (int j = 0; j <=9; j++)
@@ -172,6 +190,8 @@ namespace RoomGen
                         /*
                             Item rooms can have 1 item for now.
                             This has to be a consumable as scrolls don't affect stats yet.
+                            Note: to use items instead, we would call:
+                            GameObject item = templates.Items[Random.Range(2, templates.Items.Length)];
                             However, this room will have two regular enemies.
                             More complex item and enemy layouts can be implemented later,
                             once complex room layouts with obstacles are implemented.
@@ -244,6 +264,17 @@ namespace RoomGen
                             Instantiate(enemy, point + center + (offsetx - offsety) * 3, eRotation);
                             Instantiate(enemy, point + center + (offsetx - offsety) * -3, eRotation);
                             
+                            break;
+                        }
+                        /*
+                            The final room has a Gold or Silver Chalice and touching it completes the level!
+                         */
+                        case RoomType.End:
+                        {
+                            GameObject item = templates.Items[final ? 0 : 1];
+                            item = Instantiate(item, item.transform.position + point + center, item.transform.rotation);
+                            item.transform.parent = GameObject.Find("Items").transform;
+                            item.transform.localScale = (offsetx+offsety)*0.25f;
                             break;
                         }
                     }

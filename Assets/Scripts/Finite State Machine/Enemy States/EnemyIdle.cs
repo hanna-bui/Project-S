@@ -19,7 +19,6 @@ namespace Finite_State_Machine.Enemy_States
                     ChangeStatus(StateStatus.Completed);
                     break;
                 case StateStatus.Executing:
-                    agent.SetAnimations(Action.Idle);
                     break;
                 case StateStatus.Completed:
                     break;

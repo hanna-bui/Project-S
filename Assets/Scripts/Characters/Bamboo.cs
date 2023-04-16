@@ -6,14 +6,14 @@ namespace Characters
 {
     public class Bamboo : MonoBehaviour
     {
-        private const float HP = 10;
-        private const float MP = 10;
-        private const float SPE = 1;
-        private const float RAN = 2;
-        private const float DMG = 8;
-        private const float MDMG = 6;
-        private const float DEF = 6;
-        private const float MDEF = 5;
+        private const int HP = 10;
+        private const int MP = 10;
+        private const int SPE = 1;
+        private const int RAN = 2;
+        private const int DMG = 8;
+        private const int MDMG = 6;
+        private const int DEF = 6;
+        private const int MDEF = 5;
         private const int LVL = 1;
         
         private void Awake()
