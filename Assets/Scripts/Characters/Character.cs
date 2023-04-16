@@ -91,6 +91,11 @@ namespace Characters
             mpValue = transform.GetChild(1).GetChild(1).GetComponent<TextMeshProUGUI>();
 
             transform.localScale = new Vector3(1, 1, 0);
+            
+            LoadPlayer();
+            SetupCollider();
+            var child = transform.GetChild(0).gameObject.GetComponent<CharacterCollider>();
+            child.SetupCollider(RAN);
         }
 
         public virtual void LoadPlayer()
