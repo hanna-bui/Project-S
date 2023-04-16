@@ -1,7 +1,9 @@
 using System;
 using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
 using Finite_State_Machine;
 using Finite_State_Machine.States;
+using Finite_State_Machine.States.Abilities;
 using Managers;
 using TMPro;
 using UnityEngine;
@@ -42,21 +44,9 @@ namespace Characters
         protected GameObject weapon { get; set; } // Main Weapon Sprite
         protected GameObject wa1 { get; set; } // A1 Weapon Sprite
         protected GameObject wa2 { get; set; } // A2 Weapon Sprite
-
         protected GameObject wa3 { get; set; } // A3 Weapon Sprite
-
-        // In enemies, unused abilities can be set to have no effect
-        protected void a1()
-        {
-        } // ability 1
-
-        protected void a2()
-        {
-        } // ability 2
-
-        protected void a3()
-        {
-        } // ability 3
+        
+        
 
         private void OnTriggerEnter2D(Collider2D col)
         {
@@ -95,7 +85,7 @@ namespace Characters
             LoadPlayer();
             SetupCollider();
             var child = transform.GetChild(0).gameObject.GetComponent<CharacterCollider>();
-            child.SetupCollider(RAN);
+            child_collider = child.SetupCollider(RAN);
         }
 
         public virtual void LoadPlayer()
@@ -158,14 +148,19 @@ namespace Characters
         
         #region Stats Management
 
+        public override void ChangeRange(int rangeValue)
+        {
+            base.ChangeRange(rangeValue);
+            child_collider.radius = RAN*5;
+        }
+
+        [SuppressMessage("ReSharper", "Unity.PerformanceCriticalCodeInvocation")]
         public override void TakeDamage(int dmg)
         {
             base.TakeDamage(dmg);
-            if (CHP == 0)
-            {
-                Debug.Log("You lost...");
-                GameManager.instance.Lose();
-            }
+            if (CHP != 0) return;
+            Debug.Log("You lost...");
+            GameManager.instance.Lose();
         }
 
         #endregion
@@ -194,7 +189,8 @@ namespace Characters
             return CurrentState is WalkToLocation;
         }
 
-        public void inputToState()
+        [SuppressMessage("ReSharper", "Unity.PerformanceCriticalCodeInvocation")]
+        private void inputToState()
         {
             if (Input.GetMouseButtonDown(0))
             {
@@ -219,11 +215,15 @@ namespace Characters
                     ChangeState(new WalkToLocation());
             }
             
-            if (Input.GetKeyDown(KeyCode.F) && CurrentState is ItemPickup)
+            else if (Input.GetKeyDown(KeyCode.F) && CurrentState is ItemPickup)
                 CurrentState.ChangeStatus(StateStatus.Executing);
+            
+            else if (Input.GetKeyDown(KeyCode.Alpha1))
+            {
+                Debug.Log("Hi");
+            }
         }
 
         #endregion
-
     }
 }

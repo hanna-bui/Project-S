@@ -1,37 +1,30 @@
-﻿using System;
+﻿using Characters;
 using Characters.Enemy;
-using Characters;
 using UnityEngine;
 using Motion = Characters.Motion;
 
 // ReSharper disable PossibleNullReferenceException
 
-namespace Finite_State_Machine.States
+namespace Finite_State_Machine.States.Abilities
 {
 
     public class Attack : State
     {
         private GameObject Target { get; set; }
-        private Enemy TargetStat { get; set; }
+        protected Enemy TargetStat { get; set; }
 
         private const float DefaultInterval = 1.2f;
 
-        public Attack(GameObject target)
+        public Attack()
         {
             interval = 0f;
-            Target = target;
         }
-
-        // public override void Execute(MoveableObject agent)
-        // {
-        //     
-        // }
 
         protected override void Initialize(MoveableObject agent)
         {
             if (TargetStat is null)
             {
-                TargetStat = Target.GetComponent<Enemy>();
+                TargetStat = agent.Target.GetComponent<Enemy>();
                 agent.TargetLocation = TargetStat.Position();
                 agent.CalculateDirection();
                 interval = DefaultInterval;

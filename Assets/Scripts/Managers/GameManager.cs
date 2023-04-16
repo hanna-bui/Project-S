@@ -146,7 +146,7 @@ namespace Managers
                 
             level = Instantiate(levelPrefab);
             LevelGenerator lg = level.GetComponent<LevelGenerator>();
-            lg.setupLevelGenerator(scale, currLvl==lvl);
+            lg.SetupLevelGenerator(scale, currLvl==lvl);
             lg.grid.InitializeGrid();
             if (keepPlayer)
             {

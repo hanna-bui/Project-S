@@ -19,7 +19,9 @@ namespace Characters
         protected float radius;
 
 
-        /// public healthBar healthbar;
+        // public healthBar healthbar;
+        
+        public GameObject Target { get; set; }
 
         public Vector3 TargetLocation { get; set; }
         
@@ -28,6 +30,8 @@ namespace Characters
         protected TextMeshProUGUI hpValue;
         
         public bool isRespawning;
+
+        protected CircleCollider2D child_collider;
         
         
         protected virtual void Start()
@@ -55,6 +59,26 @@ namespace Characters
             CurrentState = GetTop();
             CurrentState.Execute(this);
         }
+
+        #region Abilities
+
+        /// <summary>
+        /// Ability 1
+        /// </summary>
+        protected virtual State a1()
+        {
+            return null;
+        }
+
+        /// <summary>
+        /// Ability 2
+        /// </summary>
+        protected virtual State a2()
+        {
+            return null;
+        }
+
+        #endregion
 
         #region Animation
         
@@ -97,7 +121,6 @@ namespace Characters
         public virtual void UpdateUI()
         {
             hpValue.text = "HP: " + CHP + "";
-            ///healthbar.setHealth(CHP);
         }
 
         #endregion
@@ -158,7 +181,7 @@ namespace Characters
             DMG += damageValue;
         }
         
-        public void ChangeRange(int rangeValue)
+        public virtual void ChangeRange(int rangeValue)
         {
             RAN += rangeValue;
         }

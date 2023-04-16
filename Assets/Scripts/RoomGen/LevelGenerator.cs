@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.IO;
 using Characters.Enemy;
@@ -5,6 +6,10 @@ using Movement.Pathfinding;
 using UnityEngine;
 using UnityEngine.Tilemaps;
 using Random = UnityEngine.Random;
+// ReSharper disable IdentifierTypo
+// ReSharper disable ParameterHidesMember
+// ReSharper disable InvertIf
+// ReSharper disable CommentTypo
 
 namespace RoomGen
 {
@@ -23,7 +28,7 @@ namespace RoomGen
             Start,
             End
         }
-        
+
         public enum DoorDir : byte
         {
             E,
@@ -47,64 +52,59 @@ namespace RoomGen
         /// <summary>
         /// The Level Matrices.
         /// </summary>
-        public RoomType[,] RoomTypes = new RoomType[10, 10];
-        public DoorDir[,] RoomDoors = new DoorDir[10, 10];
+        private readonly RoomType[,] roomTypes = new RoomType[10, 10];
 
-        [Header("Room Variables")] [Tooltip("The size of the level.")] [SerializeField]
-        private int lvlScale = 1;
+        private readonly DoorDir[,] roomDoors = new DoorDir[10, 10];
+
         [Tooltip("How many rooms will be generated.")] [SerializeField]
         private int totalRooms = 10; // = lvlScale*10;
+
         [Tooltip("How many rooms will contain items (consumables excluded).")] [SerializeField]
         private int itemRooms = 3; // = lvlScale*3;
+
         [Tooltip("How many rooms will have a boss fight.")] [SerializeField]
         private int bossRooms = 1; // = lvlScale;
+
         [Tooltip("If the boss rooms will be easy (or hard).")] [SerializeField]
         public bool easyBoss = true;
+
         private bool final = true;
 
-        private int rooms = 0;
+        private int rooms;
+
         // Size of rooms (all rooms are square so this represents a side).
         // 15 * 15 represents 15 tiles * 15 scale
-        private static int s = 15 * 15;
-        // Offset from center to place things at
-        private Vector3 offsetx = Vector3.right * 15;
-        private Vector3 offsety = Vector3.up * 15;
-        private Vector3 offsetxy = Vector3.right + Vector3.up;
-        // Center of a room to place things at
-        private Vector3 center = (Vector3.up + Vector3.right) * (s/2);
+        private const int S = 15 * 15;
 
-        private ArrayList AllRooms = new ArrayList();
-        private ArrayList SpawnRooms = new ArrayList();
+        // Offset from center to place things at
+        private readonly Vector3 offsetx = Vector3.right * 15;
+        private readonly Vector3 offsety = Vector3.up * 15;
+
+        private readonly Vector3 offsetxy = Vector3.right + Vector3.up;
+
+        // Center of a room to place things at
+        private readonly Vector3 center = (Vector3.up + Vector3.right) * ((float)S / 2);
+
+        private readonly ArrayList allRooms = new();
+        private readonly ArrayList spawnRooms = new();
 
         private RoomTemplates templates;
 
-        private GameObject Level;
+        private GameObject level;
 
         public GameObject spawnpt;
 
         public NewGrid grid;
 
-        private void Awake()
-        {
-            //DontDestroyOnLoad(this);
-        }
-
-        // Start is called before the first frame update
-        void Start()
-        {
-            // setupLevelGenerator();
-        }
-
-        public void setupLevelGenerator(int lvlScale, bool final)
+        public void SetupLevelGenerator(int lvlScale, bool final)
         {
             // Set up level Variables
-            this.lvlScale = lvlScale;
-            totalRooms = lvlScale*10;
-            itemRooms = lvlScale*3;
+            totalRooms = lvlScale * 10;
+            itemRooms = lvlScale * 3;
             bossRooms = lvlScale;
             this.final = final;
-            
-            Level = GameObject.FindGameObjectWithTag("Level");
+
+            level = GameObject.FindGameObjectWithTag("Level");
             templates = GameObject.FindGameObjectWithTag("Rooms").GetComponent<RoomTemplates>();
             int i = 0;
             int j = 0;
@@ -112,8 +112,8 @@ namespace RoomGen
             {
                 for (; j < 10; j++)
                 {
-                    RoomTypes[i, j] = RoomType.Empty;
-                    RoomDoors[i, j] = DoorDir.E;
+                    roomTypes[i, j] = RoomType.Empty;
+                    roomDoors[i, j] = DoorDir.E;
                 }
             }
 
@@ -122,30 +122,30 @@ namespace RoomGen
              starting room. In this case, one or two room spawn directions would be invalid from the start, and the
              algorithm would be constantly trying to find a new valid direction for rooms to spawn in.
              */
-            AllRooms.Clear();
-            SpawnRooms.Clear();
+            allRooms.Clear();
+            spawnRooms.Clear();
             i = Random.Range(2, 7);
             j = Random.Range(2, 7);
             OrderedPair p = new OrderedPair(i, j);
-            RoomTypes[i, j] = RoomType.Start;
-            AllRooms.Add(p);
-            SpawnRooms.Add(p);
+            roomTypes[i, j] = RoomType.Start;
+            allRooms.Add(p);
+            spawnRooms.Add(p);
             // Set spawn point to this starting room to spawn in Character
             spawnpt = GameObject.Find("SpawnPoint");
-            spawnpt.transform.position = ((offsetx * j + offsety * (9-i) + offsetxy * 7.5f) * 15f) + Vector3.back;
+            spawnpt.transform.position = ((offsetx * j + offsety * (9 - i) + offsetxy * 7.5f) * 15f) + Vector3.back;
 
             // Let's not count the starting room as a room (to make SpawnRooms2 easier to track)
             //rooms++;
-            
+
             //CreateRooms();
             CreateRooms2(p);
             SetDoorDir();
             ChooseRoomTypes();
 
-            CSVWrite("RoomTypes.csv");
+            // CSVWrite("RoomTypes.csv");
             Spawn();
-            Debug.Log("Spawned "+ rooms + "rooms.");
-            
+            Debug.Log("Spawned " + rooms + "rooms.");
+
             //something to fix Grid
         }
 
@@ -155,35 +155,35 @@ namespace RoomGen
         private void Spawn()
         {
             Vector3 point = Vector3.zero;
-            
-            for (int j = 0; j <=9; j++)
+
+            for (int j = 0; j <= 9; j++)
             {
                 for (int i = 9; i >= 0; i--)
                 {
                     // d is the door direction enum for the current cell cast to an int
-                    int d = (int)RoomDoors[i, j];
+                    int d = (int)roomDoors[i, j];
                     GameObject room = templates.Rooms[d];
                     room = Instantiate(room, point, room.transform.rotation);
-                    room.transform.parent = Level.transform;
-                    
+                    room.transform.parent = level.transform;
+
                     Tilemap walkable = room.transform.GetChild(1).GetComponent<Tilemap>();
                     Tilemap floor = room.transform.GetChild(3).GetComponent<Tilemap>();
-                    
+
                     grid.UpdateTilemap(walkable, floor, point);
 
                     // Fill each room.
                     // For now, the spawns are very simple, but can later be updated to be more robust
                     // once we have more items and enemies to choose from!
-                    switch (RoomTypes[i, j])
+                    switch (roomTypes[i, j])
                     {
                         // Normal rooms can just have 1 enemy for now.
                         // todo: Implement random enemy drops on kill (consumables, coins, etc).
                         case RoomType.Normal:
                         {
-                            GameObject enemy = templates.Enemies[Random.Range(0, templates.Enemies.Length)];
-                            Enemy e = enemy.GetComponent<Enemy>();
+                            var enemy = templates.Enemies[Random.Range(0, templates.Enemies.Length)];
+                            var e = enemy.GetComponent<Enemy>();
                             e.IsBoss = false;
-                            e.scale = 0.75f;
+                            // e.scale = 0.75f;
                             Instantiate(enemy, point + center, enemy.transform.rotation);
                             break;
                         }
@@ -198,16 +198,17 @@ namespace RoomGen
                         */
                         case RoomType.Item:
                         {
-                            GameObject item = templates.Consumables[Random.Range(0, templates.Consumables.Length)];
+                            var item = templates.Consumables[Random.Range(0, templates.Consumables.Length)];
                             item = Instantiate(item, point + center, item.transform.rotation);
                             item.transform.parent = GameObject.Find("Items").transform;
-                            item.transform.localScale = offsetx+offsety;
-                            GameObject enemy = templates.Enemies[Random.Range(0, templates.Enemies.Length)];
-                            Enemy e = enemy.GetComponent<Enemy>();
+                            item.transform.localScale = Vector3.one;
+                            var enemy = templates.Enemies[Random.Range(0, templates.Enemies.Length)];
+                            var e = enemy.GetComponent<Enemy>();
                             e.IsBoss = false;
-                            e.scale = 0.5f;
-                            Instantiate(enemy, point + center + offsetx*3, enemy.transform.rotation);
-                            Instantiate(enemy, point + center - offsetx*3, enemy.transform.rotation);
+                            // e.scale = 0.5f;
+                            var rotation = enemy.transform.rotation;
+                            Instantiate(enemy, point + center + offsetx * 3, rotation);
+                            Instantiate(enemy, point + center - offsetx * 3, rotation);
                             break;
                         }
                         /*
@@ -223,14 +224,14 @@ namespace RoomGen
                             GameObject enemy = templates.Enemies[Random.Range(0, templates.Enemies.Length)];
                             Enemy e = enemy.GetComponent<Enemy>();
                             e.IsBoss = true;
-                            e.scale = 1f;
+                            // e.scale = 1f;
                             Instantiate(enemy, point + center, enemy.transform.rotation);
-                            
+
                             // Easy Boss means we just spawn the one boss, so we can break here.
                             // Hard Boss will proceed to spawn 4 regular enemies in the corners.
                             if (easyBoss)
                                 break;
-                            
+
                             /*
                             // The full code for random enemies below is commented out for now since we only have
                             // 1 enemy type, so repetitive rerolls and variable setting is unnecessary.
@@ -255,15 +256,15 @@ namespace RoomGen
                             e.scale = 0.5f;
                             Instantiate(enemy, point + center + (offsetx - offsety) * -3, enemy.transform.rotation);
                             */
-                            
+
                             e.IsBoss = false;
-                            e.scale = 0.5f;
+                            // e.scale = 0.5f;
                             Quaternion eRotation = enemy.transform.rotation;
                             Instantiate(enemy, point + center + offsetxy * 45, eRotation);
                             Instantiate(enemy, point + center - offsetxy * 45, eRotation);
                             Instantiate(enemy, point + center + (offsetx - offsety) * 3, eRotation);
                             Instantiate(enemy, point + center + (offsetx - offsety) * -3, eRotation);
-                            
+
                             break;
                         }
                         /*
@@ -274,75 +275,80 @@ namespace RoomGen
                             GameObject item = templates.Items[final ? 0 : 1];
                             item = Instantiate(item, item.transform.position + point + center, item.transform.rotation);
                             item.transform.parent = GameObject.Find("Items").transform;
-                            item.transform.localScale = (offsetx+offsety)*0.25f;
+                            item.transform.localScale = Vector3.one;
                             break;
                         }
+                        case RoomType.Empty:
+                            break;
+                        case RoomType.Start:
+                            break;
+                        default:
+                            throw new ArgumentOutOfRangeException();
                     }
-                    
+
                     //room.SetActive(false);
                     //walkable.parent = Walkable;
-                    
+
                     //room.transform.localScale = new Vector3(15, 15, 1);
-                    point.y += s;
+                    point.y += S;
                 }
-                point.x += s;
+
+                point.x += S;
                 point.y = 0;
             }
-            
         }
-        
+
         /// <summary>
         ///  Generator responsible for assigning special room types.
         /// </summary>
         private void ChooseRoomTypes()
         {
             OrderedPair room;
-            ArrayList eRooms = new ArrayList();
-            foreach (OrderedPair o in AllRooms)
+            var eRooms = new ArrayList();
+            foreach (OrderedPair o in allRooms)
             {
-                if (RoomTypes[o.i, o.j] == RoomType.Normal)
+                if (roomTypes[o.i, o.j] == RoomType.Normal)
                     eRooms.Add(o);
             }
 
             int rCount = 0;
             for (; rCount < bossRooms; rCount++)
             {
-                int r = Random.Range(0, eRooms.Count);
+                var r = Random.Range(0, eRooms.Count);
                 room = (OrderedPair)eRooms[r];
-                RoomTypes[room.i, room.j] = RoomType.Boss;
+                roomTypes[room.i, room.j] = RoomType.Boss;
                 eRooms.RemoveAt(r);
             }
-            
+
             for (rCount = 0; rCount < itemRooms; rCount++)
             {
-                int r = Random.Range(0, eRooms.Count);
+                var r = Random.Range(0, eRooms.Count);
                 room = (OrderedPair)eRooms[r];
-                RoomTypes[room.i, room.j] = RoomType.Item;
+                roomTypes[room.i, room.j] = RoomType.Item;
                 eRooms.RemoveAt(r);
             }
-            
         }
-        
+
         /// <summary>
         ///  Generator responsible for determining the door directions of all rooms.
         /// Super simple code, just increments RoomDoors respectively if an adjacent room is found.
         /// </summary>
         private void SetDoorDir()
         {
-            foreach (OrderedPair room in AllRooms)
-            { 
+            foreach (OrderedPair room in allRooms)
+            {
                 // Room on Top
-                if (room.i - 1 >= 0 && RoomTypes[room.i - 1, room.j] != RoomType.Empty)
-                    RoomDoors[room.i, room.j] += 1;
+                if (room.i - 1 >= 0 && roomTypes[room.i - 1, room.j] != RoomType.Empty)
+                    roomDoors[room.i, room.j] += 1;
                 // Room on Right
-                if (room.j + 1 <= 9 && RoomTypes[room.i, room.j + 1] != RoomType.Empty)
-                    RoomDoors[room.i, room.j] += 2;
+                if (room.j + 1 <= 9 && roomTypes[room.i, room.j + 1] != RoomType.Empty)
+                    roomDoors[room.i, room.j] += 2;
                 // Room on Bottom
-                if (room.i + 1 <= 9 && RoomTypes[room.i + 1, room.j] != RoomType.Empty)
-                    RoomDoors[room.i, room.j] += 4;
+                if (room.i + 1 <= 9 && roomTypes[room.i + 1, room.j] != RoomType.Empty)
+                    roomDoors[room.i, room.j] += 4;
                 // Room on Left
-                if (room.j - 1 >= 0 && RoomTypes[room.i, room.j - 1] != RoomType.Empty)
-                    RoomDoors[room.i, room.j] += 8;
+                if (room.j - 1 >= 0 && roomTypes[room.i, room.j - 1] != RoomType.Empty)
+                    roomDoors[room.i, room.j] += 8;
             }
         }
 
@@ -357,11 +363,10 @@ namespace RoomGen
         {
             while (rooms < totalRooms)
             {
-                int i = Random.Range(0, SpawnRooms.Count);
-                OrderedPair room;
-                if((room = ChooseNewRoom((OrderedPair)SpawnRooms[i])).i != -1)
+                var i = Random.Range(0, spawnRooms.Count);
+                if ((ChooseNewRoom((OrderedPair)spawnRooms[i])).i != -1)
                 {
-                    SpawnRooms.RemoveAt(i);
+                    spawnRooms.RemoveAt(i);
                     Debug.Log("Generated room: " + rooms);
                 }
             }
@@ -387,31 +392,31 @@ namespace RoomGen
             points[2] = ChooseNewRoom(start);
             points[3] = ChooseNewRoom(start);
             // Initial 4 rooms must be valid, so they will all be set in ChooseNewRoom.
-            OrderedPair room;
             while (rooms <= totalRooms)
             {
                 // validPoints keeps track of spawn points that currently have a (-1, -1) point attached.
                 // The corresponding index array value is set to 0 if it is invalid.
-                
+
                 for (int n = 0; n < 4; n++)
                 {
                     // Break once rooms are all spawned!
-                    if (rooms == totalRooms+1)
+                    if (rooms == totalRooms + 1)
                         break;
-                    
-                    
+
+
                     // If ChooseNewRoom successfully found a room, we can set the corresponding spawn point to start there instead!
+                    OrderedPair room;
                     if ((room = ChooseNewRoom(points[n])).i != -1)
                         points[n] = room;
-                    
+
                     // If ChooseNewRoom found that all adjacent rooms are taken
                     else
                     {
                         // Keep trying until the a valid room spawns.
                         do
-                        {   
+                        {
                             // Set spawn point to a random SpawnRooms room - these are all valid.
-                            points[n] = (OrderedPair)SpawnRooms[Random.Range(0, SpawnRooms.Count)];
+                            points[n] = (OrderedPair)spawnRooms[Random.Range(0, spawnRooms.Count)];
                             /*  This is where things get a bit tricky.
                              *  If a valid room is returned, the following conditions set the spawn point to the new room.
                              *  Then, the do-while exit condition will be met and the spawn point is saved.
@@ -437,11 +442,11 @@ namespace RoomGen
                             }
                         } */
                     }
-                    
+
                     // This will set the last room spawned to be the end
                     if (rooms == totalRooms - 1)
                     {
-                        RoomTypes[room.i, room.j] = RoomType.End;
+                        roomTypes[room.i, room.j] = RoomType.End;
                     }
                 }
             }
@@ -468,7 +473,7 @@ namespace RoomGen
                 {
                     case 1: // on top
                         // if room has not been tried before, is in bounds, and empty, it is valid and we set it up!
-                        if (validDirections[0] && p.i - 1 >= 0 && RoomTypes[p.i - 1, p.j] == RoomType.Empty)
+                        if (validDirections[0] && p.i - 1 >= 0 && roomTypes[p.i - 1, p.j] == RoomType.Empty)
                         {
                             OrderedPair room = new OrderedPair(p.i - 1, p.j);
                             AddRoom(room);
@@ -480,7 +485,7 @@ namespace RoomGen
                         min++;
                         break;
                     case 2: // on right
-                        if (validDirections[1] && p.j + 1 <= 9 && RoomTypes[p.i, p.j + 1] == RoomType.Empty)
+                        if (validDirections[1] && p.j + 1 <= 9 && roomTypes[p.i, p.j + 1] == RoomType.Empty)
                         {
                             OrderedPair room = new OrderedPair(p.i, p.j + 1);
                             AddRoom(room);
@@ -494,7 +499,7 @@ namespace RoomGen
                             max--;
                         break;
                     case 3: // on bottom
-                        if (validDirections[2] && p.i + 1 <= 9 && RoomTypes[p.i + 1, p.j] == RoomType.Empty)
+                        if (validDirections[2] && p.i + 1 <= 9 && roomTypes[p.i + 1, p.j] == RoomType.Empty)
                         {
                             OrderedPair room = new OrderedPair(p.i + 1, p.j);
                             AddRoom(room);
@@ -508,7 +513,7 @@ namespace RoomGen
                             min++;
                         break;
                     case 4: // on left
-                        if (validDirections[3] && p.j - 1 >= 0 && RoomTypes[p.i, p.j - 1] == RoomType.Empty)
+                        if (validDirections[3] && p.j - 1 >= 0 && roomTypes[p.i, p.j - 1] == RoomType.Empty)
                         {
                             OrderedPair room = new OrderedPair(p.i, p.j - 1);
                             AddRoom(room);
@@ -519,10 +524,11 @@ namespace RoomGen
                         max--;
                         break;
                 }
-            } while (min <= max && (validDirections[0] || validDirections[1] || validDirections[2] || validDirections[3]));
+            } while (min <= max &&
+                     (validDirections[0] || validDirections[1] || validDirections[2] || validDirections[3]));
 
             // Will hit this statement if all rooms are taken!
-            SpawnRooms.Remove(p);
+            spawnRooms.Remove(p);
             return new OrderedPair(-1, -1);
         }
 
@@ -533,9 +539,9 @@ namespace RoomGen
         /// </summary>
         private void AddRoom(OrderedPair room)
         {
-            RoomTypes[room.i, room.j] = RoomType.Normal;
-            AllRooms.Add(room);
-            SpawnRooms.Add(room);
+            roomTypes[room.i, room.j] = RoomType.Normal;
+            allRooms.Add(room);
+            spawnRooms.Add(room);
             rooms++;
         }
 
@@ -544,26 +550,29 @@ namespace RoomGen
         /// Input: file name for the RoomTypes
         /// </summary>
         /// <param name="filename"></param>
+        // ReSharper disable once InconsistentNaming
         private void CSVWrite(string filename)
         {
-            StreamWriter typewriter = new StreamWriter(filename);
-            StreamWriter doorwriter = new StreamWriter("RoomDoors.csv");
-            for (int i = 0; i < 10; i++)
+            var typewriter = new StreamWriter(filename);
+            var doorwriter = new StreamWriter("RoomDoors.csv");
+            for (var i = 0; i < 10; i++)
             {
-                for (int j = 0; j < 10; j++)
+                for (var j = 0; j < 10; j++)
                 {
-                    if (RoomTypes[i, j] == RoomType.Empty)
+                    if (roomTypes[i, j] == RoomType.Empty)
                         typewriter.Write(",");
                     else
-                        typewriter.Write(RoomTypes[i, j] + ",");
-                    if (RoomDoors[i, j] == DoorDir.E)
+                        typewriter.Write(roomTypes[i, j] + ",");
+                    if (roomDoors[i, j] == DoorDir.E)
                         doorwriter.Write(",");
                     else
-                        doorwriter.Write(RoomDoors[i, j] + ",");
+                        doorwriter.Write(roomDoors[i, j] + ",");
                 }
-                typewriter.Write(System.Environment.NewLine);
-                doorwriter.Write(System.Environment.NewLine);
+
+                typewriter.Write(Environment.NewLine);
+                doorwriter.Write(Environment.NewLine);
             }
+
             typewriter.Flush();
             doorwriter.Flush();
             typewriter.Close();
@@ -576,8 +585,8 @@ namespace RoomGen
     /// </summary>
     public class OrderedPair
     {
-        public int i;
-        public int j;
+        public readonly int i;
+        public readonly int j;
 
         public OrderedPair(int i, int j)
         {

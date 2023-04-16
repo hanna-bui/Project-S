@@ -1,5 +1,6 @@
 using Finite_State_Machine;
 using Finite_State_Machine.States;
+using Finite_State_Machine.States.Abilities;
 using Managers;
 using UnityEngine;
 
@@ -23,8 +24,8 @@ namespace Characters
             {
                 if (agent.CurrentState is WalkToLocation)
                     agent.StopAnimation();
-                var newState = new Attack(col.transform.gameObject);
-                agent.ChangeState(newState);
+                agent.Target = col.transform.gameObject;
+                agent.ChangeState(new Attack());
             }
             else if (col.gameObject.name.Contains("Inactive"))
             {
@@ -43,20 +44,23 @@ namespace Characters
             {
                 if (agent.CurrentState is WalkToLocation)
                     agent.StopAnimation();
-                var newState = new Attack(col.transform.gameObject);
-                agent.ChangeState(newState);
+                agent.Target = col.transform.gameObject;
+                agent.ChangeState(new Attack());
             }
         }
         
-        public void SetupCollider(float rad)
+        public CircleCollider2D SetupCollider(float rad)
         {
+            transform.localScale = new Vector3(0.07f,0.07f,1);
             var rig = gameObject.AddComponent<Rigidbody2D>();
             rig.bodyType = RigidbodyType2D.Kinematic;
             rig.simulated = true;
 
             var circle = gameObject.AddComponent<CircleCollider2D>();
-            circle.radius = rad/10;
+            circle.radius = rad*5;
             circle.isTrigger = true;
+
+            return circle;
         }
     }
 }
