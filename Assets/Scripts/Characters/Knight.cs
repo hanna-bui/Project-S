@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using UnityEngine;
 // ReSharper disable InconsistentNaming
 // ReSharper disable IdentifierTypo
@@ -19,7 +20,10 @@ namespace Characters
         private void Awake()
         {
             var charScript = GetComponent<Character>();
-            charScript.SetupStats(HP, MP, SPE, RAN, DMG, DEF, MDMG, MDEF, LVL);
+            List<int> stats;
+            if (charScript.isRespawning) stats = charScript.CLS();
+            else stats = new List<int> { HP, MP, SPE, RAN, DMG, MDMG, DEF, MDEF, LVL };
+            charScript.RestoreStats(stats);
         }
     }
 }

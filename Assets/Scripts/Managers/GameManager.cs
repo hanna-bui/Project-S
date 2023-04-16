@@ -159,11 +159,13 @@ namespace Managers
             lg.grid.InitializeGrid();
             if (keepPlayer)
             {
-                player = currCharacter.GameObject();
-                player.GetComponent<Character>().RestoreStats(playerStat);
+                player = Instantiate(currCharacter.GameObject());
+                var c = player.GetComponent<Character>();
+                c.RestoreStats(playerStat);
+                c.isRespawning = true;
                 GetComponent<PlayerSpawner>().Spawn(player.GameObject());
             }
-            else player = GetComponent<PlayerSpawner>().Spawn(currCharacter.GameObject());
+            else player = GetComponent<PlayerSpawner>().Spawn(Instantiate(currCharacter.GameObject()));
         }
     }
 }

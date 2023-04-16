@@ -24,6 +24,8 @@ namespace Characters
 
         protected TextMeshProUGUI hpValue;
         
+        public bool isRespawning;
+        
         
         protected virtual void Start()
         {
@@ -42,7 +44,6 @@ namespace Characters
             facing = 0;
             
             hpValue = transform.GetChild(1).GetChild(0).GetComponent<TextMeshProUGUI>();
-            // hpValue.text = "HP: " + CHP + "";
         }
 
         protected virtual void Update()
@@ -89,7 +90,7 @@ namespace Characters
 
         #region UI
 
-        private void UpdateUI()
+        public virtual void UpdateUI()
         {
             hpValue.text = "HP: " + CHP + "";
         }
@@ -98,7 +99,7 @@ namespace Characters
         
         #region Stats & Its Management
         
-        protected int HP { get; set; } // health points
+        [SerializeField] public int HP { get; set; } // health points
         protected int CHP { get; set; } // current health points
         protected int MP { get; set; } // mana points
         protected int CMP { get; set; } // current mana points
@@ -121,7 +122,7 @@ namespace Characters
         /// <returns>List of Stats</returns>
         public List<int> CLS()
         {
-            return new List<int> { HP, MP, SPE, RAN, DMG, MDMG, DEF, MDEF, LVL };
+            return new List<int> { HP, MP, SPE, RAN, DMG, DEF, MDMG, MDEF, LVL };
         }
 
         public bool isAttackable()

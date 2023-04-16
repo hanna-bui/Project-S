@@ -1,3 +1,4 @@
+using Characters;
 using Managers;
 using Movement.Pathfinding;
 using Unity.VisualScripting;
@@ -7,10 +8,9 @@ public class PlayerSpawner : MonoBehaviour
 {
     // ReSharper disable Unity.PerformanceAnalysis
     public GameObject Spawn(GameObject player)
-    {
+    { 
         var spawnpt = GameObject.Find("SpawnPoint").transform;
-        player = Instantiate(player);
-        
+
         var parent = GameObject.Find("Characters").transform;
         if (parent!=null) player.transform.SetParent(parent);
         if (spawnpt != null) player.transform.position = spawnpt.position;
