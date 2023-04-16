@@ -38,7 +38,7 @@ namespace Finite_State_Machine.Enemy_States
                     }
                     break;
                 case StateStatus.Executing:
-                    if (TargetStat is not null)
+                    if (TargetStat is not null && TargetStat.isAttackable())
                     {
                         agent.SetAnimations(Action.Attack);
                         TargetStat.TakeDamage(agent.DMG);

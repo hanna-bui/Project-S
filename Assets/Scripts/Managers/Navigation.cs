@@ -1,63 +1,73 @@
-using System;
 using System.Collections;
-using System.Collections.Generic;
-using Managers;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
-public class Navigation : MonoBehaviour
+namespace Managers
 {
-    private PlayerSpawner ps;
-    
-    public static string main = "PlayDemo";
 
-    public void PlayGame()
+    public class Navigation : MonoBehaviour
     {
-        SceneManager.LoadScene("GameSetup");
-    }
-    public void HowTo()
-    {
-        ///load overlay canvas with simple instructions
-    }
-    
-    public void Solo()
-    {
-        SceneManager.LoadScene("GameSelect");
-    }
-    
-    /*
+        private PlayerSpawner ps;
+
+        public static string main = "PlayDemo";
+
+        public void PlayGame()
+        {
+            SceneManager.LoadScene("GameSetup");
+        }
+        
+        public void Respawn()
+        {
+            GameManager.instance.Respawn();
+        }
+        
+        public void Play()
+        {
+            GameManager.instance.Play();
+        }
+
+        public void HowTo()
+        {
+            ///load overlay canvas with simple instructions
+        }
+
+        public void Solo()
+        {
+            SceneManager.LoadScene("GameSelect");
+        }
+        
+        public void Lose()
+        {
+            GameManager.instance.Lose();
+        }
+
+        /*
      public void Solo()
     {
         SceneManager.LoadScene("ChooseLevel");
     }
-
+    
     public void ChooseLevel()
     {
         SceneManager.LoadScene("ChooseCharacter");
     }
     */
 
-    public void Continue() {}
+        public void Continue()
+        {
+        }
 
-    public void PlayAgain()
-    {
-        SceneManager.LoadScene("MainMenu");
-    }
+        public void PlayAgain()
+        {
+            SceneManager.LoadScene("MainMenu");
+        }
 
 
-    /*
+        /*
     public void Multi()
     {
         SceneManager.LoadScene("Starting");
     }
     */
-
-    public IEnumerator  ChooseCharacter()
-    {
-        var ao = SceneManager.LoadSceneAsync("PlayDemo");
-        while (!ao.isDone)
-        {
-            yield return null;
-        }
     }
 }

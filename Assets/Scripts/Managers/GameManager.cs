@@ -1,3 +1,4 @@
+using Characters;
 using RoomGen;
 using Unity.VisualScripting;
 using UnityEngine;
@@ -14,6 +15,7 @@ namespace Managers
         private const string Main = "PlayDemo";
         public GameObject currCharacter;
         public GameObject player = null;
+        public bool keepPlayer;
         public int lvl = 1;
         public int scale = 1;
         private int currLvl = 1;
@@ -68,10 +70,17 @@ namespace Managers
         
         public void ChooseLevel()
         {
+            keepPlayer = false;
             SceneManager.LoadSceneAsync("ChooseCharacter");
-            Button button = GameObject.Find("Start").GetComponent<Button>();
+            var button = GameObject.Find("Start").GetComponent<Button>();
             button.onClick.AddListener(Play);
             Debug.Log("Added listener");
+        }
+        
+        public void Respawn()
+        {
+            keepPlayer = true;
+            Play();
         }
 
         public void Play()
@@ -102,7 +111,7 @@ namespace Managers
         public void Clear()
         {
             //spawned = false;
-            Destroy(player);
+            // Destroy(player);
             Destroy(level);
             Destroy(GameObject.Find("Characters"));
             Destroy(GameObject.Find("Enemies"));
@@ -133,7 +142,14 @@ namespace Managers
             LevelGenerator lg = level.GetComponent<LevelGenerator>();
             lg.setupLevelGenerator(scale, currLvl==lvl);
             lg.grid.InitializeGrid();
-            player = GetComponent<PlayerSpawner>().Spawn(currCharacter.GameObject());
+            if (keepPlayer)
+            {
+                var stats = player.GetComponent<Character>().CLS();
+                player = currCharacter.GameObject();
+                player.GetComponent<Character>().RestoreStats(stats);
+                GetComponent<PlayerSpawner>().Spawn(player.GameObject());
+            }
+            else GetComponent<PlayerSpawner>().Spawn(currCharacter.GameObject());
         }
     }
 }

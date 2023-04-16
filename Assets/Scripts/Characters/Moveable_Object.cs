@@ -110,13 +110,23 @@ namespace Characters
         protected int MDEF { get; set; } // magic defense
         protected int LVL { get; set; } // level
 
+        public void RestoreStats(List<int> stats)
+        {
+            SetupStats(stats[0], stats[1], stats[2], stats[3], stats[4], stats[5], stats[6], stats[7], stats[8]);
+        }
+
         /// <summary>
         /// Current Level Stats, contains all of the stats of the player/enemy at their current level.
         /// </summary>
         /// <returns>List of Stats</returns>
-        protected List<int> CLS()
+        public List<int> CLS()
         {
             return new List<int> { HP, MP, SPE, RAN, DMG, MDMG, DEF, MDEF, LVL };
+        }
+
+        public bool isAttackable()
+        {
+            return CHP > 0;
         }
 
         public bool NeedsHealing()
