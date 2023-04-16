@@ -5,15 +5,15 @@ namespace Items
 {
     public class Items : MonoBehaviour
     {
-        protected float hpRestore;
-        protected float manaRestore;
-        protected float hpIncrease;
-        protected float manaIncrease;
-        protected float damageIncrease;
-        protected float rangeIncrease;
-        protected float defenceIncrease;
-        protected float magDefenceIncrease;
-        protected float speedIncrease;
+        protected int hpRestore;
+        protected int manaRestore;
+        protected int hpIncrease;
+        protected int manaIncrease;
+        protected int damageIncrease;
+        protected int rangeIncrease;
+        protected int defenceIncrease;
+        protected int magDefenceIncrease;
+        protected int speedIncrease;
 
         public virtual void UpdateCharacterStat(Character player)
         {

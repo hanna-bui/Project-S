@@ -6,14 +6,14 @@ namespace Characters
 {
     public class Monk : Player
     {
-        private const float HP = 5;
-        private const float MP = 10;
-        private const float SPE = 6;
-        private const float RAN = 6;
-        private const float DMG = 1;
-        private const float MDMG = 10;
-        private const float DEF = 2;
-        private const float MDEF = 8;
+        private const int HP = 5;
+        private const int MP = 10;
+        private const int SPE = 6;
+        private const int RAN = 6;
+        private const int DMG = 1;
+        private const int MDMG = 10;
+        private const int DEF = 2;
+        private const int MDEF = 8;
         private const int LVL = 1;
         private void Awake()
         {

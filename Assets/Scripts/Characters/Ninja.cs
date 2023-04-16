@@ -6,14 +6,14 @@ namespace Characters
 {
     public class Ninja : Player
     {
-        private const float HP = 6;
-        private const float MP = 8;
-        private const float SPE = 10;
-        private const float RAN = 10;
-        private const float DMG = 6;
-        private const float MDMG = 5;
-        private const float DEF = 1;
-        private const float MDEF = 2;
+        private const int HP = 6;
+        private const int MP = 8;
+        private const int SPE = 10;
+        private const int RAN = 10;
+        private const int DMG = 6;
+        private const int MDMG = 5;
+        private const int DEF = 1;
+        private const int MDEF = 2;
         private const int LVL = 1;
 
         private void Awake()

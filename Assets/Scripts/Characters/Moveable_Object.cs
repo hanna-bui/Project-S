@@ -2,6 +2,7 @@
 using UnityEngine;
 using System;
 using Movement.Pathfinding;
+using TMPro;
 using State = Finite_State_Machine.State;
 
 // ReSharper disable IdentifierTypo
@@ -17,16 +18,16 @@ namespace Characters
     {
         protected float radius;
 
-        public float HP { get; set; } // health points
-        public float CHP { get; set; } // current health points
-        protected float MP { get; set; } // mana points
-        protected float CMP { get; set; } // current mana points
-        public float SPE { get; set; } // speed
-        public float RAN { get; set; } // range
-        public float DMG { get; set; } // damage
-        protected float MDMG { get; set; } // magic damage
-        protected float DEF { get; set; } // defense
-        protected float MDEF { get; set; } // magic defense
+        public int HP { get; set; } // health points
+        public int CHP { get; set; } // current health points
+        protected int MP { get; set; } // mana points
+        protected int CMP { get; set; } // current mana points
+        public int SPE { get; set; } // speed
+        public int RAN { get; set; } // range
+        public int DMG { get; set; } // damage
+        protected int MDMG { get; set; } // magic damage
+        protected int DEF { get; set; } // defense
+        protected int MDEF { get; set; } // magic defense
         protected int LVL { get; set; } // level
         
         [SerializeField] protected AnimationClip[] animations;
@@ -36,7 +37,8 @@ namespace Characters
         public Vector3 TargetLocation { get; set; }
         
         protected new Camera camera;
-        
+
+        protected TextMeshProUGUI hpValue;
         
         #region State
 
@@ -73,6 +75,9 @@ namespace Characters
             Array.Sort(animations, new AnimationCompare());
 
             facing = 0;
+            
+            hpValue = transform.GetChild(1).GetChild(0).GetComponent<TextMeshProUGUI>();
+            // hpValue.text = "HP: " + CHP + "";
         }
 
         protected virtual void Update()
@@ -135,57 +140,58 @@ namespace Characters
 
         #region Getters and Setters
 
-        public void ChangeHP(float healthValue)
+        public void ChangeHP(int healthValue)
         {
             HP += healthValue;
         }
         
-        public void ChangeMana(float manaValue)
+        public void ChangeMana(int manaValue)
         {
             MP += manaValue;
         }
         
-        public void ChangeDamage(float damageValue)
+        public void ChangeDamage(int damageValue)
         {
             DMG += damageValue;
         }
         
-        public void ChangeRange(float rangeValue)
+        public void ChangeRange(int rangeValue)
         {
             RAN += rangeValue;
         }
         
-        public void ChangeDefence(float defenceValue)
+        public void ChangeDefence(int defenceValue)
         {
             DEF += defenceValue;
         }
         
-        public void ChangeMagicDefence(float magicDefenceValue)
+        public void ChangeMagicDefence(int magicDefenceValue)
         {
             SPE += magicDefenceValue;
         }
         
-        public void ChangeSpeed(float speedValue)
+        public void ChangeSpeed(int speedValue)
         {
             MDEF += speedValue;
         }
 
-        public void RestoreHP(float hpRestore)
+        public void RestoreHP(int hpRestore)
         {
             CHP = Math.Min(CHP + hpRestore, HP);
         }
 
-        public void RestoreMana(float manaRestore)
+        public void RestoreMana(int manaRestore)
         {
             CMP = Math.Min(CMP + manaRestore, MP);
         }
 
-        public virtual void TakeDamage(float dmg)
+        public virtual void TakeDamage(int dmg)
         {
             CHP -= dmg;
+            hpValue.text = "HP: " + CHP + "";
         }
         
-        public void SetupStats(float hp = 0, float mp = 0, float spe = 0, float ran = 0, float dmg = 0, float def = 0, float mdmg = 0, float mdef = 0, int lvl = 0)
+        public void SetupStats(int hp = 0, int mp = 0, int spe = 0, int ran = 0, int dmg = 0, int def = 0, int mdmg = 0, int mdef = 0, int lvl = 0)
         {
             HP = hp;
             CHP = hp;
@@ -200,7 +206,7 @@ namespace Characters
             LVL = lvl;
         }
 
-        public void LevelUp(float healthValue = 0, float manaValue = 0, float damageValue = 0, float rangeValue = 0, float defenceValue = 0, float magicDefenceValue = 0, float speedValue = 0)
+        public void LevelUp(int healthValue = 0, int manaValue = 0, int damageValue = 0, int rangeValue = 0, int defenceValue = 0, int magicDefenceValue = 0, int speedValue = 0)
         {
             ChangeHP(healthValue);
             ChangeMana(manaValue);

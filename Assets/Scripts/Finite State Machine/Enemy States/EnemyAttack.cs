@@ -49,6 +49,10 @@ namespace Finite_State_Machine.Enemy_States
                     }
                     break;
                 case StateStatus.Completed:
+                    if (agent.CHP < agent.HP)
+                    {
+                        agent.ChangeState(new EnemyHeal());
+                    }
                     agent.ChangeState(new EnemyIdle());
                     break;
                 case StateStatus.Failed:

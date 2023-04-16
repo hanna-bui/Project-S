@@ -34,7 +34,7 @@ namespace Characters
     {
         // All Characters have:
         
-        private TextMeshProUGUI hpValue;
+        
         private TextMeshProUGUI mpValue;
 
         // Assets
@@ -97,7 +97,6 @@ namespace Characters
             var child = transform.GetChild(0).gameObject.GetComponent<CharacterCollider>();
             child.SetupCollider(RAN);
             
-            hpValue = transform.GetChild(1).GetChild(0).GetComponent<TextMeshProUGUI>();
             hpValue.text = "HP: " + CHP + "";
             
             mpValue = transform.GetChild(1).GetChild(1).GetComponent<TextMeshProUGUI>();
@@ -220,12 +219,5 @@ namespace Characters
 
         #endregion
 
-        
-        
-        public override void TakeDamage(float dmg)
-        {
-            CHP -= dmg;
-            hpValue.text = "HP: " + CHP + "";
-        }
     }
 }

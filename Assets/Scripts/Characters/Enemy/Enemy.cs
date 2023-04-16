@@ -36,7 +36,6 @@ namespace Characters.Enemy{
         [SerializeField] public MovementOptions MovementStyle = MovementOptions.Plus;
         [SerializeField] private int lvl = 1;
         [SerializeField] public float scale = 1;
-        private TextMeshProUGUI hpValue;
         
         
         protected override void Start()
@@ -67,7 +66,7 @@ namespace Characters.Enemy{
             SetAnimations(Action.Idle);
             States.Push(new PatternWalk());
             
-            hpValue = transform.GetChild(1).GetChild(0).GetComponent<TextMeshProUGUI>();
+            // hpValue = transform.GetChild(1).GetChild(0).GetComponent<TextMeshProUGUI>();
             hpValue.text = "HP: " + CHP + "";
             
             
@@ -103,7 +102,7 @@ namespace Characters.Enemy{
             return false;
         }
 
-        private float RandomStat()
+        private int RandomStat()
         {
             //return LVL * Random.Range(IsBoss ? 20 : 15, 31);
             /* Nonika:
@@ -113,13 +112,12 @@ namespace Characters.Enemy{
              * return LVL * Random.Range(IsBoss ? 25 : 15, IsBoss ? 36 : 26);
              * Stats based on enemy size:
              */
-            return (float)Math.Ceiling(LVL * scale * Random.Range(IsBoss ? 25 : 15, IsBoss ? 36 : 26));
+            return (int)(LVL * scale * Random.Range(IsBoss ? 25 : 15, IsBoss ? 36 : 26));
         }
         
-        public override void TakeDamage(float dmg)
+        public override void TakeDamage(int dmg)
         {
-            CHP -= dmg;
-            hpValue.text = "HP: " + CHP + "";
+            base.TakeDamage(dmg);
             SetAnimations(Action.Hit);
         }
     }
