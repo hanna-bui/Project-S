@@ -1,4 +1,5 @@
 using System;
+using Finite_State_Machine;
 using Finite_State_Machine.Enemy_States;
 using UnityEngine;
 
@@ -24,7 +25,7 @@ namespace Characters.Enemy
         {
             if (col.gameObject.CompareTag("Player"))
             {
-                agent.ChangeState(new PatternWalk());
+                agent.CurrentState.ChangeStatus(StateStatus.Completed);
             }
         }
         public void SetupCollider(float rad)

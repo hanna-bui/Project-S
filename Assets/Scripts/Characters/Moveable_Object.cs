@@ -138,6 +138,15 @@ namespace Characters
 
         #endregion Animation
 
+        #region UI
+
+        void UpdateUI()
+        {
+            hpValue.text = CHP.ToString();
+        }
+
+        #endregion
+        
         #region Getters and Setters
 
         public void ChangeHP(int healthValue)
@@ -178,6 +187,7 @@ namespace Characters
         public void RestoreHP(int hpRestore)
         {
             CHP = Math.Min(CHP + hpRestore, HP);
+            UpdateUI();
         }
 
         public void RestoreMana(int manaRestore)
