@@ -5,24 +5,12 @@ EditorBuildSettings:
   m_ObjectHideFlags: 0
   serializedVersion: 2
   m_Scenes:
-  - enabled: 0
-    path: 
-    guid: 00000000000000000000000000000000
-  - enabled: 0
-    path: Assets/Scenes/TestScenes/SampleScene2.0.unity
-    guid: c897da1b55f5c44408dfbdda6d760887
-  - enabled: 0
-    path: 
-    guid: 00000000000000000000000000000000
-  - enabled: 0
-    path: 
-    guid: 00000000000000000000000000000000
-  - enabled: 0
-    path: 
-    guid: 00000000000000000000000000000000
   - enabled: 1
     path: Assets/Scenes/Game Scenes/MainMenu.unity
     guid: cfad79385562d49ee830c892e9360b65
+  - enabled: 1
+    path: Assets/Scenes/Game Scenes/howTo.unity
+    guid: bb64662f0b63c4fe58192b909fdd197a
   - enabled: 1
     path: Assets/Scenes/Game Scenes/GameSetup.unity
     guid: a6337cfdaf5364f839f121ee61919947
@@ -33,17 +21,8 @@ EditorBuildSettings:
     path: Assets/Scenes/TestScenes/Room.unity
     guid: 93c050356f3eb7245a9d7a09413e672c
   - enabled: 1
-    path: Assets/Scenes/TestScenes/Starting.unity
-    guid: 98173c355ab45f34e9c253efc8fd37ef
-  - enabled: 1
     path: Assets/Scenes/Game Scenes/PlayDemo.unity
     guid: dd4dfe2e098634d6480e6db7fd566e4c
-  - enabled: 1
-    path: Assets/Scenes/TestScenes/Multiplayer.unity
-    guid: 4ca967a44bf3945d8b83cf3d9bcfac39
-  - enabled: 0
-    path: Assets/Scenes/TestScenes/Lobby.unity
-    guid: 9ce9753a41f544e76b06c82ee40cfa44
   - enabled: 1
     path: Assets/Scenes/Game Scenes/GameSelect.unity
     guid: 17b678f512a43c0429de0d90b53766c7
