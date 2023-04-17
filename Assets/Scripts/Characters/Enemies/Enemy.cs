@@ -10,17 +10,8 @@ using Random = UnityEngine.Random;
 // ReSharper disable ConvertToAutoPropertyWhenPossible
 
 namespace Characters.Enemies{
-    
-    public static class Action
-    {
-        public const int Attack = 0;
-        public const int Charge = 1;
-        public const int Hit = 2;
-        public const int Idle = 3;
-        public const int Jump = 4;
-    }
 
-    public class Enemy : MoveableObject
+    public class Enemy : Agent
     {
         public enum MovementOptions
         {
@@ -30,11 +21,11 @@ namespace Characters.Enemies{
             None
         };
         
-        [SerializeField] public bool IsBoss = false;
+        // [SerializeField] public bool IsBoss = false;
         [SerializeField] public MovementOptions MovementStyle = MovementOptions.Plus;
-        [SerializeField] private int lvl = 1;
-        [SerializeField] public float scale = 1;
-        private const int agroRange = 12;
+        public int lvl { get; set; }
+        // [SerializeField] public float scale = 1;
+        protected static int agroRange = 12;
 
         public SelectUI select;
 
@@ -55,8 +46,6 @@ namespace Characters.Enemies{
             UpdateUI();
             
             select = transform.GetChild(3).gameObject.GetComponent<SelectUI>();
-
-            radius = 1f;
         }
 
         protected override void Update()
@@ -74,7 +63,7 @@ namespace Characters.Enemies{
             return false;
         }
 
-        public override bool isBasicAttack()
+        public override bool IsBasicAttack()
         {
             return CurrentState is EnemyAttack;
         }
@@ -85,24 +74,25 @@ namespace Characters.Enemies{
         }
         
         #region Stats Management
-
-        private int RandomStat()
+        
+        /// <summary>
+        /// Nonika:
+        /// I made the stat range specific to enemy type
+        /// So regular enemies get 15-25, bosses get 25-35.
+        /// Regular stats:
+        /// return LVL * Random.Range(IsBoss ? 25 : 15, IsBoss ? 36 : 26);
+        /// Stats based on enemy size:
+        /// </summary>
+        /// <returns></returns>
+        protected virtual int RandomStat()
         {
-            /* Nonika:
-             * I made the stat range specific to enemy type
-             * So regular enemies get 15-25, bosses get 25-35.
-             * Regular stats:
-             * return LVL * Random.Range(IsBoss ? 25 : 15, IsBoss ? 36 : 26);
-             * Stats based on enemy size:
-             */
-            // return (int)(LVL * scale * Random.Range(IsBoss ? 25 : 15, IsBoss ? 36 : 26));
             return 0;
         }
         
         public override void TakeDamage(int dmg)
         {
             base.TakeDamage(dmg);
-            if (CHP > 0) SetAnimations(Action.Hit);
+            if (CHP > 0) SetAnimations(BossAction.HIT);
             else Destroy(gameObject);
         }
 

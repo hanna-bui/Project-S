@@ -22,7 +22,7 @@ namespace Characters
         {
             var charScript = GetComponent<Character>();
             List<int> stats;
-            if (charScript.isRespawning) stats = charScript.CLS();
+            if (charScript.isRespawning) stats = charScript.CurrentStats();
             else stats = new List<int> { HP, MP, SPE, RAN, DMG, MDMG, DEF, MDEF, LVL };
             charScript.RestoreStats(stats);
         }

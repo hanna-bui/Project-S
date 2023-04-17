@@ -1,5 +1,4 @@
 ﻿using System.Collections.Generic;
-using Characters.Enemy;
 using UnityEngine;
 using Characters;
 using Characters.Enemies;
@@ -16,7 +15,7 @@ namespace Finite_State_Machine.States
             interval = 0f;
         }
         
-        protected override void Initialize(MoveableObject agent) 
+        protected override void Initialize(Agent agent) 
         {
             var grid = agent.grid;
             
@@ -28,22 +27,28 @@ namespace Finite_State_Machine.States
             switch (agent)
             {
                 case Character:
-                    agent.CalculateDirection();
                     agent.SetAnimations(Motion.Walk);
                     break;
-                case Enemy:
-                    agent.SetAnimations(Action.Jump);
+                case Boss:
+                    agent.SetAnimations(BossAction.JUMP);
+                    break;
+                case Monster:
                     break;
             }
 
             CurrentStatus = StateStatus.Executing;
         }
 
-        protected override void Executing(MoveableObject agent)
+        protected override void Executing(Agent agent)
         {
             if (roadPath != null && roadPath.Count != 0)
             {
                 agent.TargetLocation = roadPath[0];
+                if (agent is Monster)
+                {
+                    var facing = agent.GetFacing() + 1;
+                    agent.SetExactAnimation(facing);
+                }
 
                 if (agent.IsAtPosition()) roadPath.RemoveAt(0);
 
@@ -57,12 +62,12 @@ namespace Finite_State_Machine.States
             }
         }
 
-        protected override void Completed(MoveableObject agent)
+        protected override void Completed(Agent agent)
         {
             agent.ConfigState();
         }
         
-        private static void Move(MoveableObject agent)
+        private static void Move(Agent agent)
         {
             var pos = agent.Position();
             var tar = agent.TargetLocation;

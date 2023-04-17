@@ -1,72 +1,53 @@
+using System;
 using System.Collections.Generic;
 using Characters;
-using Microsoft.Unity.VisualStudio.Editor;
 using UnityEngine;
+using UnityEngine.Serialization;
 
 public class PlayerUI : MonoBehaviour
 {
     public Character player;
 
-    public GameObject HP;
+    [FormerlySerializedAs("HP")] public GameObject hpUI;
 
+    // ReSharper disable once InconsistentNaming
     public GameObject Heart;
 
     private readonly List<GameObject> playerHearts = new();
 
     private int hp;
-
-    // ReSharper disable once ParameterHidesMember
-    // ReSharper disable once InconsistentNaming
-    public void AddHeart(int HPValue)
+    
+    // ReSharper disable Unity.PerformanceAnalysis
+    public void InitalHearts(int hpValue)
     {
-        hp += (HPValue - hp);
-        var i = hp / 4;
-        var r = hp % 4;
-
-        var posx = 0;
-
-        for (var j = playerHearts.Count; j < i; ++j)
+        hp = hpValue;
+        
+        var posX = 0;
+        
+        for (; hpValue > 0; hpValue -= 4)
         {
-            var heart = Instantiate(Heart);
-            heart.transform.SetParent(HP.transform);
+            var partial = Math.Max(0, hpValue-4) > 0 ? 4 : Math.Max(0, hpValue);
+            
+            var heart = Instantiate(Heart, hpUI.transform, true);
             heart.transform.localScale = Vector3.one;
             var t = heart.GetComponent<RectTransform>();
-            t.localPosition = new Vector3(posx, 0, 0);
+            t.localPosition = new Vector3(posX, 0, 0);
             playerHearts.Add(heart);
-            posx += 70;
-        }
-
-        if (r > 0)
-        {
-            var heart = Instantiate(Heart);
-            heart.transform.SetParent(HP.transform);
-            heart.transform.localScale = Vector3.one;
-            var t = heart.GetComponent<RectTransform>();
-            t.localPosition = new Vector3(posx, 0, 0);
-            heart.GetComponent<SpriteChanger>().ChangeHeart(r);
-            playerHearts.Add(heart);
+            
+            heart.GetComponent<SpriteChanger>().ChangeHeart(partial);
+            
+            posX += 70;
         }
     }
 
     public void UpdateHeart(int chp)
     {
-        var r = chp % 4;
-
-        for(var i = 0; i < playerHearts.Count; i++)
+        foreach (var t in playerHearts)
         {
-            if (i < chp / 4)
-            {
-                playerHearts[i].GetComponent<SpriteChanger>().ChangeHeart(4);
-            }
-            else if (i==chp/4)
-            {
-                playerHearts[i].GetComponent<SpriteChanger>().ChangeHeart(r);
-                r = 0;
-            }
-            else
-            {
-                playerHearts[i].GetComponent<SpriteChanger>().ChangeHeart(r);
-            }
+            var partial = Math.Max(0, chp-4) > 0 ? 4 : Math.Max(0, chp);
+            chp -= 4;
+            
+            t.GetComponent<SpriteChanger>().ChangeHeart(partial);
         }
     }
 }

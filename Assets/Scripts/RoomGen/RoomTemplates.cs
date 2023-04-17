@@ -5,8 +5,10 @@ using UnityEngine;
 public class RoomTemplates : MonoBehaviour
 {
     public GameObject[] Rooms;
+    
+    public GameObject[] Bosses;
 
-    public GameObject[] Enemies;
+    public GameObject[] Monsters;
 
     public GameObject[] Consumables;
 

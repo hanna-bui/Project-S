@@ -12,7 +12,7 @@ namespace Items
 
         public override void UpdateCharacterStat(Character player)
         {
-            player.RestoreHP(hpRestore);
+            player.RestoreHealth(hpRestore);
             player.RestoreMana(manaRestore);
             base.UpdateCharacterStat(player);
         }

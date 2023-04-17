@@ -1,6 +1,6 @@
 ﻿using System;
 using Characters;
-using Action = Characters.Enemies.Action;
+using Characters.Enemies;
 
 namespace Finite_State_Machine.Enemy_States
 {
@@ -11,18 +11,18 @@ namespace Finite_State_Machine.Enemy_States
             interval = 0f;
         }
         
-        protected override void Initialize(MoveableObject agent) 
+        protected override void Initialize(Agent agent) 
         {
-            agent.SetAnimations(Action.Idle);
+            agent.SetExactAnimation(0);
             ToComplete();
         }
 
-        protected override void Executing(MoveableObject agent)
+        protected override void Executing(Agent agent)
         {
             
         }
 
-        protected override void Completed(MoveableObject agent)
+        protected override void Completed(Agent agent)
         {
             
         }

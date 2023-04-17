@@ -84,7 +84,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 79c3084f673f65742b6ad8093d834bc0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  lvlScale: 1
   totalRooms: 10
   itemRooms: 3
   bossRooms: 1
@@ -529,9 +528,25 @@ PrefabInstance:
     m_TransformParent: {fileID: 7185108239027169873}
     m_Modifications:
     - target: {fileID: 903274211799955610, guid: f02a6f8407de2c14c8eaaa8d37537004, type: 3}
+      propertyPath: Bosses.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 903274211799955610, guid: f02a6f8407de2c14c8eaaa8d37537004, type: 3}
+      propertyPath: Monsters.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 903274211799955610, guid: f02a6f8407de2c14c8eaaa8d37537004, type: 3}
+      propertyPath: Bosses.Array.data[0]
+      value: 
+      objectReference: {fileID: 4399283612488820063, guid: feb9b515b360c5c44b4b26c2d2f54836, type: 3}
+    - target: {fileID: 903274211799955610, guid: f02a6f8407de2c14c8eaaa8d37537004, type: 3}
       propertyPath: Rooms.Array.data[15]
       value: 
       objectReference: {fileID: 8635651316082662512, guid: 32050b86333721349a9151bc646857bf, type: 3}
+    - target: {fileID: 903274211799955610, guid: f02a6f8407de2c14c8eaaa8d37537004, type: 3}
+      propertyPath: Monsters.Array.data[0]
+      value: 
+      objectReference: {fileID: 7875970674509150160, guid: 627f942e6c9dd4d3ab7e38b189a6954f, type: 3}
     - target: {fileID: 4092504082780044335, guid: f02a6f8407de2c14c8eaaa8d37537004, type: 3}
       propertyPath: m_RootOrder
       value: 0

@@ -24,7 +24,7 @@ namespace Characters
         /// <summary>
         /// Kunai Throw
         /// </summary>
-        protected override State a1()
+        protected override State A1()
         {
             var newState = new KunaiThrow();
             ChangeState(newState);
@@ -35,14 +35,14 @@ namespace Characters
         /// <summary>
         /// Ability 2
         /// </summary>
-        protected override State a2()
+        protected override State A2()
         {
             return null;
         }
         
-        public override bool isBasicAttack()
+        public override bool IsBasicAttack()
         {
-            return base.isBasicAttack() || CurrentState is ShurikenThrow;
+            return base.IsBasicAttack() || CurrentState is ShurikenThrow;
         }
 
         public override bool isSpecialAttack()
@@ -52,7 +52,7 @@ namespace Characters
 
         protected override void LoadPlayer()
         {
-            RestoreStats(isRespawning ? CLS() : new List<int> { hp, mp, spe, ran, dmg, def, mdmg, mdef, lvl });
+            RestoreStats(isRespawning ? CurrentStats() : new List<int> { hp, mp, spe, ran, dmg, def, mdmg, mdef, lvl });
             base.LoadPlayer();
         }
     }

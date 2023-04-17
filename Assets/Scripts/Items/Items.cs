@@ -1,3 +1,4 @@
+using System;
 using Characters;
 using UnityEngine;
 
@@ -14,6 +15,12 @@ namespace Items
         protected int defenceIncrease;
         protected int magDefenceIncrease;
         protected int speedIncrease;
+
+        private void Start()
+        {
+            transform.SetParent(GameObject.Find("Items").transform);
+            transform.localScale = Vector3.one;
+        }
 
         public virtual void UpdateCharacterStat(Character player)
         {

@@ -17,7 +17,7 @@ namespace Finite_State_Machine.States.Abilities
             interval = 0f;
         }
 
-        protected override void Initialize(MoveableObject agent)
+        protected override void Initialize(Agent agent)
         {
             interval = DefaultInterval;
             if (TargetStat is null && agent.Target is not null)
@@ -33,18 +33,18 @@ namespace Finite_State_Machine.States.Abilities
             StateProgress();
         }
 
-        protected override void Executing(MoveableObject agent)
+        protected override void Executing(Agent agent)
         {
-            if (TargetStat is not null && TargetStat.isAttackable())
+            if (TargetStat is not null && TargetStat.CanAttack())
             {
-                TargetStat.EquipFX(agent.FX1);
+                TargetStat.EquipFX(agent.fx1);
                 TargetStat.TakeDamage(agent.DMG);
             }
             StateProgress();
         }
 
 
-        protected override void Completed(MoveableObject agent)
+        protected override void Completed(Agent agent)
         {
             agent.ChangeRange((int)(-_multiplier));
             agent.RemoveSpecial1(this);

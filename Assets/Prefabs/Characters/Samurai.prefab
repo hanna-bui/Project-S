@@ -127,8 +127,8 @@ MonoBehaviour:
   projectile2: {fileID: 6574340891235912598, guid: 89480f4aeef074c4da9fba5ee0fd0d7d, type: 3}
   animations: []
   animator: {fileID: 0}
-  FX1: {fileID: 5467700491381763393, guid: 9d797a87c88379d41bb23f0fa69a98ca, type: 3}
-  FX2: {fileID: 0}
+  fx1: {fileID: 5467700491381763393, guid: 9d797a87c88379d41bb23f0fa69a98ca, type: 3}
+  fx2: {fileID: 0}
   hasSpecialAttack: 0
   select: {fileID: 0}
 --- !u!1 &8685132369182946302
@@ -314,6 +314,10 @@ PrefabInstance:
     - target: {fileID: 4829192165902525480, guid: e953b82e0627a7e48ba28385f8e5513a, type: 3}
       propertyPath: m_Name
       value: PlayerUI
+      objectReference: {fileID: 0}
+    - target: {fileID: 4829192165902525480, guid: e953b82e0627a7e48ba28385f8e5513a, type: 3}
+      propertyPath: m_IsActive
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_AddedGameObjects: []

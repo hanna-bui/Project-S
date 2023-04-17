@@ -2,27 +2,19 @@
 using UnityEngine;
 using System;
 using Characters.Colliders;
-using Finite_State_Machine;
+using Characters.Enemies;
 using Finite_State_Machine.States;
 using Finite_State_Machine.States.Abilities;
 using Movement.Pathfinding;
-using TMPro;
 using UnityEngine.Serialization;
 using State = Finite_State_Machine.State;
-// ReSharper disable Unity.InefficientPropertyAccess
-
-// ReSharper disable IdentifierTypo
-
-// ReSharper disable MemberCanBeProtected.Global
-// ReSharper disable UnusedAutoPropertyAccessor.Global
-// ReSharper disable InconsistentNaming
 
 namespace Characters
 {
 
-    public class MoveableObject : MonoBehaviour
+    public class Agent : MonoBehaviour
     {
-        protected CircleCollider2D child_collider;
+        protected CircleCollider2D childCollider;
         
         protected float radius;
         
@@ -31,8 +23,6 @@ namespace Characters
         public Vector3 TargetLocation { get; set; }
         
         protected new Camera camera;
-
-        protected TextMeshProUGUI hpValue;
         
         public bool isRespawning;
         
@@ -50,14 +40,14 @@ namespace Characters
         public Vector3 Origin
         {
             get => origin;
-            set => origin = value;
+            private set => origin = value;
         }
 
         protected virtual void Start()
         {
             grid = GameObject.FindGameObjectWithTag("Level").GetComponent<NewGrid>();
 
-            States = new Stack<State>();
+            states = new Stack<State>();
 
             camera = Camera.main;
             TargetLocation = transform.position;
@@ -68,8 +58,6 @@ namespace Characters
             Array.Sort(animations, new AnimationCompare());
 
             facing = 0;
-            
-            hpValue = transform.GetChild(1).GetChild(0).GetComponent<TextMeshProUGUI>();
 
             Initializing();
             
@@ -77,11 +65,12 @@ namespace Characters
             
             SetupCollider();
             var child = transform.GetChild(0).gameObject.GetComponent<RangeCollider>();
-            child_collider = child.SetupCollider(RAN);
+            childCollider = child.SetupCollider(RAN);
+
+            var temp = transform;
+            temp.localScale = Vector3.one;
             
-            transform.localScale = Vector3.one;
-            
-            Origin = transform.position;
+            Origin = temp.position;
         }
 
         protected virtual void Initializing() { }
@@ -91,13 +80,55 @@ namespace Characters
             CurrentState = GetTop();
             CurrentState.Execute(this);
         }
+        
+        private void SetupCollider()
+        {
+            var rig = gameObject.AddComponent<Rigidbody2D>();
+            rig.bodyType = RigidbodyType2D.Kinematic;
+            rig.simulated = true;
+
+            var circle = gameObject.AddComponent<CircleCollider2D>();
+            circle.radius = radius;
+            circle.isTrigger = true;
+        }
+
+        private void SetParent()
+        {
+            var parent = GameObject.Find(parentName).transform;
+            if (parent!=null) transform.SetParent(parent);
+        }
+        
+        public bool IsAtPosition()
+        {
+            return transform.position.Equals(TargetLocation);
+        }
+        
+        public bool IsAtPosition(Vector3 target)
+        {
+            return transform.position.Equals(target);
+        }
+        
+        public bool IsAtTarget(Vector3 target)
+        {
+            return TargetLocation.Equals(target);
+        }
+        
+        public void SetPosition(Vector3 newPosition)
+        {
+            transform.position = newPosition;
+        }
+
+        public Vector3 Position()
+        {
+            return transform.position;
+        }
 
         #region Abilities
 
         /// <summary>
         /// Ability 1
         /// </summary>
-        protected virtual State a1()
+        protected virtual State A1()
         {
             return null;
         }
@@ -105,7 +136,7 @@ namespace Characters
         /// <summary>
         /// Ability 2
         /// </summary>
-        protected virtual State a2()
+        protected virtual State A2()
         {
             return null;
         }
@@ -117,9 +148,10 @@ namespace Characters
         [SerializeField] protected AnimationClip[] animations;
         public Animator animator;
         protected int facing;
+        protected static readonly int Facing = Animator.StringToHash("facing");
 
-        public GameObject FX1;
-        public GameObject FX2;
+        [FormerlySerializedAs("FX1")] public GameObject fx1;
+        [FormerlySerializedAs("FX2")] public GameObject fx2;
         
         public void EquipFX(GameObject agentFX1)
         {
@@ -129,13 +161,34 @@ namespace Characters
 
             fx.GetComponent<AnimateFX>().Play();
         }
+
+        public int GetFacing()
+        {
+            CalculateDirection();
+            return facing;
+        }
         
-        public virtual void CalculateDirection(){}
-        
+        public void SetFacing(int i)
+        {
+            facing = i;
+        }
+
+        protected virtual void CalculateDirection()
+        {
+            
+        }
 
         public virtual void StopAnimation()
         {
             SetAnimations(facing);
+        }
+        
+        public void SetExactAnimation(int motion)
+        {
+            var animStateInfo = animator.GetCurrentAnimatorStateInfo(0);
+            var nTime = animStateInfo.normalizedTime;
+            if (nTime > 0)
+                animator.Play(animations[motion].name);
         }
 
         public virtual void SetAnimations(int index)
@@ -143,6 +196,9 @@ namespace Characters
             animator.Play(animations[index].name);
         }
         
+        /// <summary>
+        /// Helps For Sorting Animation Clips by Name
+        /// </summary>
         class AnimationCompare : IComparer<AnimationClip>
         {
             public int Compare(AnimationClip x, AnimationClip y)
@@ -162,26 +218,28 @@ namespace Characters
 
         #region UI
 
-        public virtual void UpdateUI()
+        protected virtual void UpdateUI()
         {
-            hpValue.text = "HP: " + CHP + "";
         }
 
         #endregion
         
         #region Stats & Its Management
         
-        [SerializeField] public int HP { get; set; } // health points
+        // ReSharper disable InconsistentNaming
+        protected int HP { get; set; } // health points
         protected int CHP { get; set; } // current health points
         private int MP { get; set; } // mana points
-        protected int CMP { get; set; } // current mana points
-        public int SPE { get; set; } // speed
-        protected int RAN { get; set; } // range
-        public int DMG { get; set; } // damage
+        protected int CMP { get; private set; } // current mana points
+        public int SPE { get; private set; } // speed
+        protected int RAN { get; private set; } // range
+        public int DMG { get; private set; } // damage
         private int MDMG { get; set; } // magic damage
         private int DEF { get; set; } // defense
         private int MDEF { get; set; } // magic defense
-        private int LVL { get; set; } // level
+        protected int LVL { get; private set; } // level
+        // ReSharper restore InconsistentNaming
+        
 
         public void RestoreStats(List<int> stats)
         {
@@ -192,12 +250,12 @@ namespace Characters
         /// Current Level Stats, contains all of the stats of the player/enemy at their current level.
         /// </summary>
         /// <returns>List of Stats</returns>
-        public List<int> CLS()
+        public List<int> CurrentStats()
         {
             return new List<int> { HP, MP, SPE, RAN, DMG, DEF, MDMG, MDEF, LVL };
         }
 
-        public bool isAttackable()
+        public bool CanAttack()
         {
             return CHP > 0;
         }
@@ -208,7 +266,7 @@ namespace Characters
     
         }
 
-        public virtual void ChangeHP(int healthValue)
+        public virtual void ChangeHeath(int healthValue)
         {
             HP += healthValue;
             if (CHP != 0)
@@ -248,7 +306,7 @@ namespace Characters
             MDEF += speedValue;
         }
 
-        public void RestoreHP(int hpRestore)
+        public void RestoreHealth(int hpRestore)
         {
             CHP = Math.Min(CHP + hpRestore, HP);
             UpdateUI();
@@ -263,7 +321,7 @@ namespace Characters
         public virtual void TakeDamage(int dmg)
         {
             CHP = Math.Max(CHP - dmg, 0);
-            if (CHP != 0) UpdateUI();
+            UpdateUI();
         }
 
         private void SetupStats(int hp = 0, int mp = 0, int spe = 0, int ran = 0, int dmg = 0, int def = 0, int mdmg = 0, int mdef = 0, int lvl = 0)
@@ -283,7 +341,7 @@ namespace Characters
 
         public void LevelUp(int healthValue = 0, int manaValue = 0, int damageValue = 0, int rangeValue = 0, int defenceValue = 0, int magicDefenceValue = 0, int speedValue = 0)
         {
-            ChangeHP(healthValue);
+            ChangeHeath(healthValue);
             ChangeMana(manaValue);
             ChangeDamage(damageValue);
             ChangeRange(rangeValue);
@@ -297,27 +355,28 @@ namespace Characters
 
         #region State
         
-        public bool hasSpecialAttack = false;
+        public bool hasSpecialAttack;
 
-        public State currentSA = null;
+        // ReSharper disable once InconsistentNaming
+        protected State currentSA = null;
 
-        protected Stack<State> States;
+        protected Stack<State> states;
 
-        public State CurrentState { get; set; }
+        public State CurrentState { get; protected set; }
 
         public void StateProgress()
         {
             CurrentState.StateProgress();
         }
 
-        public void ToComplete()
+        protected void ToComplete()
         {
             CurrentState.ToComplete();
         }
 
-        public State GetTop()
+        protected State GetTop()
         {
-            return States.Peek();
+            return states.Peek();
         }
 
         public virtual bool ConfigState()
@@ -325,12 +384,12 @@ namespace Characters
             return false;
         }
         
-        public virtual bool isBasicAttack()
+        public virtual bool IsBasicAttack()
         {
             return CurrentState is BasicAttack;
         }
         
-        public bool isWalkToLocation()
+        public bool IsWalkToLocation()
         {
             return CurrentState is WalkToLocation;
         }
@@ -340,18 +399,18 @@ namespace Characters
             RemoveState(oldSpecial1);
             hasSpecialAttack = false;
         }
-        
-        public void RemoveState(State oldState)
+
+        private void RemoveState(State oldState)
         {
-            if (!States.Contains(oldState)) return;
+            if (!states.Contains(oldState)) return;
             
-            if (oldState == States.Peek()) ConfigState();
+            if (oldState == states.Peek()) ConfigState();
             else
             {
                 var tempStates = new Stack<State>();
-                while (States.Count >= 1)
+                while (states.Count >= 1)
                 {
-                    var temp = States.Pop();
+                    var temp = states.Pop();
                     if (temp == oldState) break;
                     else tempStates.Push(temp);
                 }
@@ -364,14 +423,14 @@ namespace Characters
         
         public void AddState(State newState)
         {
-            States.Push(newState);
+            states.Push(newState);
             Debug.Log(newState.ToString());
         }
 
         public void ChangeState(State newState)
         {
-            States.Pop();
-            States.Push(newState);
+            states.Pop();
+            states.Push(newState);
             Debug.Log(newState.ToString());
         }
 
@@ -379,80 +438,7 @@ namespace Characters
         
         #region OtherMethods
 
-        private void SetupCollider()
-        {
-            var rig = gameObject.AddComponent<Rigidbody2D>();
-            rig.bodyType = RigidbodyType2D.Kinematic;
-            rig.simulated = true;
-
-            var circle = gameObject.AddComponent<CircleCollider2D>();
-            circle.radius = radius;
-            circle.isTrigger = true;
-        }
-
-        private void SetParent()
-        {
-            var parent = GameObject.Find(parentName).transform;
-            if (parent!=null) transform.SetParent(parent);
-        }
-        
-        public int GetFacing()
-        {
-            CalculateDirection();
-            return facing;
-        }
-        
-        public bool IsAtPosition()
-        {
-            return transform.position.Equals(TargetLocation);
-        }
-        
-        public bool IsAtPosition(Vector3 target)
-        {
-            return transform.position.Equals(target);
-        }
-        
-        public bool isAtTarget(Vector3 target)
-        {
-            return TargetLocation.Equals(target);
-        }
-        
-        public void SetPosition(Vector3 newPosition)
-        {
-            transform.position = newPosition;
-        }
-
-        public Vector3 Position()
-        {
-            return transform.position;
-        }
-
-        #endregion
-        
-
-        public override string ToString()
-        {
-            return "HP = " + HP + ", CHP = " + CHP + ", MP = " + MP + ", CMP = " + CMP + ", DMG = " + DMG +
-                   ", MDMG = " + MDMG + ", DEF = " + DEF + ", MDEF = " + DEF + ", RAN = " + RAN + ", SPE = " + SPE +
-                   ", LVL = " + LVL;
-        }
-
-
-        public void SetFacing(int i)
-        {
-            facing = i;
-        }
-
-        public void SetExactAnimation(int motion)
-        {
-            var animStateInfo = animator.GetCurrentAnimatorStateInfo(0);
-            var NTime = animStateInfo.normalizedTime;
-            if (NTime > 0)
-                animator.Play(animations[motion].name);
-        }
-
-
-        public void ThrowProjectile(float x, float y)
+        protected void ThrowProjectile(float x, float y)
         {
             GameObject s;
             if (hasSpecialAttack)
@@ -464,5 +450,14 @@ namespace Characters
                 s = Instantiate(projectile);
             s.GetComponent<Projectile>().Spawn(gameObject, GetFacing(), DMG, Target, new Vector3(x, y, 0));
         }
+        
+        public override string ToString()
+        {
+            return "HP = " + HP + ", CHP = " + CHP + ", MP = " + MP + ", CMP = " + CMP + ", DMG = " + DMG +
+                   ", MDMG = " + MDMG + ", DEF = " + DEF + ", MDEF = " + DEF + ", RAN = " + RAN + ", SPE = " + SPE +
+                   ", LVL = " + LVL;
+        }
+
+        #endregion
     }
 }

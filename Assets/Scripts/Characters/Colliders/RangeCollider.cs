@@ -4,11 +4,11 @@ namespace Characters.Colliders
 {
     public class RangeCollider : MonoBehaviour
     {
-        protected MoveableObject agent;
+        protected Agent agent;
         
         private void Start()
         {
-            agent = transform.parent.gameObject.GetComponent<MoveableObject>();
+            agent = transform.parent.gameObject.GetComponent<Agent>();
         }
         
         public CircleCollider2D SetupCollider(float rad)

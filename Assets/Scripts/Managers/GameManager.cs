@@ -96,7 +96,7 @@ namespace Managers
         {
             keepPlayer = true;
             player.GetComponent<Character>().LevelUp(10,10,10,10,10,10,10);
-            playerStat = player.GetComponent<Character>().CLS();
+            playerStat = player.GetComponent<Character>().CurrentStats();
             Clear();
             Play();
         }
@@ -109,7 +109,7 @@ namespace Managers
         
         public void Lose()
         {
-            playerStat = player.GetComponent<Character>().CLS();
+            playerStat = player.GetComponent<Character>().CurrentStats();
             Destroy(level);
             SceneManager.LoadScene("LossScreen");
         }

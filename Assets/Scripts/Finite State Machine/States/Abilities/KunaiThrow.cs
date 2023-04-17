@@ -13,7 +13,7 @@ namespace Finite_State_Machine.States.Abilities
             isABuff = true;
         }
         
-        protected override void Initialize(MoveableObject agent)
+        protected override void Initialize(Agent agent)
         {
             agent.ChangeRange(1);
             agent.SetExactAnimation(Motion.Special1);
@@ -22,12 +22,12 @@ namespace Finite_State_Machine.States.Abilities
             StateProgress();
         }
 
-        protected override void Executing(MoveableObject agent)
+        protected override void Executing(Agent agent)
         {
             
         }
 
-        protected override void Completed(MoveableObject agent)
+        protected override void Completed(Agent agent)
         {
             agent.ChangeRange(-1);
             agent.RemoveSpecial1(this);

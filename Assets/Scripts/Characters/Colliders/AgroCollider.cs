@@ -25,8 +25,8 @@ namespace Characters.Colliders
             var enemy = agent as Enemies.Enemy;
             if (enemy == null) return;
             
-            if (!col.gameObject.CompareTag("Player") || enemy.isBasicAttack()) return;
-            if (!enemy.isWalkToLocation())
+            if (!col.gameObject.CompareTag("Player") || enemy.IsBasicAttack()) return;
+            if (!enemy.IsWalkToLocation())
             {
                 if (!target.Equals(col.transform.position))
                 {

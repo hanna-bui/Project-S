@@ -9,9 +9,9 @@ namespace Characters.Colliders
         private void OnTriggerEnter2D(Collider2D col)
         {
             var player = agent as Character;
-            if (player == null || !col.gameObject.CompareTag("Enemy") || !player.isSpecialAttack() && player.isBasicAttack()) return;
+            if (player == null || !col.gameObject.CompareTag("Enemy") || !player.isSpecialAttack() && player.IsBasicAttack()) return;
             
-            if (player.isWalkToLocation())
+            if (player.IsWalkToLocation())
             {
                 player.StateProgress();
                 player.StopAnimation();
@@ -43,9 +43,9 @@ namespace Characters.Colliders
             var player = agent as Character;
             if (player == null) return;
             
-            if (!col.gameObject.CompareTag("Enemy") || player.isBasicAttack() || player.isWalkToLocation()) return;
+            if (!col.gameObject.CompareTag("Enemy") || player.IsBasicAttack() || player.IsWalkToLocation()) return;
             
-            if (player.isWalkToLocation())
+            if (player.IsWalkToLocation())
             {
                 player.StateProgress();
                 player.StopAnimation();

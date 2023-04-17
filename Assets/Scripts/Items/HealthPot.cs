@@ -13,7 +13,7 @@ namespace Items
 
        public override void UpdateCharacterStat(Character player)
        {
-           player.ChangeHP(hpIncrease);
+           player.ChangeHeath(hpIncrease);
            base.UpdateCharacterStat(player);
        }
     }

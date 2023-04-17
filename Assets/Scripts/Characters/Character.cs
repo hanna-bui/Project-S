@@ -34,7 +34,7 @@ namespace Characters
         public const int Special1 = 12;
         public const int Special2 = 13;
     }
-    public class Character : MoveableObject
+    public class Character : Agent
     {
         // All Characters have:
         
@@ -47,7 +47,8 @@ namespace Characters
         protected GameObject wa3 { get; set; } // A3 Weapon Sprite
 
         public SelectUI select;
-        private static readonly int Facing = Animator.StringToHash("facing");
+
+        #region Unity Engine
 
         private void OnTriggerEnter2D(Collider2D col)
         {
@@ -80,6 +81,19 @@ namespace Characters
                 ChangeState(new PlayerIdle());
             }
         }
+        
+        protected override void Update()
+        {
+            CurrentState = GetTop();
+            CurrentState.Execute(this, Time.deltaTime);
+            if (hasSpecialAttack)
+            {
+                currentSA.Execute(this, Time.deltaTime);
+            }
+            inputToState();
+        }
+
+        #endregion
 
         protected override void Initializing()
         {
@@ -98,45 +112,12 @@ namespace Characters
 
         protected virtual void LoadPlayer()
         {
-            playerUI.AddHeart(HP);
+            playerUI.InitalHearts(HP);
             UpdateUI();
-        }
-
-        protected override void Update()
-        {
-            CurrentState = GetTop();
-            CurrentState.Execute(this, Time.deltaTime);
-            if (hasSpecialAttack)
-            {
-                currentSA.Execute(this, Time.deltaTime);
-            }
-            UpdateUI();
-            inputToState();
-            
         }
 
         #region Animations
 
-        public override void CalculateDirection()
-        {
-            var position = transform.position;
-            
-            var p1 = new Vector2(position.x, position.y);
-            var p2 = new Vector2(TargetLocation.x, TargetLocation.y);
-
-            var angleFloat = Mathf.Atan2(p2.y - p1.y, p2.x - p1.x) * 180 / Mathf.PI;
-            var angleInt = Mathf.CeilToInt(angleFloat);
-
-            facing = angleInt switch
-            {
-                <= 135 and >= 45 => Direction.Up,
-                < 45 and > -45 => Direction.Right,
-                <= -45 and >= -135 => Direction.Down,
-                _ => Direction.Left
-            };
-            animator.SetInteger(Facing, facing);
-        }
-        
         public override void StopAnimation()
         {
             SetAnimations(Motion.Idle);
@@ -144,7 +125,7 @@ namespace Characters
 
         public override void SetAnimations(int motion)
         {
-            var index = facing;
+            var index = GetFacing();
             var animStateInfo = animator.GetCurrentAnimatorStateInfo(0);
             var NTime = animStateInfo.normalizedTime;
             if (NTime > 0)
@@ -169,25 +150,50 @@ namespace Characters
                 }
             }
         }
+
+        protected override void CalculateDirection()
+        {
+            var position = transform.position;
+            
+            var p1 = new Vector2(position.x, position.y);
+            var p2 = new Vector2(TargetLocation.x, TargetLocation.y);
+
+            var angleFloat = Mathf.Atan2(p2.y - p1.y, p2.x - p1.x) * 180 / Mathf.PI;
+            var angleInt = Mathf.CeilToInt(angleFloat);
+
+            facing = angleInt switch
+            {
+                <= 135 and >= 45 => Direction.Up,
+                < 45 and > -45 => Direction.Right,
+                <= -45 and >= -135 => Direction.Down,
+                _ => Direction.Left
+            };
+            
+            animator.SetInteger(Facing, facing);
+        }
         
         #endregion
 
-        PlayerUI playerUI;
+        #region UI
 
-        public override void UpdateUI()
+        private PlayerUI playerUI;
+
+        protected override void UpdateUI()
         {
             playerUI.UpdateHeart(CHP);
             mpValue.text = "MP: " + CMP + "";
         }
+
+        #endregion
         
         #region Stats Management
         
-        public override void ChangeHP(int healthValue)
+        public override void ChangeHeath(int healthValue)
         {
             HP += healthValue;
             if (CHP != 0)
             {
-                playerUI.AddHeart(HP);
+                // playerUI.InitalHearts(HP);
                 UpdateUI();
             }
         }
@@ -195,14 +201,15 @@ namespace Characters
         public override void ChangeRange(int rangeValue)
         {
             base.ChangeRange(rangeValue);
-            child_collider.radius = RAN*5;
+            childCollider.radius = RAN*5;
         }
 
         [SuppressMessage("ReSharper", "Unity.PerformanceCriticalCodeInvocation")]
         public override void TakeDamage(int dmg)
         {
             base.TakeDamage(dmg);
-            if (CHP != 0) return;
+            
+            if (CHP > 0) return;
             Debug.Log("You lost...");
             GameManager.instance.Lose();
         }
@@ -213,20 +220,20 @@ namespace Characters
 
         public override bool ConfigState()
         {
-            if (States.Count > 1)
+            if (states.Count > 1)
             {
-                var temp = States.Pop();
+                var temp = states.Pop();
                 if (temp is BasicAttack && !hasSpecialAttack) return true;
-                States.Pop();
+                states.Pop();
                 AddState(new PlayerIdle());
                 return false;
             }
-            States.Pop();
+            states.Pop();
             AddState(new PlayerIdle());
             return false;
         }
 
-        public override bool isBasicAttack()
+        public override bool IsBasicAttack()
         {
             return CurrentState is BasicAttack;
         }
@@ -250,7 +257,7 @@ namespace Characters
                 {
                     select = t.transform.GetComponent<Enemies.Enemy>().select;
                     Target = t.transform.gameObject;
-                    if (isBasicAttack())
+                    if (IsBasicAttack())
                     {
                         if (CurrentState.CurrentStatus is StateStatus.Initialize)
                         {
@@ -262,7 +269,7 @@ namespace Characters
                         case true:
                         {
                             if (isSpecialAttack()) AddState(new WalkToLocation());
-                            else if (!isBasicAttack()) ChangeState(new WalkToLocation());
+                            else if (!IsBasicAttack()) ChangeState(new WalkToLocation());
                             break;
                         }
                         case false:
@@ -283,7 +290,7 @@ namespace Characters
             else if (Input.GetKeyDown(KeyCode.Alpha1))
             {
                 if (hasSpecialAttack) return;
-                currentSA = a1();
+                currentSA = A1();
                 hasSpecialAttack = currentSA!=null;
             }
             
@@ -292,7 +299,7 @@ namespace Characters
                 if(select!=null)
                 {
                     select.ToggleOff();
-                    if (isBasicAttack()) ToComplete();
+                    if (IsBasicAttack()) ToComplete();
                 }
             }
         }

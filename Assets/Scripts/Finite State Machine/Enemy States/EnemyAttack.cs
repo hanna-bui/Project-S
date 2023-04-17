@@ -1,7 +1,7 @@
 ﻿using System;
 using Characters;
+using Characters.Enemies;
 using UnityEngine;
-using Action = Characters.Enemies.Action;
 
 // ReSharper disable PossibleNullReferenceException
 
@@ -20,25 +20,26 @@ namespace Finite_State_Machine.Enemy_States
             Target = target;
         }
         
-        protected override void Initialize(MoveableObject agent) 
+        protected override void Initialize(Agent agent) 
         {
             if (TargetStat is null)
             {
                 TargetStat = Target.GetComponent<Character>();
                             
                 agent.TargetLocation = TargetStat.Position();
-                agent.CalculateDirection();
+                if (agent is not Boss) agent.SetExactAnimation(0);
 
                 interval = DefaultInterval;
                 StateProgress();
             }
         }
 
-        protected override void Executing(MoveableObject agent)
+        protected override void Executing(Agent agent)
         {
-            if (TargetStat is not null && TargetStat.isAttackable())
+            if (TargetStat is not null && TargetStat.CanAttack())
             {
-                agent.SetAnimations(Action.Attack);
+                if (agent is Boss) agent.SetAnimations(BossAction.ATTACK);
+
                 TargetStat.TakeDamage(agent.DMG);
             }
             else
@@ -48,7 +49,7 @@ namespace Finite_State_Machine.Enemy_States
             }
         }
 
-        protected override void Completed(MoveableObject agent)
+        protected override void Completed(Agent agent)
         {
             agent.ConfigState();
         }

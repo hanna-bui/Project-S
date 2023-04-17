@@ -34,7 +34,7 @@ namespace Finite_State_Machine
             set => currentStatus = value;
         } // level
         
-        public void Execute(MoveableObject agent, float addTime)
+        public void Execute(Agent agent, float addTime)
         {
             time += addTime;
             timer += addTime;
@@ -51,7 +51,7 @@ namespace Finite_State_Machine
             
         }
 
-        public void Execute(MoveableObject agent) 
+        public void Execute(Agent agent) 
         {
             switch (CurrentStatus)
             {
@@ -71,11 +71,11 @@ namespace Finite_State_Machine
             } 
         }
 
-        protected virtual void Initialize(MoveableObject agent) { }
+        protected virtual void Initialize(Agent agent) { }
 
-        protected virtual void Executing(MoveableObject agent) { }
+        protected virtual void Executing(Agent agent) { }
 
-        protected virtual void Completed(MoveableObject agent) { }
+        protected virtual void Completed(Agent agent) { }
 
         public void ChangeStatus(StateStatus status)
         {

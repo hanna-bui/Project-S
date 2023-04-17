@@ -3,8 +3,6 @@ using System.Collections.Generic;
 using Characters;
 using Characters.Enemies;
 using UnityEngine;
-using Characters.Enemy;
-using Action = Characters.Enemies.Action;
 using MO = Characters.Enemies.Enemy.MovementOptions;
 // ReSharper disable Unity.PerformanceCriticalCodeNullComparison
 
@@ -13,8 +11,6 @@ namespace Finite_State_Machine.Enemy_States
     public class PatternWalk : State
     {
         private List<Vector3> roadPath;
-        
-        private const int Scale = 20;
 
         private int index;
         
@@ -23,55 +19,59 @@ namespace Finite_State_Machine.Enemy_States
             interval = 0f;
         }
         
-        protected override void Initialize(MoveableObject agent)
+        protected override void Initialize(Agent agent)
         {
             var enemy = agent as Enemy;
-            switch (enemy.MovementStyle)
+            if (enemy != null)
             {
-                case MO.Plus:
-                    SetupPlusOrSide(enemy);
-                    break;
-                case MO.Side:
-                    SetupPlusOrSide(enemy);
-                    break;
-                case MO.Random:
-                    roadPath = null;
-                    break;
-                case MO.None:
-                    break;
-                default:
-                    throw new ArgumentOutOfRangeException();
+                switch (enemy.MovementStyle)
+                {
+                    case MO.Plus:
+                        SetupPlusOrSide(enemy);
+                        break;
+                    case MO.Side:
+                        SetupPlusOrSide(enemy);
+                        break;
+                    case MO.Random:
+                        roadPath = null;
+                        break;
+                    case MO.None:
+                        break;
+                    default:
+                        throw new ArgumentOutOfRangeException();
+                }
+                if (agent is Boss){
+                    agent.SetAnimations(BossAction.JUMP);
+                }
             }
 
-            enemy.SetAnimations(Action.Jump);
             CurrentStatus = StateStatus.Executing;
         }
 
-        protected override void Executing(MoveableObject agent)
+        protected override void Executing(Agent agent)
         {
-            var enemy = agent as Enemy;
-            Move(enemy);
+            Move(agent);
         }
 
-        protected override void Completed(MoveableObject agent)
+        protected override void Completed(Agent agent)
         {
-            var enemy = agent as Enemy;
-            enemy.SetAnimations(Action.Idle);
-            enemy.ChangeState(new EnemyIdle());
+            agent.ChangeState(new EnemyIdle());
         }
 
-        private void Move(Enemy agent)
+        private void Move(Agent agent)
         {
-            switch (agent.MovementStyle)
+            var enemy = agent as Enemy;
+            if (enemy == null) return;
+            switch (enemy.MovementStyle)
             {
                 case MO.Plus:
-                    PlusOrSideMovement(agent);
+                    PlusOrSideMovement(enemy);
                     break;
                 case MO.Side:
-                    PlusOrSideMovement(agent);
+                    PlusOrSideMovement(enemy);
                     break;
                 case MO.Random:
-                    RandomMovement(agent);
+                    RandomMovement(enemy);
                     break;
                 case MO.None:
                     break;
@@ -143,6 +143,13 @@ namespace Finite_State_Machine.Enemy_States
             var pos = agent.Position();
         
             var newPosition = roadPath[index];
+            agent.TargetLocation = newPosition;
+            
+            if (agent is not Boss)
+            {
+                var facing = agent.GetFacing() + 1;
+                agent.SetExactAnimation(facing);
+            }
         
             if (pos != roadPath[index])
             {
@@ -174,6 +181,13 @@ namespace Finite_State_Machine.Enemy_States
             if (roadPath != null)
             {
                 var targetLocation = roadPath[0];
+                agent.TargetLocation = targetLocation;
+            
+                if (agent is not Boss)
+                {
+                    var facing = agent.GetFacing() + 1;
+                    agent.SetExactAnimation(facing);
+                }
 
                 if (agent.IsAtPosition(targetLocation)) roadPath.RemoveAt(0);
 

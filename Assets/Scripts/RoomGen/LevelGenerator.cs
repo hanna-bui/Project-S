@@ -1,8 +1,7 @@
 using System;
 using System.Collections;
+using System.Diagnostics.CodeAnalysis;
 using System.IO;
-using Characters.Enemies;
-using Characters.Enemy;
 using Movement.Pathfinding;
 using UnityEngine;
 using UnityEngine.Tilemaps;
@@ -11,6 +10,7 @@ using Random = UnityEngine.Random;
 // ReSharper disable ParameterHidesMember
 // ReSharper disable InvertIf
 // ReSharper disable CommentTypo
+// ReSharper disable UnusedMember.Local
 
 namespace RoomGen
 {
@@ -20,7 +20,7 @@ namespace RoomGen
     [DisallowMultipleComponent]
     public class LevelGenerator : MonoBehaviour
     {
-        public enum RoomType : byte
+        private enum RoomType : byte
         {
             Empty,
             Normal,
@@ -30,7 +30,8 @@ namespace RoomGen
             End
         }
 
-        public enum DoorDir : byte
+        [SuppressMessage("ReSharper", "InconsistentNaming")]
+        private enum DoorDir : byte
         {
             E,
             T,
@@ -155,20 +156,20 @@ namespace RoomGen
         /// </summary>
         private void Spawn()
         {
-            Vector3 point = Vector3.zero;
+            var point = Vector3.zero;
 
-            for (int j = 0; j <= 9; j++)
+            for (var j = 0; j <= 9; j++)
             {
-                for (int i = 9; i >= 0; i--)
+                for (var i = 9; i >= 0; i--)
                 {
                     // d is the door direction enum for the current cell cast to an int
-                    int d = (int)roomDoors[i, j];
-                    GameObject room = templates.Rooms[d];
+                    var d = (int)roomDoors[i, j];
+                    var room = templates.Rooms[d];
                     room = Instantiate(room, point, room.transform.rotation);
                     room.transform.parent = level.transform;
 
-                    Tilemap walkable = room.transform.GetChild(1).GetComponent<Tilemap>();
-                    Tilemap floor = room.transform.GetChild(3).GetComponent<Tilemap>();
+                    var walkable = room.transform.GetChild(1).GetComponent<Tilemap>();
+                    var floor = room.transform.GetChild(3).GetComponent<Tilemap>();
 
                     grid.UpdateTilemap(walkable, floor, point);
 
@@ -181,10 +182,7 @@ namespace RoomGen
                         // todo: Implement random enemy drops on kill (consumables, coins, etc).
                         case RoomType.Normal:
                         {
-                            var enemy = templates.Enemies[Random.Range(0, templates.Enemies.Length)];
-                            var e = enemy.GetComponent<Enemy>();
-                            e.IsBoss = false;
-                            // e.scale = 0.75f;
+                            var enemy = templates.Monsters[Random.Range(0, templates.Monsters.Length)];
                             Instantiate(enemy, point + center, enemy.transform.rotation);
                             break;
                         }
@@ -200,13 +198,8 @@ namespace RoomGen
                         case RoomType.Item:
                         {
                             var item = templates.Consumables[Random.Range(0, templates.Consumables.Length)];
-                            item = Instantiate(item, point + center, item.transform.rotation);
-                            item.transform.parent = GameObject.Find("Items").transform;
-                            item.transform.localScale = Vector3.one;
-                            var enemy = templates.Enemies[Random.Range(0, templates.Enemies.Length)];
-                            var e = enemy.GetComponent<Enemy>();
-                            e.IsBoss = false;
-                            // e.scale = 0.5f;
+                            Instantiate(item, point + center, item.transform.rotation);
+                            var enemy = templates.Monsters[Random.Range(0, templates.Monsters.Length)];
                             var rotation = enemy.transform.rotation;
                             Instantiate(enemy, point + center + offsetx * 3, rotation);
                             Instantiate(enemy, point + center - offsetx * 3, rotation);
@@ -222,10 +215,7 @@ namespace RoomGen
                         */
                         case RoomType.Boss:
                         {
-                            GameObject enemy = templates.Enemies[Random.Range(0, templates.Enemies.Length)];
-                            Enemy e = enemy.GetComponent<Enemy>();
-                            e.IsBoss = true;
-                            // e.scale = 1f;
+                            var enemy = templates.Bosses[Random.Range(0, templates.Bosses.Length)];
                             Instantiate(enemy, point + center, enemy.transform.rotation);
 
                             // Easy Boss means we just spawn the one boss, so we can break here.
@@ -258,9 +248,9 @@ namespace RoomGen
                             Instantiate(enemy, point + center + (offsetx - offsety) * -3, enemy.transform.rotation);
                             */
 
-                            e.IsBoss = false;
+                            // e.IsBoss = false;
                             // e.scale = 0.5f;
-                            Quaternion eRotation = enemy.transform.rotation;
+                            var eRotation = enemy.transform.rotation;
                             Instantiate(enemy, point + center + offsetxy * 45, eRotation);
                             Instantiate(enemy, point + center - offsetxy * 45, eRotation);
                             Instantiate(enemy, point + center + (offsetx - offsety) * 3, eRotation);
@@ -273,10 +263,8 @@ namespace RoomGen
                          */
                         case RoomType.End:
                         {
-                            GameObject item = templates.Items[final ? 0 : 1];
-                            item = Instantiate(item, item.transform.position + point + center, item.transform.rotation);
-                            item.transform.parent = GameObject.Find("Items").transform;
-                            item.transform.localScale = Vector3.one;
+                            var item = templates.Items[final ? 0 : 1];
+                            Instantiate(item, item.transform.position + point + center, item.transform.rotation);
                             break;
                         }
                         case RoomType.Empty:
@@ -387,7 +375,7 @@ namespace RoomGen
         /// </summary>
         private void CreateRooms2(OrderedPair start)
         {
-            OrderedPair[] points = new OrderedPair[4];
+            var points = new OrderedPair[4];
             points[0] = ChooseNewRoom(start);
             points[1] = ChooseNewRoom(start);
             points[2] = ChooseNewRoom(start);

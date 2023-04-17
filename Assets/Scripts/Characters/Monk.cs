@@ -18,7 +18,7 @@ namespace Characters
 
         protected override void LoadPlayer()
         {
-            RestoreStats(isRespawning ? CLS() : new List<int> { hp, mp, spe, ran, dmg, def, mdmg, mdef, lvl });
+            RestoreStats(isRespawning ? CurrentStats() : new List<int> { hp, mp, spe, ran, dmg, def, mdmg, mdef, lvl });
             base.LoadPlayer();
         }
     }

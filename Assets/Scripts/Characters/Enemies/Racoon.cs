@@ -1,18 +1,18 @@
+using UnityEngine;
 
-namespace Characters.Enemy
+namespace Characters.Enemies
 {
-    public class Racoon: Enemies.Enemy
+    public class Racoon: Monster
     {
-        protected override void Start()
-        {
-            base.Start();
-
-        }
-
-        protected override void Update()
-        {
-            base.Update();
-        }
-
+        // protected override void Start()
+        // {
+        //     base.Start();
+        //     
+        // }
+        //
+        // protected override void Update()
+        // {
+        //     base.Update();
+        // }
     }
 }

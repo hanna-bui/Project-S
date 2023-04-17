@@ -17,21 +17,20 @@ namespace Finite_State_Machine.States.Abilities
             interval = 0f;
         }
         
-        protected override void Initialize(MoveableObject agent)
+        protected override void Initialize(Agent agent)
         {
             if (TargetStat is null)
             {
                 TargetStat = agent.Target.GetComponent<Enemy>();
                 agent.TargetLocation = TargetStat.Position();
-                agent.CalculateDirection();
                 interval = DefaultInterval;
             }
             StateProgress();
         }
 
-        protected override void Executing(MoveableObject agent)
+        protected override void Executing(Agent agent)
         {
-            if (TargetStat is not null && TargetStat.isAttackable())
+            if (TargetStat is not null && TargetStat.CanAttack())
             {
                 agent.SetAnimations(Motion.Attack);
                 TargetStat.TakeDamage(agent.DMG);
@@ -39,7 +38,7 @@ namespace Finite_State_Machine.States.Abilities
             }
         }
 
-        protected override void Completed(MoveableObject agent)
+        protected override void Completed(Agent agent)
         {
             agent.ConfigState();
         }

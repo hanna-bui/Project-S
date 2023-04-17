@@ -22,18 +22,18 @@ namespace Characters
         /// <summary>
         /// Kunai Throw
         /// </summary>
-        protected override State a1()
+        protected override State A1()
         {
-            if (Target is null && !isBasicAttack()) return null;
+            if (Target is null && !IsBasicAttack()) return null;
             var newState = new DualWield();
             AddState(newState);
             RestoreMana(-1);
             return newState;
         }
         
-        public override bool isBasicAttack()
+        public override bool IsBasicAttack()
         {
-            return base.isBasicAttack();
+            return base.IsBasicAttack();
         }
 
         public override bool isSpecialAttack()
@@ -43,7 +43,7 @@ namespace Characters
 
         protected override void LoadPlayer()
         {
-            RestoreStats(isRespawning ? CLS() : new List<int> { hp, mp, spe, ran, dmg, def, mdmg, mdef, lvl });
+            RestoreStats(isRespawning ? CurrentStats() : new List<int> { hp, mp, spe, ran, dmg, def, mdmg, mdef, lvl });
             base.LoadPlayer();
         }
     }
