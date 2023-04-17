@@ -159,7 +159,7 @@ namespace Characters
             // fx.transform.SetParent(transform);
             fx.transform.position = Position();
 
-            fx.GetComponent<AnimateFX>().Play();
+            // fx.GetComponent<AnimateFX>().Play();
         }
 
         public int GetFacing()

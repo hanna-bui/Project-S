@@ -128,7 +128,7 @@ MonoBehaviour:
   animations: []
   animator: {fileID: 0}
   fx1: {fileID: 5467700491381763393, guid: 9d797a87c88379d41bb23f0fa69a98ca, type: 3}
-  fx2: {fileID: 0}
+  fx2: {fileID: 1933088927505142306, guid: 5e21491d55f60f64296797da094dd768, type: 3}
   hasSpecialAttack: 0
   select: {fileID: 0}
 --- !u!1 &8685132369182946302

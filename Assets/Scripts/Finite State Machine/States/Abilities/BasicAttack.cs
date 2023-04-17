@@ -31,6 +31,7 @@ namespace Finite_State_Machine.States.Abilities
         {
             if (TargetStat is not null && TargetStat.CanAttack())
             {
+                if (agent is Samurai) TargetStat.EquipFX(agent.fx2);
                 agent.SetAnimations(Motion.Attack);
                 TargetStat.TakeDamage(agent.DMG);
                 agent.RestoreMana(-1);
