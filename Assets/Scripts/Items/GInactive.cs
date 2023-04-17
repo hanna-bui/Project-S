@@ -9,8 +9,9 @@ namespace Items
     {
         private GameManager manager;
         // Start is called before the first frame update
-        private void Start()
+        protected override void Start()
         {
+            base.Start();
             manager = GameManager.instance;
         }
 

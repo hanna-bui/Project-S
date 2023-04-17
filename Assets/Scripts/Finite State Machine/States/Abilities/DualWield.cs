@@ -8,7 +8,7 @@ namespace Finite_State_Machine.States.Abilities
     {
         private Enemy TargetStat { get; set; }
 
-        private const float DefaultInterval = 0f;
+        private const float DefaultInterval = 0.5f;
 
         private static float _multiplier = 0.25f;
 

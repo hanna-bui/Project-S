@@ -8,9 +8,9 @@ namespace Items
     public class AirScroll : Items
     {
         // Start is called before the first frame update
-        void Start()
+        protected override void Start()
         {
-
+            base.Start();
         }
         public override void UpdateCharacterStat(Character player)
         {

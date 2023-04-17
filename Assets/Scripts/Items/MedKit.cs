@@ -4,8 +4,9 @@ namespace Items
 {
     public class MedKit : Items
     {
-        private void Start()
+        protected override void Start()
         {
+            base.Start();
             hpRestore = 1000;
             manaRestore = 1000;
         }

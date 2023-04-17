@@ -10,12 +10,12 @@ GameObject:
   m_Component:
   - component: {fileID: 797046855889033710}
   m_Layer: 0
-  m_Name: Items
+  m_Name: 1
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &797046855889033710
 Transform:
   m_ObjectHideFlags: 0
@@ -130,12 +130,12 @@ GameObject:
   m_Component:
   - component: {fileID: 6147973492577929403}
   m_Layer: 0
-  m_Name: Enemies
+  m_Name: 1
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &6147973492577929403
 Transform:
   m_ObjectHideFlags: 0
@@ -281,12 +281,12 @@ GameObject:
   m_Component:
   - component: {fileID: 2744553384647752298}
   m_Layer: 0
-  m_Name: Characters
+  m_Name: 1
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &2744553384647752298
 Transform:
   m_ObjectHideFlags: 0

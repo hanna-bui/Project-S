@@ -5,9 +5,9 @@ namespace Items
     public class StormScroll : Items
     {
         // Start is called before the first frame update
-        private void Start()
+        protected override void Start()
         {
-       
+            base.Start();
         }
         public override void UpdateCharacterStat(Character player)
         {

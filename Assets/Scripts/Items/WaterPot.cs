@@ -4,7 +4,9 @@ namespace Items
 {
     public class WaterPot : Items
     {
-        private void Start(){
+        protected override void Start()
+        {
+            base.Start();
             manaIncrease =  5;
         }
 

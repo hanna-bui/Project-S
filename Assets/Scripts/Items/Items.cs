@@ -16,7 +16,7 @@ namespace Items
         protected int magDefenceIncrease;
         protected int speedIncrease;
 
-        private void Start()
+        protected virtual void Start()
         {
             transform.SetParent(GameObject.Find("Items").transform);
             transform.localScale = Vector3.one;

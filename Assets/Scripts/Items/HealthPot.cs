@@ -6,8 +6,9 @@ namespace Items
     public class HealthPot : Items
     {
         // Start is called before the first frame update
-       private void Start()
+       protected override void Start()
        {
+           base.Start();
            hpIncrease = 5;
        }
 
