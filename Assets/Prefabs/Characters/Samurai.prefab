@@ -225,9 +225,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   isRespawning: 0
+  grid: {fileID: 0}
+  projectile: {fileID: 0}
+  weapon2: {fileID: 0}
   animations: []
   animator: {fileID: 0}
-  grid: {fileID: 0}
+  hasSpecialAttack: 0
 --- !u!1 &4495993851672677612
 GameObject:
   m_ObjectHideFlags: 0
@@ -240,7 +243,7 @@ GameObject:
   - component: {fileID: 3242109120955213261}
   m_Layer: 2
   m_Name: RangeCollider
-  m_TagString: Untagged
+  m_TagString: PlayerRange
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0

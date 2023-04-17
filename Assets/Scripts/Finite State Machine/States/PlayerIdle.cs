@@ -14,7 +14,8 @@ namespace Finite_State_Machine.States
         protected override void Initialize(MoveableObject agent) 
         {
             agent.StopAnimation();
-            ChangeStatus(StateStatus.Completed);
+            StateProgress();
+            StateProgress();
         }
 
         protected override void Executing(MoveableObject agent)

@@ -21,6 +21,7 @@ namespace Finite_State_Machine
         protected bool isABuff;
         protected float timeLimit;
         private float time = 0f;
+        private float timer = 0f;
 
         public State()
         {
@@ -36,26 +37,18 @@ namespace Finite_State_Machine
         public void Execute(MoveableObject agent, float addTime)
         {
             time += addTime;
+            timer += addTime;
             if (time > interval)
             {
-                if (isABuff)
-                    TimedExecute(agent, time);
-                else
-                    Execute(agent);
+                if (isABuff && timer > timeLimit)
+                {
+                    Debug.Log("Kunai Completed");
+                    ChangeStatus(StateStatus.Completed);
+                }
+                Execute(agent);
                 time = 0;
             }
-        }
-
-        private void TimedExecute(MoveableObject agent, float timer)
-        {
-            if (timer > timeLimit)
-            {
-                ChangeStatus(StateStatus.Completed);
-            }
-            else
-            {
-                Execute(agent);
-            }
+            
         }
 
         public void Execute(MoveableObject agent) 
@@ -87,6 +80,16 @@ namespace Finite_State_Machine
         public void ChangeStatus(StateStatus status)
         {
             CurrentStatus = status;
+        }
+        
+        public void StateProgress()
+        {
+            ChangeStatus(CurrentStatus+1);
+        }
+
+        public void ToComplete()
+        {
+            ChangeStatus(StateStatus.Completed);
         }
     }
 }

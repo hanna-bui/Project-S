@@ -15,7 +15,7 @@ namespace Characters.Colliders
         private void OnTriggerExit2D(Collider2D col)
         {
             if (col.gameObject.CompareTag("Player"))
-                agent.CurrentState.ChangeStatus(StateStatus.Completed);
+                agent.CurrentState.ToComplete();
         }
     }
 }

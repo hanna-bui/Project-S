@@ -48,7 +48,7 @@ namespace Characters.Colliders
         {
             if (col.gameObject.CompareTag("Player"))
             {
-                agent.CurrentState.ChangeStatus(StateStatus.Completed);
+                agent.CurrentState.ToComplete();
             }
         }
     }

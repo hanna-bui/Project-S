@@ -26,7 +26,7 @@ namespace Finite_State_Machine.States.Abilities
                 agent.CalculateDirection();
                 interval = DefaultInterval;
             }
-            ChangeStatus(StateStatus.Executing);
+            StateProgress();
         }
 
         protected override void Executing(MoveableObject agent)
@@ -35,7 +35,7 @@ namespace Finite_State_Machine.States.Abilities
             {
                 agent.SetAnimations(Motion.Attack);
                 TargetStat.TakeDamage(agent.DMG);
-                ChangeStatus(StateStatus.Completed);
+                StateProgress();
             }
         }
 

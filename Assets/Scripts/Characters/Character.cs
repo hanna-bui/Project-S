@@ -1,3 +1,4 @@
+using System;
 using System.Diagnostics.CodeAnalysis;
 using Finite_State_Machine;
 using Finite_State_Machine.States;
@@ -41,12 +42,12 @@ namespace Characters
         private TextMeshProUGUI mpValue;
 
         // Assets
-        protected GameObject weapon { get; set; } // Main Weapon Sprite
-        protected GameObject wa1 { get; set; } // A1 Weapon Sprite
+        
         protected GameObject wa2 { get; set; } // A2 Weapon Sprite
         protected GameObject wa3 { get; set; } // A3 Weapon Sprite
         
         private SelectUI select;
+        private static readonly int Facing = Animator.StringToHash("facing");
 
         private void OnTriggerEnter2D(Collider2D col)
         {
@@ -84,7 +85,7 @@ namespace Characters
         {
             parentName = "Characters";
             
-            States.Push(new PlayerIdle());
+            AddState(new PlayerIdle());
 
             mpValue = transform.GetChild(1).GetChild(1).GetComponent<TextMeshProUGUI>();
 
@@ -102,7 +103,10 @@ namespace Characters
         {
             CurrentState = GetTop();
             CurrentState.Execute(this, Time.deltaTime);
-
+            if (hasSpecialAttack)
+            {
+                currentSA.Execute(this, Time.deltaTime);
+            }
             UpdateUI();
             inputToState();
             
@@ -127,6 +131,7 @@ namespace Characters
                 <= -45 and >= -135 => Direction.Down,
                 _ => Direction.Left
             };
+            animator.SetInteger(Facing, facing);
         }
         
         public override void StopAnimation()
@@ -141,6 +146,25 @@ namespace Characters
             var NTime = animStateInfo.normalizedTime;
             if (NTime > 0)
                 animator.Play(animations[index + (4 * motion)].name);
+            if (motion == Motion.Attack)
+            {
+                if (index == Direction.Down)
+                {
+                    ThrowProjectile(-0.128f,-0.495f);
+                }
+                if (index == Direction.Left)
+                {
+                    ThrowProjectile(-0.498f,-0.267f);
+                }
+                if (index == Direction.Right)
+                {
+                    ThrowProjectile(0.5f,-0.258f);
+                }
+                if (index == Direction.Up)
+                {
+                    ThrowProjectile(-0.184f,0.503f);
+                }
+            }
         }
         
         #endregion
@@ -176,20 +200,15 @@ namespace Characters
         {
             if (States.Count > 1)
             {
+                var temp = States.Pop();
+                if (temp is BasicAttack && !hasSpecialAttack) return true;
                 States.Pop();
-                if (!hasSpecialAttack()) return true;
-                States.Pop();
-                States.Push(new PlayerIdle());
+                AddState(new PlayerIdle());
                 return false;
             }
             States.Pop();
-            States.Push(new PlayerIdle());
+            AddState(new PlayerIdle());
             return false;
-        }
-
-        private bool hasSpecialAttack()
-        {
-            return States.Count > 1 && isBasicAttack();
         }
 
         public override bool isBasicAttack()
@@ -215,11 +234,12 @@ namespace Characters
                 if (t && t.transform.CompareTag("Enemy"))
                 {
                     select = t.transform.GetComponent<Enemies.Enemy>().select;
+                    Target = t.transform.gameObject;
                     if (isBasicAttack())
                     {
                         if (CurrentState.CurrentStatus is StateStatus.Initialize)
                         {
-                            CurrentState.ChangeStatus(StateStatus.Executing);
+                            StateProgress();
                         } 
                     }
                     switch (select.isOn)
@@ -243,11 +263,13 @@ namespace Characters
             }
             
             else if (Input.GetKeyDown(KeyCode.F) && CurrentState is ItemPickup)
-                CurrentState.ChangeStatus(StateStatus.Executing);
+                StateProgress();
             
             else if (Input.GetKeyDown(KeyCode.Alpha1))
             {
-                a1();
+                if (hasSpecialAttack) return;
+                currentSA = a1();
+                hasSpecialAttack = true;
             }
             
             else if (Input.GetKeyDown(KeyCode.Escape))
@@ -255,7 +277,7 @@ namespace Characters
                 if(select!=null)
                 {
                     select.Toggle();
-                    if (isBasicAttack()) CurrentState.ChangeStatus(StateStatus.Completed);
+                    if (isBasicAttack()) ToComplete();
                 }
             }
         }

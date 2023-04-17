@@ -1,6 +1,8 @@
 using System.Collections.Generic;
 using Finite_State_Machine;
+using Finite_State_Machine.States;
 using Finite_State_Machine.States.Abilities;
+using UnityEngine;
 
 // ReSharper disable InconsistentNaming
 // ReSharper disable IdentifierTypo
@@ -22,9 +24,11 @@ namespace Characters
         /// <summary>
         /// Kunai Throw, 
         /// </summary>
-        protected override void a1()
+        protected override State a1()
         {
-            ChangeState(new KunaiThrow());
+            var newState = new KunaiThrow();
+            ChangeState(newState);
+            return newState;
         }
 
         /// <summary>
@@ -33,6 +37,11 @@ namespace Characters
         protected override State a2()
         {
             return null;
+        }
+        
+        public override bool isBasicAttack()
+        {
+            return base.isBasicAttack() || CurrentState is ShurikenThrow;
         }
 
         public override bool isSpecialAttack()

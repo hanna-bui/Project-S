@@ -2,9 +2,12 @@
 using UnityEngine;
 using System;
 using Characters.Colliders;
+using Finite_State_Machine;
 using Finite_State_Machine.States;
+using Finite_State_Machine.States.Abilities;
 using Movement.Pathfinding;
 using TMPro;
+using UnityEngine.Serialization;
 using State = Finite_State_Machine.State;
 // ReSharper disable Unity.InefficientPropertyAccess
 
@@ -38,6 +41,10 @@ namespace Characters
         protected string parentName;
 
         private Vector3 origin;
+        
+        public GameObject projectile;
+        
+        public GameObject projectile2;
         
         // ReSharper disable once ConvertToAutoProperty
         public Vector3 Origin
@@ -90,8 +97,9 @@ namespace Characters
         /// <summary>
         /// Ability 1
         /// </summary>
-        protected virtual void a1()
+        protected virtual State a1()
         {
+            return null;
         }
 
         /// <summary>
@@ -273,10 +281,24 @@ namespace Characters
         #endregion
 
         #region State
+        
+        public bool hasSpecialAttack = false;
+
+        public State currentSA = null;
 
         protected Stack<State> States;
 
         public State CurrentState { get; set; }
+
+        public void StateProgress()
+        {
+            CurrentState.StateProgress();
+        }
+
+        public void ToComplete()
+        {
+            CurrentState.ToComplete();
+        }
 
         public State GetTop()
         {
@@ -290,12 +312,39 @@ namespace Characters
         
         public virtual bool isBasicAttack()
         {
-            return false;
+            return CurrentState is BasicAttack;
         }
         
         public bool isWalkToLocation()
         {
             return CurrentState is WalkToLocation;
+        }
+        
+        public void RemoveSpecial1(State oldSpecial1)
+        {
+            RemoveState(oldSpecial1);
+            hasSpecialAttack = false;
+        }
+        
+        public void RemoveState(State oldState)
+        {
+            if (!States.Contains(oldState)) return;
+            
+            if (oldState == States.Peek()) ConfigState();
+            else
+            {
+                var tempStates = new Stack<State>();
+                while (States.Count >= 1)
+                {
+                    var temp = States.Pop();
+                    if (temp == oldState) break;
+                    else tempStates.Push(temp);
+                }
+                while (tempStates.Count >= 1)
+                {
+                    AddState(tempStates.Pop());
+                }
+            }
         }
         
         public void AddState(State newState)
@@ -307,7 +356,7 @@ namespace Characters
         {
             States.Pop();
             States.Push(newState);
-            Debug.Log(CurrentState.ToString());
+            Debug.Log(newState.ToString());
         }
 
         #endregion
@@ -333,6 +382,7 @@ namespace Characters
         
         public int GetFacing()
         {
+            CalculateDirection();
             return facing;
         }
         
@@ -377,12 +427,26 @@ namespace Characters
             facing = i;
         }
 
-        public virtual void SetExactAnimation(int motion)
+        public void SetExactAnimation(int motion)
         {
             var animStateInfo = animator.GetCurrentAnimatorStateInfo(0);
             var NTime = animStateInfo.normalizedTime;
             if (NTime > 0)
                 animator.Play(animations[motion].name);
+        }
+
+
+        public void ThrowProjectile(float x, float y)
+        {
+            GameObject s;
+            if (hasSpecialAttack)
+            {
+                currentSA.StateProgress();
+                s = Instantiate(projectile2);
+            }
+            else
+                s = Instantiate(projectile);
+            s.GetComponent<Projectile>().Spawn(gameObject, GetFacing(), DMG, Target, new Vector3(x, y, 0));
         }
     }
 }

@@ -17,7 +17,7 @@ namespace Finite_State_Machine.Enemy_States
         {
             agent.SetAnimations(Action.Idle);
             interval = DefaultInterval;
-            ChangeStatus(StateStatus.Executing);
+            StateProgress();
         }
 
         protected override void Executing(MoveableObject agent)
@@ -28,7 +28,7 @@ namespace Finite_State_Machine.Enemy_States
             }
             else
             {
-                ChangeStatus(StateStatus.Completed);
+                StateProgress();
             }
         }
 

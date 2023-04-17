@@ -30,7 +30,7 @@ namespace Finite_State_Machine.Enemy_States
                 agent.CalculateDirection();
 
                 interval = DefaultInterval;
-                ChangeStatus(StateStatus.Executing);
+                StateProgress();
             }
         }
 
@@ -43,7 +43,7 @@ namespace Finite_State_Machine.Enemy_States
             }
             else
             {
-                ChangeStatus(StateStatus.Completed);
+                StateProgress();
                 interval = 0;
             }
         }

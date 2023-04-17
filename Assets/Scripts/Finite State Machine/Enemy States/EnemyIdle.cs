@@ -14,7 +14,7 @@ namespace Finite_State_Machine.Enemy_States
         protected override void Initialize(MoveableObject agent) 
         {
             agent.SetAnimations(Action.Idle);
-            ChangeStatus(StateStatus.Completed);
+            ToComplete();
         }
 
         protected override void Executing(MoveableObject agent)

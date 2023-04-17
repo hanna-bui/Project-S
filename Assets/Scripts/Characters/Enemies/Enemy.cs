@@ -42,7 +42,7 @@ namespace Characters.Enemies{
         {
             parentName = "Enemies";
             
-            States.Push(new PatternWalk());
+            AddState(new PatternWalk());
             
             var stats = new List<int> { Random.Range(1, 11), Random.Range(1, 11), Random.Range(5, 10), 
                 Random.Range(3, 8), Random.Range(1, 3), Random.Range(1, 11), Random.Range(1, 11), Random.Range(6, 11), lvl };
@@ -68,9 +68,9 @@ namespace Characters.Enemies{
         public override bool ConfigState()
         {
             if (NeedsHealing())
-                ChangeState(new EnemyHeal());
+                AddState(new EnemyHeal());
             else
-                ChangeState(new PatternWalk());
+                AddState(new PatternWalk());
             return false;
         }
 

@@ -12,10 +12,29 @@ namespace Characters.Colliders
             if (player == null || !col.gameObject.CompareTag("Enemy") || !player.isSpecialAttack() && player.isBasicAttack()) return;
             
             if (player.isWalkToLocation())
+            {
+                player.StateProgress();
                 player.StopAnimation();
-
-            player.Target = col.transform.gameObject;
-            player.ChangeState(new BasicAttack());
+            }
+            
+            player.Target = col.gameObject;
+            
+            if (player.hasSpecialAttack)
+            {
+                if (player is Ninja)
+                    player.AddState(new ShurikenThrow());
+                else {
+                    player.AddState(new BasicAttack());
+                }
+            }
+            else
+            {
+                if (player is Ninja)
+                    player.ChangeState(new ShurikenThrow());
+                else {
+                    player.ChangeState(new BasicAttack());
+                }
+            }
         }
         private void OnTriggerStay2D(Collider2D col)
         {
@@ -24,10 +43,30 @@ namespace Characters.Colliders
             
             if (!col.gameObject.CompareTag("Enemy") || player.isBasicAttack() || player.isWalkToLocation()) return;
             
-            if (player.CurrentState is WalkToLocation)
+            if (player.isWalkToLocation())
+            {
+                player.StateProgress();
                 player.StopAnimation();
-            player.Target = col.transform.gameObject;
-            player.ChangeState(new BasicAttack());
+            }
+
+            player.Target = col.gameObject;
+            
+            if (player.hasSpecialAttack)
+            {
+                if (player is Ninja)
+                    player.AddState(new ShurikenThrow());
+                else {
+                    player.AddState(new BasicAttack());
+                }
+            }
+            else
+            {
+                if (player is Ninja)
+                    player.ChangeState(new ShurikenThrow());
+                else {
+                    player.ChangeState(new BasicAttack());
+                }
+            }
         }
         
         
