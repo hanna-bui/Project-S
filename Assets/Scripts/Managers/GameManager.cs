@@ -94,6 +94,7 @@ namespace Managers
 
         public void Next()
         {
+            currLvl++;
             keepPlayer = true;
             player.GetComponent<Character>().LevelUp(10,10,10,10,10,10,10);
             playerStat = player.GetComponent<Character>().CurrentStats();
