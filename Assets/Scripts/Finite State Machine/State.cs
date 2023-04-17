@@ -18,6 +18,8 @@ namespace Finite_State_Machine
     {
         private StateStatus currentStatus = StateStatus.Initialize;
         protected float interval;
+        protected bool isABuff;
+        protected float timeLimit;
         private float time = 0f;
 
         public State()
@@ -36,11 +38,26 @@ namespace Finite_State_Machine
             time += addTime;
             if (time > interval)
             {
-                Execute(agent);
+                if (isABuff)
+                    TimedExecute(agent, time);
+                else
+                    Execute(agent);
                 time = 0;
             }
         }
-        
+
+        private void TimedExecute(MoveableObject agent, float timer)
+        {
+            if (timer > timeLimit)
+            {
+                ChangeStatus(StateStatus.Completed);
+            }
+            else
+            {
+                Execute(agent);
+            }
+        }
+
         public void Execute(MoveableObject agent) 
         {
             switch (CurrentStatus)
@@ -66,8 +83,6 @@ namespace Finite_State_Machine
         protected virtual void Executing(MoveableObject agent) { }
 
         protected virtual void Completed(MoveableObject agent) { }
-        
-        
 
         public void ChangeStatus(StateStatus status)
         {

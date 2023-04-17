@@ -1,43 +1,31 @@
 ﻿using Characters;
-using Characters.Enemy;
 using Motion = Characters.Motion;
 
 namespace Finite_State_Machine.States.Abilities
 {
-    public class KunaiThrow : Attack
+    public class KunaiThrow : SpecialAttack
     {
         public KunaiThrow()
         {
             interval = 0f;
+            timeLimit = 10f;
         }
         
         protected override void Initialize(MoveableObject agent)
         {
-            if (TargetStat is null)
-            {
-                TargetStat = agent.Target.GetComponent<Enemy>();
-                agent.TargetLocation = TargetStat.Position();
-                agent.CalculateDirection();
-            }
             agent.ChangeRange(1);
+            agent.SetFacing(1);
+            agent.SetExactAnimation(Motion.Special1);
         }
 
         protected override void Executing(MoveableObject agent)
         {
-            if (TargetStat is not null && TargetStat.isAttackable())
-            {
-                agent.SetAnimations(Motion.Attack);
-                TargetStat.TakeDamage(agent.DMG);
-            }
-            else
-            {
-                ChangeStatus(StateStatus.Completed);
-            }
         }
 
         protected override void Completed(MoveableObject agent)
         {
-            agent.ChangeState(new PlayerIdle());
+            agent.ChangeDamage(-1);
+            agent.ConfigState();
         }
     }
 }

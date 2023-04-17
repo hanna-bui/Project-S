@@ -145,7 +145,7 @@ GameObject:
   m_Component:
   - component: {fileID: 5905379876968604231}
   - component: {fileID: 3313728897088399039}
-  m_Layer: 0
+  m_Layer: 2
   m_Name: Katana
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -341,9 +341,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   isRespawning: 0
+  grid: {fileID: 0}
   animations: []
   animator: {fileID: 0}
-  grid: {fileID: 0}
 --- !u!1 &5021090402238734490
 GameObject:
   m_ObjectHideFlags: 0

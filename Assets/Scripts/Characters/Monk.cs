@@ -15,8 +15,8 @@ namespace Characters
         private const int mdmg = 10;
         private const int mdef = 8;
         private const int lvl = 1;
-        
-        public override void LoadPlayer()
+
+        protected override void LoadPlayer()
         {
             RestoreStats(isRespawning ? CLS() : new List<int> { hp, mp, spe, ran, dmg, def, mdmg, mdef, lvl });
             base.LoadPlayer();

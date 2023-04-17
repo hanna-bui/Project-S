@@ -11,8 +11,6 @@ public class PlayerSpawner : MonoBehaviour
     { 
         var spawnpt = GameObject.Find("SpawnPoint").transform;
 
-        var parent = GameObject.Find("Characters").transform;
-        if (parent!=null) player.transform.SetParent(parent);
         if (spawnpt != null) player.transform.position = spawnpt.position;
 
         var cam = Instantiate(Camera.main);

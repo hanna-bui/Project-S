@@ -1,6 +1,6 @@
 ﻿using System;
 using Characters;
-using Action = Characters.Enemy.Action;
+using Action = Characters.Enemies.Action;
 
 namespace Finite_State_Machine.Enemy_States
 {

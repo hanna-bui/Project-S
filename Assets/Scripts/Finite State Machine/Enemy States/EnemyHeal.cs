@@ -3,7 +3,7 @@ using Characters;
 using Characters.Enemy;
 using JetBrains.Annotations;
 using UnityEngine;
-using Action = Characters.Enemy.Action;
+using Action = Characters.Enemies.Action;
 // ReSharper disable PossibleNullReferenceException
 
 namespace Finite_State_Machine.Enemy_States
@@ -15,7 +15,7 @@ namespace Finite_State_Machine.Enemy_States
         
         protected override void Initialize(MoveableObject agent) 
         {
-            agent.SetAnimations(Action.Charge);
+            agent.SetAnimations(Action.Idle);
             interval = DefaultInterval;
             ChangeStatus(StateStatus.Executing);
         }

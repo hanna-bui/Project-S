@@ -20,11 +20,11 @@ namespace Characters
         private const int lvl = 1;
         
         /// <summary>
-        /// Ability 1
+        /// Kunai Throw, 
         /// </summary>
-        protected override State a1()
+        protected override void a1()
         {
-            return new KunaiThrow();
+            ChangeState(new KunaiThrow());
         }
 
         /// <summary>
@@ -34,8 +34,13 @@ namespace Characters
         {
             return null;
         }
-        
-        public override void LoadPlayer()
+
+        public override bool isSpecialAttack()
+        {
+            return base.isSpecialAttack() || CurrentState is KunaiThrow;
+        }
+
+        protected override void LoadPlayer()
         {
             RestoreStats(isRespawning ? CLS() : new List<int> { hp, mp, spe, ran, dmg, def, mdmg, mdef, lvl });
             base.LoadPlayer();

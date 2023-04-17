@@ -1,4 +1,5 @@
 ﻿using Characters;
+using Characters.Enemies;
 using Characters.Enemy;
 using UnityEngine;
 using Motion = Characters.Motion;
@@ -8,14 +9,13 @@ using Motion = Characters.Motion;
 namespace Finite_State_Machine.States.Abilities
 {
 
-    public class Attack : State
+    public class BasicAttack : State
     {
-        private GameObject Target { get; set; }
-        protected Enemy TargetStat { get; set; }
+        private Enemy TargetStat { get; set; }
 
         private const float DefaultInterval = 1.2f;
 
-        public Attack()
+        public BasicAttack()
         {
             interval = 0f;
         }
@@ -46,7 +46,7 @@ namespace Finite_State_Machine.States.Abilities
 
         protected override void Completed(MoveableObject agent)
         {
-            agent.ChangeState(new PlayerIdle());
+            agent.ConfigState();
         }
     }
 }

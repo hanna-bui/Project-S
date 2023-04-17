@@ -1,5 +1,3 @@
-using System;
-using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
 using Finite_State_Machine;
 using Finite_State_Machine.States;
@@ -32,6 +30,8 @@ namespace Characters
         public const int Idle = 1;
         public const int Walk = 2;
         public const int Hit = 3;
+        public const int Special1 = 12;
+        public const int Special2 = 13;
     }
     public class Character : MoveableObject
     {
@@ -46,13 +46,23 @@ namespace Characters
         protected GameObject wa2 { get; set; } // A2 Weapon Sprite
         protected GameObject wa3 { get; set; } // A3 Weapon Sprite
         
-        
+        private SelectUI select;
 
         private void OnTriggerEnter2D(Collider2D col)
         {
             if (col.gameObject.CompareTag("Item") && CurrentState is not WalkToLocation)
             {
                 ChangeState(new ItemPickup(col.GetComponent<Item>()));
+            }
+            else if (col.gameObject.name.Contains("Inactive"))
+            {
+                Debug.Log("Level Complete!");
+                GameManager.instance.Next();
+            }
+            else if (col.gameObject.name.Contains("Active"))
+            {
+                Debug.Log("You Won!");
+                GameManager.instance.Win();
             }
         }
         private void OnTriggerStay2D(Collider2D col)
@@ -69,30 +79,25 @@ namespace Characters
                 ChangeState(new PlayerIdle());
             }
         }
-        
-        protected override void Start()
+
+        protected override void Initializing()
         {
-            base.Start();
+            parentName = "Characters";
             
-            States = new Stack<State>();
             States.Push(new PlayerIdle());
-            radius = 0.5f;
 
             mpValue = transform.GetChild(1).GetChild(1).GetComponent<TextMeshProUGUI>();
 
-            transform.localScale = new Vector3(1, 1, 0);
-            
             LoadPlayer();
-            SetupCollider();
-            var child = transform.GetChild(0).gameObject.GetComponent<CharacterCollider>();
-            child_collider = child.SetupCollider(RAN);
+            
+            radius = 0.5f;
         }
 
-        public virtual void LoadPlayer()
+        protected virtual void LoadPlayer()
         {
             UpdateUI();
         }
-        
+
         protected override void Update()
         {
             CurrentState = GetTop();
@@ -137,7 +142,7 @@ namespace Characters
             if (NTime > 0)
                 animator.Play(animations[index + (4 * motion)].name);
         }
-
+        
         #endregion
 
         public override void UpdateUI()
@@ -167,26 +172,34 @@ namespace Characters
         
         #region States
 
-        public override bool IsSubState()
+        public override bool ConfigState()
         {
             if (States.Count > 1)
             {
                 States.Pop();
-                return true;
+                if (!hasSpecialAttack()) return true;
+                States.Pop();
+                States.Push(new PlayerIdle());
+                return false;
             }
             States.Pop();
             States.Push(new PlayerIdle());
             return false;
         }
 
-        public bool isAttack()
+        private bool hasSpecialAttack()
         {
-            return CurrentState is Attack;
+            return States.Count > 1 && isBasicAttack();
         }
-        
-        public bool isWalkToLocation()
+
+        public override bool isBasicAttack()
         {
-            return CurrentState is WalkToLocation;
+            return CurrentState is BasicAttack;
+        }
+
+        public virtual bool isSpecialAttack()
+        {
+            return CurrentState is SpecialAttack;
         }
 
         [SuppressMessage("ReSharper", "Unity.PerformanceCriticalCodeInvocation")]
@@ -201,18 +214,32 @@ namespace Characters
                 
                 if (t && t.transform.CompareTag("Enemy"))
                 {
-                    if (CurrentState is Attack)
+                    select = t.transform.GetComponent<Enemies.Enemy>().select;
+                    if (isBasicAttack())
                     {
                         if (CurrentState.CurrentStatus is StateStatus.Initialize)
                         {
                             CurrentState.ChangeStatus(StateStatus.Executing);
                         } 
                     }
-                    else
-                        ChangeState(new WalkToLocation());
+                    switch (select.isOn)
+                    {
+                        case true:
+                        {
+                            if (isSpecialAttack()) AddState(new WalkToLocation());
+                            else if (!isBasicAttack()) ChangeState(new WalkToLocation());
+                            break;
+                        }
+                        case false:
+                            select.Toggle();
+                            break;
+                    }
                 }
                 else
-                    ChangeState(new WalkToLocation());
+                {
+                    if (isSpecialAttack()) AddState(new WalkToLocation());
+                    else ChangeState(new WalkToLocation());
+                }
             }
             
             else if (Input.GetKeyDown(KeyCode.F) && CurrentState is ItemPickup)
@@ -220,7 +247,16 @@ namespace Characters
             
             else if (Input.GetKeyDown(KeyCode.Alpha1))
             {
-                Debug.Log("Hi");
+                a1();
+            }
+            
+            else if (Input.GetKeyDown(KeyCode.Escape))
+            {
+                if(select!=null)
+                {
+                    select.Toggle();
+                    if (isBasicAttack()) CurrentState.ChangeStatus(StateStatus.Completed);
+                }
             }
         }
 

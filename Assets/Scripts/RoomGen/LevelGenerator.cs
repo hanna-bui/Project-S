@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.IO;
+using Characters.Enemies;
 using Characters.Enemy;
 using Movement.Pathfinding;
 using UnityEngine;

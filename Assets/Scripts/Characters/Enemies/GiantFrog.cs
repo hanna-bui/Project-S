@@ -1,7 +1,7 @@
 ﻿
 namespace Characters.Enemy
 {
-    public class GiantFrog : Enemy
+    public class GiantFrog : Enemies.Enemy
     {
         protected override void Start()
         {

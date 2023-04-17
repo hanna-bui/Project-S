@@ -2,6 +2,7 @@
 using Characters.Enemy;
 using UnityEngine;
 using Characters;
+using Characters.Enemies;
 using Motion = Characters.Motion;
 
 namespace Finite_State_Machine.States
@@ -58,7 +59,7 @@ namespace Finite_State_Machine.States
 
         protected override void Completed(MoveableObject agent)
         {
-            agent.IsSubState();
+            agent.ConfigState();
         }
         
         private static void Move(MoveableObject agent)

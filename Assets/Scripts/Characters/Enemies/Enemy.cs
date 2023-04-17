@@ -1,8 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using Finite_State_Machine;
+﻿using System.Collections.Generic;
+using Characters.Colliders;
 using Finite_State_Machine.Enemy_States;
-using TMPro;
 using UnityEngine;
 using Random = UnityEngine.Random;
 
@@ -11,7 +9,7 @@ using Random = UnityEngine.Random;
 // ReSharper disable ConvertToAutoProperty
 // ReSharper disable ConvertToAutoPropertyWhenPossible
 
-namespace Characters.Enemy{
+namespace Characters.Enemies{
     
     public static class Action
     {
@@ -36,45 +34,29 @@ namespace Characters.Enemy{
         [SerializeField] public MovementOptions MovementStyle = MovementOptions.Plus;
         [SerializeField] private int lvl = 1;
         [SerializeField] public float scale = 1;
-        
-        
-        protected override void Start()
-        {
-            base.Start();
-            
-            LVL = lvl;
+        private const int agroRange = 12;
 
-            HP = RandomStat();
-            CHP = HP;
-            MP = RandomStat();
-            CMP = CMP;
-            SPE = Random.Range(1, 11);
-            RAN = Random.Range(6, 11);
-            DMG = Random.Range(1, 3);
-            MDMG = RandomStat();
-            DEF = RandomStat();
-            MDEF = RandomStat();
+        public SelectUI select;
+
+        protected override void Initializing()
+        {
+            parentName = "Enemies";
+            
+            States.Push(new PatternWalk());
+            
+            var stats = new List<int> { Random.Range(1, 11), Random.Range(1, 11), Random.Range(5, 10), 
+                Random.Range(3, 8), Random.Range(1, 3), Random.Range(1, 11), Random.Range(1, 11), Random.Range(6, 11), lvl };
+            
+            RestoreStats(stats);
+            
+            var child = transform.GetChild(2).gameObject.GetComponent<AgroCollider>();
+            child.SetupCollider(agroRange);
+            
+            UpdateUI();
+            
+            select = transform.GetChild(3).gameObject.GetComponent<SelectUI>();
 
             radius = 1f;
-            SetupCollider();
-            var child = transform.GetChild(0).gameObject.GetComponent<EnemyCollider>();
-            child.SetupCollider(RAN);
-
-            Origin = transform.position;
-            
-            hpValue.text = "HP: " + CHP + "";
-            
-            
-            transform.parent = GameObject.Find("Enemies").transform;
-            //transform.localScale = new Vector3(1, 1, 1);
-            /* Nonika:
-             * I made the scale a variable so I can fit more enemies in a room by making them smaller.
-             */
-            transform.localScale = new Vector3(scale, scale, 1);
-            
-            States = new Stack<State>();
-            SetAnimations(Action.Idle);
-            States.Push(new PatternWalk());
         }
 
         protected override void Update()
@@ -83,24 +65,29 @@ namespace Characters.Enemy{
             CurrentState.Execute(this, Time.deltaTime);
         }
         
-        public override bool IsSubState()
+        public override bool ConfigState()
         {
-            if (States.Count > 1)
-            {
-                States.Pop();
-                return true;
-            }
-            States.Pop();
-            SetAnimations(Action.Idle);
-            States.Push(new EnemyIdle());
+            if (NeedsHealing())
+                ChangeState(new EnemyHeal());
+            else
+                ChangeState(new PatternWalk());
             return false;
         }
 
+        public override bool isBasicAttack()
+        {
+            return CurrentState is EnemyAttack;
+        }
+
+        private bool isHealing()
+        {
+            return CurrentState is EnemyHeal;
+        }
+        
         #region Stats Management
 
         private int RandomStat()
         {
-            //return LVL * Random.Range(IsBoss ? 20 : 15, 31);
             /* Nonika:
              * I made the stat range specific to enemy type
              * So regular enemies get 15-25, bosses get 25-35.
@@ -108,7 +95,8 @@ namespace Characters.Enemy{
              * return LVL * Random.Range(IsBoss ? 25 : 15, IsBoss ? 36 : 26);
              * Stats based on enemy size:
              */
-            return (int)(LVL * scale * Random.Range(IsBoss ? 25 : 15, IsBoss ? 36 : 26));
+            // return (int)(LVL * scale * Random.Range(IsBoss ? 25 : 15, IsBoss ? 36 : 26));
+            return 0;
         }
         
         public override void TakeDamage(int dmg)

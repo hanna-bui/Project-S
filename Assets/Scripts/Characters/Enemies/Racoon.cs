@@ -1,7 +1,7 @@
 
 namespace Characters.Enemy
 {
-    public class Racoon: Enemy
+    public class Racoon: Enemies.Enemy
     {
         protected override void Start()
         {

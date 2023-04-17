@@ -1,10 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
 using Characters;
+using Characters.Enemies;
 using UnityEngine;
 using Characters.Enemy;
-using Action = Characters.Enemy.Action;
-using MO = Characters.Enemy.Enemy.MovementOptions;
+using Action = Characters.Enemies.Action;
+using MO = Characters.Enemies.Enemy.MovementOptions;
 // ReSharper disable Unity.PerformanceCriticalCodeNullComparison
 
 namespace Finite_State_Machine.Enemy_States
