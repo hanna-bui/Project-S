@@ -7,6 +7,18 @@ public class SelectUI : MonoBehaviour
     {
         GetComponent<Canvas>().worldCamera = Camera.main;
     }
+    
+    public void ToggleOn()
+    {
+        isOn = true;
+        transform.GetChild(0).gameObject.SetActive(isOn);
+    }
+    
+    public void ToggleOff()
+    {
+        isOn = false;
+        transform.GetChild(0).gameObject.SetActive(isOn);
+    }
 
     public void Toggle()
     {

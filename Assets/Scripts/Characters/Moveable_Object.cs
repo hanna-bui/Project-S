@@ -117,6 +117,18 @@ namespace Characters
         [SerializeField] protected AnimationClip[] animations;
         public Animator animator;
         protected int facing;
+
+        public GameObject FX1;
+        public GameObject FX2;
+        
+        public void EquipFX(GameObject agentFX1)
+        {
+            var fx = Instantiate(agentFX1);
+            // fx.transform.SetParent(transform);
+            fx.transform.position = Position();
+
+            fx.GetComponent<AnimateFX>().Play();
+        }
         
         public virtual void CalculateDirection(){}
         
@@ -196,16 +208,19 @@ namespace Characters
     
         }
 
-        public void ChangeHP(int healthValue)
+        public virtual void ChangeHP(int healthValue)
         {
             HP += healthValue;
-            if (CHP != 0) UpdateUI();
+            if (CHP != 0)
+            {
+                UpdateUI();
+            }
         }
         
         public void ChangeMana(int manaValue)
         {
             MP += manaValue;
-            if (CHP != 0) UpdateUI();
+            UpdateUI();
         }
 
         public void ChangeDamage(int damageValue)
@@ -350,6 +365,7 @@ namespace Characters
         public void AddState(State newState)
         {
             States.Push(newState);
+            Debug.Log(newState.ToString());
         }
 
         public void ChangeState(State newState)

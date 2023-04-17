@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: 8657871044480900505}
   - component: {fileID: 3967870000740628475}
   - component: {fileID: 6259141324771631871}
-  m_Layer: 0
+  m_Layer: 5
   m_Name: Canvas
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -115,6 +115,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c0d989af626a37b44932cf8fd14686d6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  isOn: 0
 --- !u!1 &4399283612255791489
 GameObject:
   m_ObjectHideFlags: 0
@@ -283,8 +284,13 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   isRespawning: 0
   grid: {fileID: 0}
+  projectile: {fileID: 0}
+  projectile2: {fileID: 0}
   animations: []
   animator: {fileID: 0}
+  FX1: {fileID: 0}
+  FX2: {fileID: 0}
+  hasSpecialAttack: 0
   IsBoss: 0
   MovementStyle: 0
   lvl: 1

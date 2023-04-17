@@ -22,12 +22,13 @@ namespace Characters
         private const int lvl = 1;
         
         /// <summary>
-        /// Kunai Throw, 
+        /// Kunai Throw
         /// </summary>
         protected override State a1()
         {
             var newState = new KunaiThrow();
             ChangeState(newState);
+            RestoreMana(-1);
             return newState;
         }
 

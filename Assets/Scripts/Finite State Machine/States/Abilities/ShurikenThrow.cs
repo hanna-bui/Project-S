@@ -28,6 +28,7 @@ namespace Finite_State_Machine.States.Abilities
             if (TargetStat is not null && TargetStat.isAttackable())
             {
                 agent.SetAnimations(Motion.Attack);
+                agent.RestoreMana(-1);
             }
             else
             {

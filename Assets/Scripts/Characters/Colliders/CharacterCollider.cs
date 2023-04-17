@@ -18,6 +18,8 @@ namespace Characters.Colliders
             }
             
             player.Target = col.gameObject;
+            player.select = col.GetComponent<Enemies.Enemy>().select;
+            player.select.ToggleOn();
             
             if (player.hasSpecialAttack)
             {
@@ -68,7 +70,14 @@ namespace Characters.Colliders
                 }
             }
         }
-        
-        
+
+        private void OnTriggerExit2D(Collider2D col)
+        {
+            var player = agent as Character;
+            if (player.Target == null) return;
+            if (player.select!=null)
+                player.select.ToggleOff();
+            player.Target = null;
+        }
     }
 }

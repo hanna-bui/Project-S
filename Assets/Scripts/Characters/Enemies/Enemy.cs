@@ -107,6 +107,5 @@ namespace Characters.Enemies{
         }
 
         #endregion
-        
     }
 }

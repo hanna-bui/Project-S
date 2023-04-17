@@ -45,8 +45,8 @@ namespace Characters
         
         protected GameObject wa2 { get; set; } // A2 Weapon Sprite
         protected GameObject wa3 { get; set; } // A3 Weapon Sprite
-        
-        private SelectUI select;
+
+        public SelectUI select;
         private static readonly int Facing = Animator.StringToHash("facing");
 
         private void OnTriggerEnter2D(Collider2D col)
@@ -87,8 +87,10 @@ namespace Characters
             
             AddState(new PlayerIdle());
 
-            mpValue = transform.GetChild(1).GetChild(1).GetComponent<TextMeshProUGUI>();
+            playerUI = transform.GetChild(1).GetComponent<PlayerUI>();
 
+            mpValue = transform.GetChild(1).GetChild(1).GetComponent<TextMeshProUGUI>();
+            
             LoadPlayer();
             
             radius = 0.5f;
@@ -96,6 +98,7 @@ namespace Characters
 
         protected virtual void LoadPlayer()
         {
+            playerUI.AddHeart(HP);
             UpdateUI();
         }
 
@@ -146,7 +149,7 @@ namespace Characters
             var NTime = animStateInfo.normalizedTime;
             if (NTime > 0)
                 animator.Play(animations[index + (4 * motion)].name);
-            if (motion == Motion.Attack)
+            if (motion == Motion.Attack && projectile != null)
             {
                 if (index == Direction.Down)
                 {
@@ -169,13 +172,25 @@ namespace Characters
         
         #endregion
 
+        PlayerUI playerUI;
+
         public override void UpdateUI()
         {
-            hpValue.text = "HP: " + CHP + "";
+            playerUI.UpdateHeart(CHP);
             mpValue.text = "MP: " + CMP + "";
         }
         
         #region Stats Management
+        
+        public override void ChangeHP(int healthValue)
+        {
+            HP += healthValue;
+            if (CHP != 0)
+            {
+                playerUI.AddHeart(HP);
+                UpdateUI();
+            }
+        }
 
         public override void ChangeRange(int rangeValue)
         {
@@ -251,7 +266,7 @@ namespace Characters
                             break;
                         }
                         case false:
-                            select.Toggle();
+                            select.ToggleOn();
                             break;
                     }
                 }
@@ -269,14 +284,14 @@ namespace Characters
             {
                 if (hasSpecialAttack) return;
                 currentSA = a1();
-                hasSpecialAttack = true;
+                hasSpecialAttack = currentSA!=null;
             }
             
             else if (Input.GetKeyDown(KeyCode.Escape))
             {
                 if(select!=null)
                 {
-                    select.Toggle();
+                    select.ToggleOff();
                     if (isBasicAttack()) ToComplete();
                 }
             }

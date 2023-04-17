@@ -35,6 +35,7 @@ namespace Finite_State_Machine.States.Abilities
             {
                 agent.SetAnimations(Motion.Attack);
                 TargetStat.TakeDamage(agent.DMG);
+                agent.RestoreMana(-1);
             }
             else
             {
